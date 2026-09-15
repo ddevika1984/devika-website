@@ -101,3 +101,12 @@ produces the four correct prices and links.
 - The guides are placeholder rows.
 - Terms, privacy, refund and delivery policy pages do not exist yet. Razorpay requires
   them.
+
+## Caching
+
+`vercel.json` sets `must-revalidate` on `assets/` and `content/` so a deploy is picked up
+immediately, and a long immutable cache on `images/`. If you rename or re-crop a photo,
+give it a new filename rather than overwriting, or returning visitors keep the old one.
+
+Locally, `python3 -m http.server` sends no cache headers and browsers hold on to
+`styles.css` and `site.js`. If an edit does not seem to appear, hard reload.

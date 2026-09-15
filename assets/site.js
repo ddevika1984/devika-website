@@ -130,7 +130,7 @@ var CH = [
         : '<div class="go"><a class="pill solid is-soon" href="mailto:'+esc(CONFIG.email)+'?subject='+encodeURIComponent(s.t)+'"><span>'+esc(s.cta.label)+'</span></a></div>';
     }
 
-    return '<section class="chap'+(i%2?' flip':'')+'" id="'+s.id+'" data-chap="'+i+'" '+
+    return '<section class="chap'+(i%2?' flip':'')+(s.img?'':' teba')+'" id="'+s.id+'" data-chap="'+i+'" '+
       'style="--bg:'+s.bg+';--fg:'+s.fg+';--accent:'+s.c+'">'+
       '<div class="wrap grid">'+
         '<div class="rise">'+

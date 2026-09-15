@@ -394,3 +394,23 @@ img{max-width:100%}
 #end .askline a{border-bottom:1px solid rgba(240,236,220,.35);padding-bottom:2px;
   transition:color .4s,border-color .4s}
 #end .askline a:hover{color:var(--terra);border-color:var(--terra)}
+
+/* ---- TEBA chapter: both columns start at the top and fill the same height ---- */
+.chap.teba .grid>.rise{justify-content:flex-start}
+.chap.teba .terms{margin-top:0;display:flex;flex-direction:column;flex:1;width:100%}
+.chap.teba .term{flex:1}
+@media (max-width:1000px){
+  .chap.teba .terms{display:block;flex:none;margin-top:clamp(24px,4vw,40px)}
+  .chap.teba .term{display:grid}
+}
+
+/* ---- footer: centred to match the block above it ---- */
+#end .askline{max-width:none}
+@media (min-width:780px){#end .askline{white-space:nowrap}}
+#end .cols{grid-template-columns:repeat(3,minmax(0,max-content));justify-content:center;
+  gap:clamp(24px,6vw,86px);text-align:center}
+#end .disc{border-top:0;padding-top:0;margin-top:36px;margin-inline:auto;
+  max-width:78ch;text-align:center}
+@media (max-width:700px){
+  #end .cols{grid-template-columns:1fr;gap:26px}
+}
