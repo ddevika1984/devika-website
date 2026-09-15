@@ -411,8 +411,11 @@ img{max-width:100%}
   gap:clamp(24px,6vw,86px);text-align:center}
 /* Small print runs the full width of the page. Centring it left a short
    ragged block under the centred columns, which read as a mistake. */
+/* text-wrap:balance evens the lines out so the paragraph does not end on a
+   stubby half line. Browsers without it just wrap normally. */
 #end .disc{max-width:none;margin-inline:0;margin-top:34px;text-align:left;
-  border-top:1px solid rgba(240,236,220,.1);padding-top:18px}
+  border-top:1px solid rgba(240,236,220,.1);padding-top:18px;
+  text-wrap:balance}
 @media (max-width:700px){
   #end .cols{grid-template-columns:1fr;gap:26px}
 }
