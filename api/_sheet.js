@@ -12,8 +12,14 @@
    returns nothing.
    ------------------------------------------------------------------ */
 
+/* headers=1 is not optional. Without it Google guesses whether row 1 is a
+   header, and it guesses by looking for a type change between row 1 and
+   the rest. That works on the events sheet, which has a date column, and
+   fails on the guides sheet, which is text all the way down: the columns
+   come back named "a", "b", "c" and the header row arrives as data.
+   Stating it explicitly makes both sheets behave the same way. */
 const GVIZ = id =>
-  `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:json`;
+  `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:json&headers=1`;
 
 /* gviz wraps its JSON in a JavaScript callback, so cut that off first. */
 function unwrap(text) {
