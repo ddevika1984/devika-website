@@ -5,11 +5,15 @@
    ------------------------------------------------------------------ */
 
 var CONFIG = {
-  /* Where the events list comes from. Swap this for the Google Sheet
-     endpoint (/api/events) once the sheet is live. If the request fails
-     the page falls back to content/events.json. */
-  eventsUrl: 'content/events.json',
-  guidesUrl: 'content/guides.json',
+  /* Events and guides are edited in Google Sheets. /api/events and
+     /api/guides read those sheets on the server and hand back JSON.
+     If a sheet is unreachable the page quietly falls back to the copy
+     committed in content/, so a broken sheet shows slightly stale
+     content rather than an error. */
+  eventsUrl: '/api/events',
+  eventsFallback: 'content/events.json',
+  guidesUrl: '/api/guides',
+  guidesFallback: 'content/guides.json',
   email: 'info@drddevikakamat.com',
   /* Waitlist form for the TEBA cohort. Replace with the Google Form URL. */
   tebaWaitlist: ''
@@ -89,6 +93,19 @@ var CH = [
 
   function esc(v){return String(v==null?'':v).replace(/[&<>"]/g,function(c){
     return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+
+  /* Try the sheet, fall back to the committed JSON, and if both fail hand
+     back an empty list so the section renders its own empty state. */
+  function load(url,fallback){
+    function get(u){
+      return fetch(u,{cache:'no-store'}).then(function(r){
+        if(!r.ok) throw new Error(r.status); return r.json();
+      });
+    }
+    return get(url).catch(function(){
+      return fallback&&fallback!==url ? get(fallback).catch(function(){return []}) : [];
+    });
+  }
 
   /* ---------- build chapters ---------- */
   var host=document.getElementById('chapters');
@@ -205,10 +222,7 @@ var CH = [
           '<a class="pill solid sm" href="'+esc(href)+'"'+attrs+'><span>'+label+'</span></a></div>';
       }).join('');
     }
-    fetch(CONFIG.guidesUrl,{cache:'no-store'})
-      .then(function(r){if(!r.ok)throw 0;return r.json()})
-      .then(render)
-      .catch(function(){render([])});
+    load(CONFIG.guidesUrl,CONFIG.guidesFallback).then(render);
   })();
 
   /* ---------- spine nodes (crown at top, root at bottom) ---------- */
@@ -330,14 +344,7 @@ var CH = [
       }).join('');
     }
 
-    fetch(CONFIG.eventsUrl,{cache:'no-store'})
-      .then(function(r){if(!r.ok)throw 0;return r.json()})
-      .then(render)
-      .catch(function(){
-        if(CONFIG.eventsUrl==='content/events.json'){render([]);return}
-        fetch('content/events.json').then(function(r){return r.json()}).then(render)
-          .catch(function(){render([])});
-      });
+    load(CONFIG.eventsUrl,CONFIG.eventsFallback).then(render);
   })();
 
   /* ---------- scroll state ---------- */

@@ -67,17 +67,42 @@ first build:
 | 1 session | ₹8,000 · JXSLclA | ₹10,000 · 3BS7M02S |
 | 4 sessions | ₹28,000 · H44bYeyF | ₹35,000 · 6fZnuhM |
 
-## Events and guides
+## Events and guides come from Google Sheets
 
-Both sections load JSON at runtime. Today they read the local files in `content/`.
-When the Google Sheet is wired up, point `CONFIG.eventsUrl` at the sheet endpoint. The
-code falls back to `content/events.json` if the request fails, so a broken sheet shows
-slightly stale events rather than an error.
+Devika edits two spreadsheets. The site reads them and updates within about five minutes.
+No deploy, no pull request, nothing for a developer to do.
 
-Events with a date in the past are hidden automatically. Nothing needs deleting.
+| Sheet | Columns |
+|---|---|
+| Devika website — Events | Title, Date, Time, Place, Format, Price, Detail, Link |
+| Devika website — Guides | Title, Detail, Format, Length, Price, File, Link |
+
+`api/events.mjs` and `api/guides.mjs` read them through Google's gviz endpoint and return
+clean JSON. The browser cannot call Google directly because Google sends no CORS headers,
+which is the only reason these functions exist.
+
+Three things make this survive a spreadsheet being edited by a human:
+
+- **Columns are matched by header name, not position.** Reordering or inserting a column
+  changes nothing. Renaming a header does break that column, so do not rename them.
+- **Dates come back typed**, as `Date(2026,9,6)` rather than a string, so there is no
+  chance of reading 06/10 as either 6 October or 10 June. This is why the code uses the
+  gviz JSON endpoint rather than CSV.
+- **If a sheet is unreachable the page falls back** to the committed copy in `content/`.
+  A broken sheet shows slightly stale content rather than an error.
+
+Both sheets must stay shared as **Anyone with the link, Viewer**. If that is turned off,
+Google answers 401 and the site silently drops back to `content/`.
+
+Events with a date in the past are hidden automatically. Nothing needs deleting, so the
+sheet doubles as her archive.
 
 A guide with no `file` and no `link` renders an "Ask for this" email button rather than a
 dead download, so half-filled rows are safe.
+
+The sheet ids are in `api/events.mjs` and `api/guides.mjs`. They are not secrets, since
+the sheets are link-readable anyway. `SHEET_EVENTS_ID` and `SHEET_GUIDES_ID` environment
+variables override them if the sheets are ever replaced.
 
 ## Images
 

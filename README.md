@@ -18,8 +18,9 @@ Then open http://localhost:4321.
 index.html            the page
 assets/styles.css     all styling
 assets/site.js        the seven offerings (CH), config, and behaviour
-content/events.json   events shown in the Events section
-content/guides.json   the downloadable guides
+api/                  reads the Google Sheets behind Events and Guides
+content/events.json   fallback copy, used only if the sheet is unreachable
+content/guides.json   fallback copy, used only if the sheet is unreachable
 images/               photos and brand marks
 files/                the guide PDFs and audio
 ```
@@ -35,8 +36,7 @@ pull request, so the change can be looked at before it goes live.
 
 ## Still to do
 
-- [ ] Connect the events list to the Google Sheet
-- [ ] Real content and files for the three guides
+- [ ] Real content and files for the guides (add rows to the Guides sheet)
 - [ ] TEBA cohort waitlist form link
 - [ ] Terms, privacy, refund and delivery policy pages (required by Razorpay)
 - [ ] Point the domain at Vercel without breaking the Google Workspace email
