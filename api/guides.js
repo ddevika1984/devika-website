@@ -1,11 +1,11 @@
-import { serve } from './_sheet.mjs';
+const { serve } = require('./_sheet.js');
 
 /* Sheet: "Devika website — Guides". */
 const SHEET_ID =
   process.env.SHEET_GUIDES_ID || '1m4aKs8l4XbWf1KEVk43TBgnd43V-MKUhkAS2QBeTE58';
 
-export default async function handler(req, res) {
-  await serve(res, SHEET_ID, r => ({
+module.exports = async (req, res) =>
+  serve(res, SHEET_ID, r => ({
     title:  r.title  || '',
     detail: r.detail || '',
     format: r.format || '',
@@ -14,4 +14,3 @@ export default async function handler(req, res) {
     file:   r.file   || '',
     link:   r.link   || ''
   }));
-}

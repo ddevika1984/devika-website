@@ -77,7 +77,7 @@ No deploy, no pull request, nothing for a developer to do.
 | Devika website — Events | Title, Date, Time, Place, Format, Price, Detail, Link |
 | Devika website — Guides | Title, Detail, Format, Length, Price, File, Link |
 
-`api/events.mjs` and `api/guides.mjs` read them through Google's gviz endpoint and return
+`api/events.js` and `api/guides.js` read them through Google's gviz endpoint and return
 clean JSON. The browser cannot call Google directly because Google sends no CORS headers,
 which is the only reason these functions exist.
 
@@ -100,7 +100,7 @@ sheet doubles as her archive.
 A guide with no `file` and no `link` renders an "Ask for this" email button rather than a
 dead download, so half-filled rows are safe.
 
-The sheet ids are in `api/events.mjs` and `api/guides.mjs`. They are not secrets, since
+The sheet ids are in `api/events.js` and `api/guides.js`. They are not secrets, since
 the sheets are link-readable anyway. `SHEET_EVENTS_ID` and `SHEET_GUIDES_ID` environment
 variables override them if the sheets are ever replaced.
 

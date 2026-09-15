@@ -27,9 +27,8 @@ function unwrap(text) {
 function gvizDate(v) {
   const m = /^Date\((\d+),(\d+),(\d+)/.exec(String(v));
   if (!m) return null;
-  const [, y, mo, d] = m;
   const pad = n => String(n).padStart(2, '0');
-  return `${y}-${pad(Number(mo) + 1)}-${pad(d)}`;
+  return `${m[1]}-${pad(Number(m[2]) + 1)}-${pad(m[3])}`;
 }
 
 function cellValue(cell) {
@@ -38,8 +37,6 @@ function cellValue(cell) {
     return gvizDate(cell.v) || cell.f || '';
   }
   if (cell.v === null || cell.v === undefined) return '';
-  /* Prefer the formatted string for numbers so "1,198" stays readable,
-     except where the raw value is what we want. */
   if (typeof cell.v === 'number') return String(cell.f != null ? cell.f : cell.v);
   return String(cell.v);
 }
@@ -69,14 +66,13 @@ function rowsFrom(table) {
    repeat. Drop a row that is just the column names again. */
 function dropRepeatedHeader(rows) {
   if (!rows.length) return rows;
-  const first = rows[0];
-  const looksLikeHeader = Object.entries(first).every(
+  const looksLikeHeader = Object.entries(rows[0]).every(
     ([k, v]) => String(v).trim().toLowerCase() === k
   );
   return looksLikeHeader ? rows.slice(1) : rows;
 }
 
-export async function readSheet(id) {
+async function readSheet(id) {
   if (!id) return null;
   const res = await fetch(GVIZ(id), { headers: { 'User-Agent': 'devika-site' } });
   if (!res.ok) throw new Error(`sheet responded ${res.status}`);
@@ -87,13 +83,10 @@ export async function readSheet(id) {
 
 /* One place to decide how a response is cached and shaped, so both
    endpoints behave the same way. */
-export async function serve(res, id, shape) {
+async function serve(res, id, shape) {
   try {
     const rows = await readSheet(id);
-    if (!rows) {
-      res.status(503).json({ error: 'sheet not configured' });
-      return;
-    }
+    if (!rows) return res.status(503).json({ error: 'sheet not configured' });
     const clean = rows.map(shape).filter(r => r && r.title);
     /* Cached at the edge for five minutes, and a stale copy is served
        while a fresh one is fetched, so Google being slow never blocks
@@ -102,11 +95,13 @@ export async function serve(res, id, shape) {
       'Cache-Control',
       'public, s-maxage=300, stale-while-revalidate=86400'
     );
-    res.status(200).json(clean);
+    return res.status(200).json(clean);
   } catch (err) {
     /* Fail loudly enough to debug, quietly enough that the page falls
        back to the committed JSON instead of showing an error. */
     console.error('sheet read failed:', err.message);
-    res.status(502).json({ error: 'could not read the sheet' });
+    return res.status(502).json({ error: 'could not read the sheet' });
   }
 }
+
+module.exports = { readSheet, serve };
