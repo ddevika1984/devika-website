@@ -409,8 +409,10 @@ img{max-width:100%}
 @media (min-width:780px){#end .askline{white-space:nowrap}}
 #end .cols{grid-template-columns:repeat(3,minmax(0,max-content));justify-content:center;
   gap:clamp(24px,6vw,86px);text-align:center}
-#end .disc{border-top:0;padding-top:0;margin-top:36px;margin-inline:auto;
-  max-width:78ch;text-align:center}
+/* Small print runs the full width of the page. Centring it left a short
+   ragged block under the centred columns, which read as a mistake. */
+#end .disc{max-width:none;margin-inline:0;margin-top:34px;text-align:left;
+  border-top:1px solid rgba(240,236,220,.1);padding-top:18px}
 @media (max-width:700px){
   #end .cols{grid-template-columns:1fr;gap:26px}
 }
