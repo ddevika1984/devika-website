@@ -407,7 +407,7 @@ img{max-width:100%}
 /* ---- footer: centred to match the block above it ---- */
 #end .askline{max-width:none}
 @media (min-width:780px){#end .askline{white-space:nowrap}}
-#end .cols{grid-template-columns:repeat(3,minmax(0,max-content));justify-content:center;
+#end .cols{grid-template-columns:repeat(4,minmax(0,max-content));justify-content:center;
   gap:clamp(24px,6vw,86px);text-align:center}
 /* Small print runs the full width of the page. Centring it left a short
    ragged block under the centred columns, which read as a mistake. */
@@ -424,3 +424,39 @@ img{max-width:100%}
 @media (max-width:700px){
   #end .cols{grid-template-columns:1fr;gap:26px}
 }
+
+/* ============================================================
+   Policy pages (terms, privacy, refunds, delivery)
+   Plain prose on the site's palette. No spine, no chapters.
+   ============================================================ */
+body.doc{background:#100D0C;color:var(--cream)}
+.docbar{padding:22px 0;border-bottom:1px solid rgba(240,236,220,.12)}
+.docbar .wrap{display:flex;align-items:center;gap:14px}
+.docbar .mk{display:flex;align-items:center;gap:10px}
+.docbar .mk img{width:28px}
+.docbar .mk b{font-weight:300;font-size:14px}
+.docbar .back{margin-left:auto}
+.doc main{width:min(74ch,100%);margin:0 auto;padding:clamp(40px,7vh,84px) 0 clamp(60px,9vh,110px)}
+.doc h1{font-size:clamp(28px,4.4vw,46px);font-weight:200;letter-spacing:-.035em;line-height:1.05}
+.doc .updated{font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(240,236,220,.55);margin-top:14px}
+.doc h2{font-size:clamp(18px,2.2vw,24px);font-weight:300;letter-spacing:-.02em;
+  margin-top:clamp(34px,5vw,52px);padding-top:18px;
+  border-top:1px solid rgba(240,236,220,.12)}
+.doc h3{font-size:16px;font-weight:400;margin-top:26px;color:var(--terra)}
+.doc p,.doc li{font-size:15.5px;line-height:1.72;color:rgba(240,236,220,.84)}
+.doc p{margin-top:14px}
+.doc ul{margin:14px 0 0;padding-left:20px}
+.doc li{margin-top:9px}
+.doc a{border-bottom:1px solid rgba(240,236,220,.35);padding-bottom:1px}
+.doc a:hover{color:var(--terra);border-color:var(--terra)}
+.doc .lead{font-size:17px;color:rgba(240,236,220,.92);margin-top:22px}
+/* Anything Devika still has to confirm is deliberately impossible to miss. */
+.doc .todo{background:rgba(204,138,119,.16);color:#F0C3B4;border:1px dashed rgba(204,138,119,.6);
+  border-radius:3px;padding:1px 7px;font-family:var(--mono);font-size:11px;letter-spacing:.08em}
+.docfoot{border-top:1px solid rgba(240,236,220,.12);padding:28px 0 60px}
+.docfoot .wrap{display:flex;flex-wrap:wrap;gap:10px 26px;align-items:center}
+.docfoot a,.docfoot span{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;
+  text-transform:uppercase;color:rgba(240,236,220,.62);border:0}
+.docfoot a:hover{color:var(--terra)}
+.docfoot .sep{margin-left:auto}

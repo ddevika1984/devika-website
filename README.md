@@ -38,5 +38,5 @@ pull request, so the change can be looked at before it goes live.
 
 - [ ] Real content and files for the guides (add rows to the Guides sheet)
 - [ ] TEBA cohort waitlist form link
-- [ ] Terms, privacy, refund and delivery policy pages (required by Razorpay)
+- [ ] Fill the marked placeholders in terms, privacy, refunds and delivery (address, refund windows, delivery times)
 - [ ] Point the domain at Vercel without breaking the Google Workspace email
