@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Placeholder guide one",
+    "detail": "Free guide. Put the real title and description here, and drop the file in files/ then point file at it.",
+    "format": "PDF",
+    "length": "",
+    "price": "Free",
+    "file": "",
+    "link": ""
+  },
+  {
+    "title": "Placeholder guide two",
+    "detail": "Second free guide. Same idea.",
+    "format": "Audio",
+    "length": "10 min",
+    "price": "Free",
+    "file": "",
+    "link": ""
+  }
+]
