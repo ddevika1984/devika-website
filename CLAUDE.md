@@ -69,7 +69,7 @@ first build:
 
 ## Events and guides come from Google Sheets
 
-Devika edits two spreadsheets. The site reads them and updates within about five minutes.
+Devika edits two spreadsheets. The site reads them and updates within about a minute.
 No deploy, no pull request, nothing for a developer to do.
 
 | Sheet | Columns |

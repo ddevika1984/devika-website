@@ -94,12 +94,14 @@ async function serve(res, id, shape) {
     const rows = await readSheet(id);
     if (!rows) return res.status(503).json({ error: 'sheet not configured' });
     const clean = rows.map(shape).filter(r => r && r.title);
-    /* Cached at the edge for five minutes, and a stale copy is served
-       while a fresh one is fetched, so Google being slow never blocks
-       the page. */
+    /* Cached at the edge for a minute, and a stale copy is served while a
+       fresh one is fetched, so Google being slow never blocks the page.
+       A minute rather than five because the whole point of the sheet is
+       that Devika can post something and watch it appear. Raise it if the
+       site ever gets busy enough for the traffic to Google to matter. */
     res.setHeader(
       'Cache-Control',
-      'public, s-maxage=300, stale-while-revalidate=86400'
+      'public, s-maxage=60, stale-while-revalidate=86400'
     );
     return res.status(200).json(clean);
   } catch (err) {
