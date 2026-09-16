@@ -187,7 +187,7 @@ h1.hero em{font-style:normal;color:var(--terra)}
 #about.in .shot::after{transform:scaleY(0)}
 #about.in .shot img{transform:scale(1)}
 #about{scroll-margin-top:86px;--bg:#191413;--fg:#F0ECDC;--accent:#CC8A77;background:var(--bg);color:var(--fg);
-  padding:clamp(80px,12vh,160px) 0;position:relative;overflow:hidden}
+  padding:clamp(80px,12vh,160px) 0;position:relative;overflow:clip}
 #about .grid{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1fr);
   gap:clamp(28px,5vw,72px);align-items:stretch}
 #about .grid>.rise{display:flex;flex-direction:column;justify-content:center}
@@ -201,6 +201,17 @@ h1.hero em{font-style:normal;color:var(--terra)}
 .trained .a{font-size:14.5px;white-space:nowrap}
 .trained .b{font-family:var(--mono);font-size:9px;letter-spacing:.11em;text-transform:uppercase;
   color:rgba(240,236,220,.55);margin-left:auto;text-align:right}
+
+/* The about photo used to stretch to the full height of the text column, which made it
+   a very tall sliver. It now holds a 4:5 portrait and sticks as the copy scrolls past,
+   so the top edges still line up and the column never reads as half empty.
+   #about needs overflow:clip rather than hidden above, or the sticky has nothing to
+   stick to. Two columns only exist above 1000px, so this is scoped to match. */
+@media (min-width:1001px){
+  #about .grid{align-items:start}
+  #about .grid>.rise:first-child{display:block;position:sticky;top:clamp(92px,12vh,128px)}
+  #about .shot{height:auto;min-height:0;flex:none;aspect-ratio:4/5}
+}
 .ground{position:relative;z-index:2;width:clamp(20px,2.4vw,30px);height:clamp(20px,2.4vw,30px);
   display:flex;align-items:center;justify-content:center}
 .ground::before{content:"";position:absolute;width:11px;height:11px;border-radius:50%;

@@ -54,7 +54,7 @@ var CH = [
 
  {id:"c4",key:"throat",sans:"Vishuddha",en:"Throat",c:"#9C9078",bg:"#453F35",fg:"#F0ECDC",
   t:"Holistic counseling, rewiring and energy alignment",
-  img:"images/holisticcounseling.webp",
+  img:"images/holisticcounseling-v2.webp",
   for_:"For when you are carrying something you cannot put down.",
   det:"Talking and gentle energy work in the same session. Mostly quiet. Take one session if something specific is sitting heavy, or four if it needs working through properly.",
   f:[["Length","1 or 4 sessions"],["Where","Online or in person"],["Cost","From ₹8,000"]],
