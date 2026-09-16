@@ -125,6 +125,12 @@ Tune the strength with `--tint-mix` on `.shot`. It is deliberately below the poi
 the hue reads as saturated; the reference images were dusty, not pink. The crown chapter
 overrides it and lifts the brightness, because it sits on a cream ground.
 
+The `contrast(.72) brightness(.82)` on `.shot img` is not a guess. The original images sat
+in a tonal range of roughly 30 to 170 with about half the contrast of a straight
+photograph, which is what makes them read as faded. Ours run the full 0 to 255, so those
+two numbers were solved to map one onto the other. If you change them, change them
+together, or the images stop matching each other across chapters.
+
 Keeping this in CSS rather than in the files means the tone can be changed without
 reprocessing anything, and the originals stay untouched. Note the stacking order inside
 `.shot`: image, then the two tint layers, then `::after` which is the reveal curtain at

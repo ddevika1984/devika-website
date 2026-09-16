@@ -471,7 +471,11 @@ body.doc{background:#100D0C;color:var(--cream)}
    its own chapter colour: rose on the sacral, olive on the throat, and
    so on. That is what the original artifact did. */
 .shot{--tint:var(--accent);--tint-mix:.60;--tint-warm:#E6D2C4}
-.shot img{filter:grayscale(.95) contrast(.97) brightness(1.08)}
+/* contrast/brightness solved against the original artifact images rather
+   than picked by eye. Theirs sat in roughly 30-170 with about half the
+   contrast of a straight photo, which is what makes them look faded.
+   Ours were running the full 0-255. */
+.shot img{filter:grayscale(.95) contrast(.72) brightness(.82)}
 /* Hue layer. mix-blend-mode:color keeps the photo's luminance and
    takes only colour from here, which is what makes it read as a
    duotone rather than a coloured sheet laid on top. */
@@ -489,7 +493,7 @@ body.doc{background:#100D0C;color:var(--cream)}
 /* The crown chapter sits on a cream ground, so the photo is lifted
    brighter and tinted less or it reads as a dark hole in the page. */
 #c6 .shot{--tint-mix:.55}
-#c6 .shot img{filter:grayscale(.9) contrast(1.0) brightness(1.12)}
+#c6 .shot img{filter:grayscale(.92) contrast(.72) brightness(.98)}
 #c6 .shot .warm{opacity:.3}
 
 /* Hero avatar, toned to match so it does not read as a different set. */
