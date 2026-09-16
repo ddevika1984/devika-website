@@ -460,3 +460,33 @@ body.doc{background:#100D0C;color:var(--cream)}
   text-transform:uppercase;color:rgba(240,236,220,.62);border:0}
 .docfoot a:hover{color:var(--terra)}
 .docfoot .sep{margin-left:auto}
+
+/* ============================================================
+   Warm duotone over the photographs.
+   The original artifact used stock images that were already toned
+   this way. Doing it in CSS instead keeps the source photos intact
+   and tunable: --tint is the hue, --tint-mix how far it goes.
+   ============================================================ */
+.shot{--tint:#7A4340;--tint-mix:.62;--tint-warm:#CC8A77}
+.shot img{filter:grayscale(.92) contrast(1.04) brightness(1.04)}
+/* Hue layer. mix-blend-mode:color keeps the photo's luminance and
+   takes only colour from here, which is what makes it read as a
+   duotone rather than a coloured sheet laid on top. */
+.shot::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:var(--tint);mix-blend-mode:color;opacity:var(--tint-mix)}
+/* The reveal curtain is declared further up. It only needs lifting above
+   the two tint layers; redeclaring it here would risk breaking the
+   reveal, so this sets the one property that changed. */
+.shot::after{z-index:2}
+/* A little warmth lifted back into the highlights, so faces do not
+   go flat and grey. */
+.shot .warm{position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:var(--tint-warm);mix-blend-mode:soft-light;opacity:.42}
+
+/* The crown chapter sits on a light ground, so it needs a lighter,
+   less saturated tone or the photo turns muddy against the cream. */
+#c6 .shot{--tint:#8A7A5E;--tint-mix:.45}
+#c6 .shot img{filter:grayscale(.85) contrast(1.02) brightness(1.06)}
+
+/* Hero avatar, toned to match so it does not read as a different set. */
+.aboutcard .who img{filter:grayscale(.92) contrast(1.04) sepia(.32) saturate(1.5) hue-rotate(-12deg)}

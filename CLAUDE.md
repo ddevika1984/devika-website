@@ -109,6 +109,22 @@ variables override them if the sheets are ever replaced.
 Source photos are HEIC or large JPEG. They are converted to 1200x1500 WebP before being
 committed. Do not commit HEIC files, browsers other than Safari will not display them.
 
+### The duotone
+
+Photos are full colour on disk and toned in CSS, not baked. Two layers do it:
+the image is desaturated with a `filter`, then `.shot::before` lays the hue over it with
+`mix-blend-mode:color`, which keeps the photo's luminance and takes only colour from the
+overlay. A `.warm` span adds a little soft-light warmth back so faces do not go grey.
+
+Tune it with the variables on `.shot`: `--tint` is the hue and `--tint-mix` how far it
+goes. The crown chapter overrides both, because it sits on a cream ground where the
+darker tone turns muddy.
+
+Keeping this in CSS rather than in the files means the tone can be changed without
+reprocessing anything, and the originals stay untouched. Note the stacking order inside
+`.shot`: image, then the two tint layers, then `::after` which is the reveal curtain at
+`z-index:2`. Anything new goes below that or the reveal breaks.
+
 ## Checking your work
 
 There is no test suite. Run a local server and look at the page:

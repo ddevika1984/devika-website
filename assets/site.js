@@ -129,7 +129,7 @@ var CH = [
     }
 
     var media = s.img
-      ? '<div class="shot"><img src="'+s.img+'" alt="'+esc(s.t)+'" loading="lazy" decoding="async"></div>'
+      ? '<div class="shot"><img src="'+s.img+'" alt="'+esc(s.t)+'" loading="lazy" decoding="async"><span class="warm"></span></div>'
       : '<div class="terms rise">'+
         [['T','Thought','What you tell yourself, usually without noticing you are doing it.'],
          ['E','Emotion','How loudly that thought lands in the body on a given day.'],
