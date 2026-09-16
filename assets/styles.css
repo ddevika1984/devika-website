@@ -467,8 +467,11 @@ body.doc{background:#100D0C;color:var(--cream)}
    this way. Doing it in CSS instead keeps the source photos intact
    and tunable: --tint is the hue, --tint-mix how far it goes.
    ============================================================ */
-.shot{--tint:#7A4340;--tint-mix:.62;--tint-warm:#CC8A77}
-.shot img{filter:grayscale(.92) contrast(1.04) brightness(1.04)}
+/* --accent is set per chapter on the section, so each photo is toned to
+   its own chapter colour: rose on the sacral, olive on the throat, and
+   so on. That is what the original artifact did. */
+.shot{--tint:var(--accent);--tint-mix:.60;--tint-warm:#E6D2C4}
+.shot img{filter:grayscale(.95) contrast(.97) brightness(1.08)}
 /* Hue layer. mix-blend-mode:color keeps the photo's luminance and
    takes only colour from here, which is what makes it read as a
    duotone rather than a coloured sheet laid on top. */
@@ -481,12 +484,13 @@ body.doc{background:#100D0C;color:var(--cream)}
 /* A little warmth lifted back into the highlights, so faces do not
    go flat and grey. */
 .shot .warm{position:absolute;inset:0;z-index:1;pointer-events:none;
-  background:var(--tint-warm);mix-blend-mode:soft-light;opacity:.42}
+  background:var(--tint-warm);mix-blend-mode:soft-light;opacity:.3}
 
-/* The crown chapter sits on a light ground, so it needs a lighter,
-   less saturated tone or the photo turns muddy against the cream. */
-#c6 .shot{--tint:#8A7A5E;--tint-mix:.45}
-#c6 .shot img{filter:grayscale(.85) contrast(1.02) brightness(1.06)}
+/* The crown chapter sits on a cream ground, so the photo is lifted
+   brighter and tinted less or it reads as a dark hole in the page. */
+#c6 .shot{--tint-mix:.55}
+#c6 .shot img{filter:grayscale(.9) contrast(1.0) brightness(1.12)}
+#c6 .shot .warm{opacity:.3}
 
 /* Hero avatar, toned to match so it does not read as a different set. */
 .aboutcard .who img{filter:grayscale(.92) contrast(1.04) sepia(.32) saturate(1.5) hue-rotate(-12deg)}

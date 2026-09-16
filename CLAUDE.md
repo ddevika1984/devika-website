@@ -116,9 +116,14 @@ the image is desaturated with a `filter`, then `.shot::before` lays the hue over
 `mix-blend-mode:color`, which keeps the photo's luminance and takes only colour from the
 overlay. A `.warm` span adds a little soft-light warmth back so faces do not go grey.
 
-Tune it with the variables on `.shot`: `--tint` is the hue and `--tint-mix` how far it
-goes. The crown chapter overrides both, because it sits on a cream ground where the
-darker tone turns muddy.
+`--tint` defaults to `var(--accent)`, so each photo is toned to its own chapter colour:
+rose on the solar plexus, olive on the throat, and so on. That is what the original
+artifact did, and it is why the images sit against their backgrounds rather than on top
+of them. Changing a chapter's accent in `CH` retones its photo automatically.
+
+Tune the strength with `--tint-mix` on `.shot`. It is deliberately below the point where
+the hue reads as saturated; the reference images were dusty, not pink. The crown chapter
+overrides it and lifts the brightness, because it sits on a cream ground.
 
 Keeping this in CSS rather than in the files means the tone can be changed without
 reprocessing anything, and the originals stay untouched. Note the stacking order inside
