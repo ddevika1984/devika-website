@@ -104,6 +104,10 @@ sheet doubles as her archive.
 A guide with no usable `file` or `link` renders an "Ask for this" email button rather than
 a dead download, so half-filled rows are safe.
 
+Either column works. `File` is the intended home for a free guide and `Link` for a paid
+one, but the code takes whichever actually holds an address, because that distinction
+means nothing to the person filling in the sheet.
+
 **File and Link must hold a pasted URL, not an inserted file.** Dropping a file into a
 Sheets cell makes a chip, and the API returns only the chip's visible text, which is the
 filename. There is no way to recover the Drive address from it, so `usableLink` in

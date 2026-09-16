@@ -227,7 +227,13 @@ var CH = [
       }
       box.innerHTML=rows.map(function(r){
         var free=!r.price||/^free$/i.test(String(r.price).trim());
-        var target=usableLink(free?r.file:r.link);
+        /* Take whichever column actually holds a link. File is the intended
+           home for a free guide and Link for a paid one, but that is a
+           distinction only this code cares about, and putting the address in
+           the other column should not silently break the button. */
+        var target=free
+          ? (usableLink(r.file) || usableLink(r.link))
+          : (usableLink(r.link) || usableLink(r.file));
         var label=free?'Download':'Buy and download';
         var attrs, href;
         if(target){
