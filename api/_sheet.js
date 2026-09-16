@@ -37,29 +37,38 @@ function gvizDate(v) {
   return `${m[1]}-${pad(Number(m[2]) + 1)}-${pad(m[3])}`;
 }
 
-function cellValue(cell) {
+/* `type` is the column type gviz reports, and it matters more than it looks.
+   A cell holding a time of day comes back as a datetime anchored to Google's
+   1899 epoch: v is "Date(1899,11,30,11,0,0)" and f is "11:00". Reading v
+   there puts "1899-12-30" on the website where the time should be.
+
+   So only a column gviz calls a real date gets parsed out of v, which keeps
+   event dates unambiguous whatever the sheet's locale. Everything else
+   prefers the cell's displayed value, which is what Devika sees in the
+   spreadsheet and therefore what she expects on the page. */
+function cellValue(cell, type) {
   if (!cell) return '';
-  if (typeof cell.v === 'string' && cell.v.startsWith('Date(')) {
+  if (type === 'date' && typeof cell.v === 'string' && cell.v.startsWith('Date(')) {
     return gvizDate(cell.v) || cell.f || '';
   }
+  if (cell.f !== null && cell.f !== undefined && cell.f !== '') return String(cell.f);
   if (cell.v === null || cell.v === undefined) return '';
-  if (typeof cell.v === 'number') return String(cell.f != null ? cell.f : cell.v);
   return String(cell.v);
 }
 
 /* Columns are matched by header name, not position, so inserting or
    reordering a column in the sheet does not break anything. */
 function rowsFrom(table) {
-  const headers = (table.cols || []).map(c =>
-    String(c.label || c.id || '').trim().toLowerCase()
-  );
+  const cols = table.cols || [];
+  const headers = cols.map(c => String(c.label || c.id || '').trim().toLowerCase());
+  const types = cols.map(c => c.type);
   const out = [];
   for (const r of table.rows || []) {
     const rec = {};
     let any = false;
     headers.forEach((h, i) => {
       if (!h) return;
-      const v = cellValue((r.c || [])[i]).trim();
+      const v = cellValue((r.c || [])[i], types[i]).trim();
       rec[h] = v;
       if (v) any = true;
     });

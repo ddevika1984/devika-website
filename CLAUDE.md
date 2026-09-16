@@ -88,6 +88,10 @@ Three things make this survive a spreadsheet being edited by a human:
 - **Dates come back typed**, as `Date(2026,9,6)` rather than a string, so there is no
   chance of reading 06/10 as either 6 October or 10 June. This is why the code uses the
   gviz JSON endpoint rather than CSV.
+- **Only real date columns are parsed that way.** A time of day arrives as a datetime
+  anchored to Google's 1899 epoch, so `11:00` in the Time column comes back as
+  `Date(1899,11,30,11,0,0)`. Every column except a true date takes the cell's displayed
+  value instead, which is what Devika sees in the sheet and expects on the page.
 - **If a sheet is unreachable the page falls back** to the committed copy in `content/`.
   A broken sheet shows slightly stale content rather than an error.
 
