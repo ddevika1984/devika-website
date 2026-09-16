@@ -15,8 +15,10 @@ var CONFIG = {
   guidesUrl: '/api/guides',
   guidesFallback: 'content/guides.json',
   email: 'info@drddevikakamat.com',
-  /* Waitlist form for the TEBA cohort. Replace with the Google Form URL. */
-  tebaWaitlist: ''
+  /* Waitlist form for the TEBA cohort. This points at the live form, so
+     editing the questions in Google Forms changes what people see here
+     straight away. Only replace it if a brand new form is created. */
+  tebaWaitlist: 'https://docs.google.com/forms/d/e/1FAIpQLSfemoom60ZmTgkqR2cyLoUUBYylDtwdJeAcEgn5ranQ4doFxQ/viewform'
 };
 
 var CH = [

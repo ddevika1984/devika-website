@@ -153,7 +153,6 @@ produces the four correct prices and links.
 
 ## Known gaps
 
-- The TEBA waitlist link is empty, so that button currently opens an email instead.
 - The guides are placeholder rows.
 - Terms, privacy, refund and delivery policy pages do not exist yet. Razorpay requires
   them.
