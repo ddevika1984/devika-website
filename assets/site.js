@@ -193,6 +193,28 @@ var CH = [
     sync();
   });
 
+  /* Returns a link we can actually put on a button, or '' if the cell holds
+     something that is not one.
+
+     This matters because inserting a file into a Google Sheets cell makes a
+     "chip", and the API hands us only the chip's visible text, which is the
+     filename. Linking to a filename produces a 404 on our own domain, so the
+     rule is that anything without a recognisable scheme or path is rejected.
+
+     A Drive share link is also rewritten to its direct download form, so the
+     button downloads the guide instead of dropping the visitor on Drive's
+     preview page. */
+  function usableLink(raw){
+    var s=String(raw||'').trim();
+    if(!s) return '';
+    var drive=/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?[^#]*id=)([-\w]{16,})/.exec(s);
+    if(drive) return 'https://drive.google.com/uc?export=download&id='+drive[1];
+    if(/^https?:\/\//i.test(s)) return s;
+    /* a file committed alongside the site, e.g. files/morning.pdf */
+    if(/^\/?files\/[^\s]+\.[a-z0-9]{2,5}$/i.test(s)) return s;
+    return '';
+  }
+
   /* ---------- guides, from the sheet ---------- */
   (function(){
     var box=document.querySelector('[data-guides]'); if(!box) return;
@@ -205,14 +227,21 @@ var CH = [
       }
       box.innerHTML=rows.map(function(r){
         var free=!r.price||/^free$/i.test(String(r.price).trim());
-        var target=free?r.file:r.link;
+        var target=usableLink(free?r.file:r.link);
         var label=free?'Download':'Buy and download';
         var attrs, href;
         if(target){
           href=target;
-          attrs=free?' download':' target="_blank" rel="noopener"';
+          /* download only works same origin. A Drive or Razorpay link has to
+             open in a tab, or the attribute is ignored and the click looks
+             broken. */
+          attrs=/^https?:/i.test(target)
+            ? ' target="_blank" rel="noopener"'
+            : ' download';
         } else {
-          /* no file or payment link yet, so ask rather than offer a dead button */
+          /* No usable link yet, or something that is not a link at all, such
+             as a Google Sheets file chip, which the API only gives us as
+             plain text. Ask rather than offer a button that 404s. */
           href='mailto:'+CONFIG.email+'?subject='+encodeURIComponent(r.title);
           label='Ask for this';
           attrs='';

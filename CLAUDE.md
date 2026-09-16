@@ -101,8 +101,15 @@ Google answers 401 and the site silently drops back to `content/`.
 Events with a date in the past are hidden automatically. Nothing needs deleting, so the
 sheet doubles as her archive.
 
-A guide with no `file` and no `link` renders an "Ask for this" email button rather than a
-dead download, so half-filled rows are safe.
+A guide with no usable `file` or `link` renders an "Ask for this" email button rather than
+a dead download, so half-filled rows are safe.
+
+**File and Link must hold a pasted URL, not an inserted file.** Dropping a file into a
+Sheets cell makes a chip, and the API returns only the chip's visible text, which is the
+filename. There is no way to recover the Drive address from it, so `usableLink` in
+`site.js` rejects anything without a scheme or a `files/` path and the row falls back to
+the email button. A Drive share link is accepted and rewritten to its direct download
+form, so the button downloads rather than opening Drive's preview page.
 
 The sheet ids are in `api/events.js` and `api/guides.js`. They are not secrets, since
 the sheets are link-readable anyway. `SHEET_EVENTS_ID` and `SHEET_GUIDES_ID` environment
