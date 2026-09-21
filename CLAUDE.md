@@ -139,23 +139,13 @@ the image is desaturated with a `filter`, then `.shot::before` lays the hue over
 overlay. A `.warm` span adds a little soft-light warmth back so faces do not go grey.
 
 `--tint` defaults to `var(--accent)`, so each photo is toned to its own chapter colour:
-rose on the solar plexus, sage green on the throat, and so on. That is what the original
+rose on the solar plexus, olive on the throat, and so on. That is what the original
 artifact did, and it is why the images sit against their backgrounds rather than on top
 of them. Changing a chapter's accent in `CH` retones its photo automatically.
 
-Colours across `CH` are meant to read as one continuous dark-to-light journey, root
-through crown, built from the brand kit's three primary accents (dusty rose `#AC6670`,
-soft terracotta `#CC8A77`, sage green `#69847A`) plus its secondary brown and cream
-(`#503226`, `#F0ECDC`), with a couple of interpolated in-between tones. If a chapter's
-colour is changed, keep it inside that family and keep the `bg` values increasing in
-lightness down the array, or the gradient breaks the way it did when a chapter was
-removed from the middle of it.
-
 Tune the strength with `--tint-mix` on `.shot`. It is deliberately below the point where
 the hue reads as saturated; the reference images were dusty, not pink. The crown chapter
-and the About section both override it and lift the brightness, because they sit on a
-cream ground. Any other section moved onto a light background needs the same treatment,
-or its photo reads as a dark hole in the page.
+overrides it and lifts the brightness, because it sits on a cream ground.
 
 The `contrast(.72) brightness(.82)` on `.shot img` is not a guess. The original images sat
 in a tonal range of roughly 30 to 170 with about half the contrast of a straight

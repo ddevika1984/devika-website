@@ -18,7 +18,7 @@ var CONFIG = {
 };
 
 var CH = [
- {id:"c0",key:"root",sans:"Muladhara",en:"Root",c:"#503226",bg:"#1E1815",fg:"#F0ECDC",
+ {id:"c0",key:"root",sans:"Muladhara",en:"Root",c:"#8F5A42",bg:"#14100E",fg:"#F0ECDC",
   t:"Discovery call",
   img:"images/discoverycall.webp",
   for_:"For finding out whether I can actually help you.",
@@ -26,7 +26,7 @@ var CH = [
   f:[["Length","30 minutes"],["Where","Online"],["Cost","₹2,500"]],
   cta:{label:"Book this",href:"https://rzp.io/rzp/2CNVQp0i"}},
 
- {id:"c1",key:"sacral",sans:"Svadhisthana",en:"Sacral",c:"#7A4340",bg:"#271C1B",fg:"#F0ECDC",
+ {id:"c1",key:"sacral",sans:"Svadhisthana",en:"Sacral",c:"#7A4340",bg:"#1E1614",fg:"#F0ECDC",
   t:"35+ Women's Wellness Circle",
   img:"images/womenswellnesscircle.webp",
   for_:"For not doing this on your own.",
@@ -34,7 +34,7 @@ var CH = [
   f:[["Format","Group"],["Cost","Free"]],
   cta:{label:"Join this",href:"https://chat.whatsapp.com/DIMbyxT7PbLBq0O6Puo1BI?mode=gi_t"}},
 
- {id:"c2",key:"solar",sans:"Manipura",en:"Solar plexus",c:"#AC6670",bg:"#302124",fg:"#F0ECDC",
+ {id:"c2",key:"solar",sans:"Manipura",en:"Solar plexus",c:"#AC6670",bg:"#2C1C1C",fg:"#F0ECDC",
   t:"Guides You Can Download and Use",
   img:"images/selfhelp.webp",
   for_:"For the days you would rather do this on your own.",
@@ -42,7 +42,7 @@ var CH = [
   f:[],
   guides:true},
 
- {id:"c3",key:"heart",sans:"Anahata",en:"Heart",c:"#CC8A77",bg:"#3C2E2A",fg:"#F0ECDC",
+ {id:"c3",key:"heart",sans:"Anahata",en:"Heart",c:"#CC8A77",bg:"#3E2723",fg:"#F0ECDC",
   t:"Integrative nutrition",
   img:"images/integrativenutrition.webp",
   for_:"For energy, digestion and weight that will not shift.",
@@ -50,7 +50,7 @@ var CH = [
   f:[["Length","4 sessions over 1 month"],["Format","One to one"],["Cost","₹15,000"]],
   cta:{label:"Book this",href:"https://rzp.io/rzp/hJMniutv"}},
 
- {id:"c4",key:"throat",sans:"Vishuddha",en:"Throat",c:"#69847A",bg:"#374942",fg:"#F0ECDC",
+ {id:"c4",key:"throat",sans:"Vishuddha",en:"Throat",c:"#9C9078",bg:"#453F35",fg:"#F0ECDC",
   t:"Holistic counseling, rewiring and energy alignment",
   img:"images/holisticcounseling-v2.webp",
   for_:"For when you are carrying something you cannot put down.",
@@ -67,7 +67,7 @@ var CH = [
     }
   }},
 
- {id:"c6",key:"crown",sans:"Sahasrara",en:"Crown",c:"#8A7A5E",bg:"#F0ECDC",fg:"#2B2118",
+ {id:"c6",key:"crown",sans:"Sahasrara",en:"Crown",c:"#8A7A5E",bg:"#EDE8D8",fg:"#2B2118",
   t:"The Meditation Club",
   img:"images/meditationclub.webp",
   for_:"For building a practice you will actually keep.",

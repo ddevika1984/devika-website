@@ -169,8 +169,7 @@ h1.hero em{font-style:normal;color:var(--terra)}
 .aboutcard .more:hover{color:var(--terra);border-color:var(--terra)}
 
 /* philosophy */
-#philosophy{scroll-margin-top:86px;--accent:#503226;background:#120E0D;color:var(--cream);
-  padding:clamp(72px,10vh,140px) 0}
+#philosophy{scroll-margin-top:86px;padding:clamp(72px,10vh,140px) 0}
 #philosophy h2{font-size:clamp(28px,4vw,54px);font-weight:200;margin-top:18px;max-width:20ch}
 #philosophy .body{margin-top:22px;max-width:none;color:rgba(240,236,220,.84);font-size:16.5px;line-height:1.72}
 #philosophy .body p+p{margin-top:1.05em}
@@ -179,7 +178,7 @@ h1.hero em{font-style:normal;color:var(--terra)}
 #about.in .rise{opacity:1;transform:none}
 #about.in .shot::after{transform:scaleY(0)}
 #about.in .shot img{transform:scale(1)}
-#about{scroll-margin-top:86px;--bg:#E7DDDA;--fg:#2B2118;--accent:#CC8A77;background:var(--bg);color:var(--fg);
+#about{scroll-margin-top:86px;--bg:#191413;--fg:#F0ECDC;--accent:#CC8A77;background:var(--bg);color:var(--fg);
   padding:clamp(80px,12vh,160px) 0;position:relative;overflow:clip}
 #about .grid{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1fr);
   gap:clamp(28px,5vw,72px);align-items:stretch}
@@ -265,7 +264,7 @@ h1.hero em{font-style:normal;color:var(--terra)}
   text-transform:uppercase;color:rgba(240,236,220,.5);margin-top:4px}
 
 /* events */
-#events{scroll-margin-top:86px;--accent:#CC8A77;background:#181211;color:var(--cream);
+#events{scroll-margin-top:86px;--accent:#CC8A77;background:#120F0E;color:var(--cream);
   padding:clamp(72px,10vh,140px) 0;border-top:1px solid rgba(240,236,220,.1);
   border-bottom:1px solid rgba(240,236,220,.1)}
 #events .top{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-end;justify-content:space-between;
@@ -487,11 +486,11 @@ body.doc{background:#100D0C;color:var(--cream)}
 .shot .warm{position:absolute;inset:0;z-index:1;pointer-events:none;
   background:var(--tint-warm);mix-blend-mode:soft-light;opacity:.3}
 
-/* The crown chapter and About sit on a cream ground, so their photos are
-   lifted brighter and tinted less or they read as a dark hole in the page. */
-#c6 .shot,#about .shot{--tint-mix:.55}
-#c6 .shot img,#about .shot img{filter:grayscale(.92) contrast(.72) brightness(.98)}
-#c6 .shot .warm,#about .shot .warm{opacity:.3}
+/* The crown chapter sits on a cream ground, so the photo is lifted
+   brighter and tinted less or it reads as a dark hole in the page. */
+#c6 .shot{--tint-mix:.55}
+#c6 .shot img{filter:grayscale(.92) contrast(.72) brightness(.98)}
+#c6 .shot .warm{opacity:.3}
 
 /* Hero avatar, toned to match so it does not read as a different set. */
 .aboutcard .who img{filter:grayscale(.92) contrast(1.04) sepia(.32) saturate(1.5) hue-rotate(-12deg)}
