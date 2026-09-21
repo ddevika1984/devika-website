@@ -14,8 +14,10 @@ Read this before changing anything.
    stop. Do not "fix" it by guessing.
 2. **Do not add a build step, framework, bundler or package manager.** If something seems
    to need one, it almost certainly does not. Ask first.
-3. **Changes go through a pull request, not straight to `main`.** Pushing to `main`
-   deploys to the live site immediately.
+3. **Push straight to `main`.** Pushing to `main` deploys to the live site immediately.
+   That is fine, since a follow-up edit can always be pushed right after — but it means
+   there is no review step between a change and it going live, so take extra care with
+   anything in golden rule 1.
 4. **Do not commit secrets.** There are none here today and it should stay that way.
    Anything sensitive belongs in Vercel's environment variables.
 
