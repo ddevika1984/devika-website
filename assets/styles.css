@@ -169,7 +169,8 @@ h1.hero em{font-style:normal;color:var(--terra)}
 .aboutcard .more:hover{color:var(--terra);border-color:var(--terra)}
 
 /* philosophy */
-#philosophy{scroll-margin-top:86px;padding:clamp(72px,10vh,140px) 0}
+#philosophy{scroll-margin-top:86px;--accent:#503226;background:#17110D;color:var(--cream);
+  padding:clamp(72px,10vh,140px) 0}
 #philosophy h2{font-size:clamp(28px,4vw,54px);font-weight:200;margin-top:18px;max-width:20ch}
 #philosophy .body{margin-top:22px;max-width:none;color:rgba(240,236,220,.84);font-size:16.5px;line-height:1.72}
 #philosophy .body p+p{margin-top:1.05em}
@@ -178,21 +179,22 @@ h1.hero em{font-style:normal;color:var(--terra)}
 #about.in .rise{opacity:1;transform:none}
 #about.in .shot::after{transform:scaleY(0)}
 #about.in .shot img{transform:scale(1)}
-#about{scroll-margin-top:86px;--bg:#191413;--fg:#F0ECDC;--accent:#CC8A77;background:var(--bg);color:var(--fg);
+#about{scroll-margin-top:86px;--bg:#E4DCC8;--fg:#2B2118;--accent:#CC8A77;background:var(--bg);color:var(--fg);
   padding:clamp(80px,12vh,160px) 0;position:relative;overflow:clip}
 #about .grid{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1fr);
   gap:clamp(28px,5vw,72px);align-items:stretch}
 #about .grid>.rise{display:flex;flex-direction:column;justify-content:center}
 #about h2{font-size:clamp(28px,4vw,54px);font-weight:200;margin-top:18px;max-width:16ch}
-#about .body{margin-top:22px;max-width:44ch;color:rgba(240,236,220,.84);font-size:16.5px;line-height:1.72}
+#about .body{margin-top:22px;max-width:44ch;color:color-mix(in srgb,var(--fg) 84%,transparent);
+  font-size:16.5px;line-height:1.72}
 #about .body p+p{margin-top:1.05em}
 .trained{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-  gap:0 clamp(22px,3.4vw,52px);margin-top:26px;border-top:1px solid rgba(240,236,220,.18)}
+  gap:0 clamp(22px,3.4vw,52px);margin-top:26px;border-top:1px solid color-mix(in srgb,var(--fg) 18%,transparent)}
 .trained div{display:flex;align-items:baseline;gap:10px;padding:8px 0;
-  border-bottom:1px solid rgba(240,236,220,.09)}
+  border-bottom:1px solid color-mix(in srgb,var(--fg) 9%,transparent)}
 .trained .a{font-size:14.5px;white-space:nowrap}
 .trained .b{font-family:var(--mono);font-size:9px;letter-spacing:.11em;text-transform:uppercase;
-  color:rgba(240,236,220,.55);margin-left:auto;text-align:right}
+  color:color-mix(in srgb,var(--fg) 55%,transparent);margin-left:auto;text-align:right}
 
 /* The about photo used to stretch to the full height of the text column, which made it
    a very tall sliver. It now holds a 4:5 portrait and sticks as the copy scrolls past,
@@ -263,7 +265,7 @@ h1.hero em{font-style:normal;color:var(--terra)}
   text-transform:uppercase;color:rgba(240,236,220,.5);margin-top:4px}
 
 /* events */
-#events{scroll-margin-top:86px;--accent:#CC8A77;background:#120F0E;color:var(--cream);
+#events{scroll-margin-top:86px;--accent:#CC8A77;background:#1F1611;color:var(--cream);
   padding:clamp(72px,10vh,140px) 0;border-top:1px solid rgba(240,236,220,.1);
   border-bottom:1px solid rgba(240,236,220,.1)}
 #events .top{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-end;justify-content:space-between;
@@ -485,11 +487,11 @@ body.doc{background:#100D0C;color:var(--cream)}
 .shot .warm{position:absolute;inset:0;z-index:1;pointer-events:none;
   background:var(--tint-warm);mix-blend-mode:soft-light;opacity:.3}
 
-/* The crown chapter sits on a cream ground, so the photo is lifted
-   brighter and tinted less or it reads as a dark hole in the page. */
-#c6 .shot{--tint-mix:.55}
-#c6 .shot img{filter:grayscale(.92) contrast(.72) brightness(.98)}
-#c6 .shot .warm{opacity:.3}
+/* The crown chapter and About sit on a cream ground, so their photos are
+   lifted brighter and tinted less or they read as a dark hole in the page. */
+#c6 .shot,#about .shot{--tint-mix:.55}
+#c6 .shot img,#about .shot img{filter:grayscale(.92) contrast(.72) brightness(.98)}
+#c6 .shot .warm,#about .shot .warm{opacity:.3}
 
 /* Hero avatar, toned to match so it does not read as a different set. */
 .aboutcard .who img{filter:grayscale(.92) contrast(1.04) sepia(.32) saturate(1.5) hue-rotate(-12deg)}
