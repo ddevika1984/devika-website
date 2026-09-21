@@ -25,7 +25,7 @@ Read this before changing anything.
 
 | I want to change... | Edit this |
 |---|---|
-| The six offerings: titles, prices, descriptions, links | the `CH` array at the top of `assets/site.js` |
+| The six paid/booked offerings: titles, prices, descriptions, links | the `CH` array at the top of `assets/site.js` |
 | The email address, the events source | the `CONFIG` object at the top of `assets/site.js` |
 | Hero copy, the About section, the footer, the disclaimer | `index.html` |
 | Colours, spacing, layout, animation | `assets/styles.css` |
@@ -38,6 +38,11 @@ Read this before changing anything.
 One entry per offering, in the order they appear on the page. The order of this array
 also drives the spine navigation and the Offerings dropdown, so reordering it reorders
 the whole site.
+
+The hero says "Seven ways to come back to yourself," which is the six `CH` entries plus
+Events, counted as the seventh way to work together. If an entry is added to or removed
+from `CH`, that headline (and the matching line in the hero card and the meta/og
+descriptions) needs updating by hand, it is not calculated from the array length.
 
 Each entry:
 
