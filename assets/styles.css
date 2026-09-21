@@ -178,7 +178,7 @@ h1.hero em{font-style:normal;color:var(--terra)}
 #about.in .rise{opacity:1;transform:none}
 #about.in .shot::after{transform:scaleY(0)}
 #about.in .shot img{transform:scale(1)}
-#about{scroll-margin-top:86px;--bg:#14100E;--fg:#F0ECDC;--accent:#8F5A42;background:var(--bg);color:var(--fg);
+#about{scroll-margin-top:86px;--bg:#191413;--fg:#F0ECDC;--accent:#CC8A77;background:var(--bg);color:var(--fg);
   padding:clamp(80px,12vh,160px) 0;position:relative;overflow:clip}
 #about .grid{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1fr);
   gap:clamp(28px,5vw,72px);align-items:stretch}

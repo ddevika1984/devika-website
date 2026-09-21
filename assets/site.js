@@ -256,7 +256,7 @@ var CH = [
     });
     var g=document.createElement('button');
     g.className='ground'; g.setAttribute('aria-label','About Dr. Devika Kamat');
-    g.innerHTML='<span class="tip"><b>About Dr. Devika Kamat</b><i>The ground</i>'+
+    g.innerHTML='<span class="tip"><b>About Dr. Devika Kamat</b><i>In her own words</i>'+
       '<span class="w">How she trained, and why she did all of it to herself first.</span></span>';
     g.addEventListener('click',function(){
       document.getElementById('about').scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
@@ -277,7 +277,7 @@ var CH = [
         menu=document.getElementById('dropMenu');
     var head='<a role="menuitem" class="mobonly" href="#about">'+
       '<span class="dt" style="--c:#CC8A77"></span>'+
-      '<span><b>About Dr. Devika Kamat</b><i>The ground</i></span></a>'+
+      '<span><b>About Dr. Devika Kamat</b><i>In her own words</i></span></a>'+
       '<a role="menuitem" class="mobonly" href="#events">'+
       '<span class="dt" style="--c:#CC8A77"></span>'+
       '<span><b>Events</b><i>Offline &amp; online</i></span></a>';
