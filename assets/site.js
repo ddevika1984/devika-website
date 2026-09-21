@@ -14,11 +14,7 @@ var CONFIG = {
   eventsFallback: 'content/events.json',
   guidesUrl: '/api/guides',
   guidesFallback: 'content/guides.json',
-  email: 'info@drddevikakamat.com',
-  /* Waitlist form for the TEBA cohort. This points at the live form, so
-     editing the questions in Google Forms changes what people see here
-     straight away. Only replace it if a brand new form is created. */
-  tebaWaitlist: 'https://docs.google.com/forms/d/e/1FAIpQLSfemoom60ZmTgkqR2cyLoUUBYylDtwdJeAcEgn5ranQ4doFxQ/viewform'
+  email: 'info@drddevikakamat.com'
 };
 
 var CH = [
@@ -71,15 +67,6 @@ var CH = [
     }
   }},
 
- {id:"c5",key:"third",sans:"Ajna",en:"Third eye",c:"#69847A",bg:"#2F3A35",fg:"#F0ECDC",
-  t:"The TEBA framework",
-  img:null,
-  for_:"If your manifestations are not working, this is for you.",
-  det:"Most of us are running on autopilot, in beta state of mind, and it is our beliefs that are quietly controlling our emotions, our emotions that are controlling our thoughts, and our thoughts that are controlling our actions. So if you keep circling back to the same results no matter what you try, it is not a discipline problem. It is a belief problem.",
-  det2:"This is a small, exclusive cohort for people who are firm believers in manifestation and want to actually work on the belief system underneath it. Through a mix of neuroscience, spiritual practice, and energy work, we get to the deep rooted patterns underneath, clear the limiting beliefs, rewire the thoughts, and learn how to actually take action from that place. The goal is full alignment with your vision, so you're vibrating at the frequency that lets you manifest what you actually want.",
-  f:[["Built by","Ddevika"],["Runs through","Everything"]],
-  cta:{label:"Join the waitlist",href:CONFIG.tebaWaitlist}},
-
  {id:"c6",key:"crown",sans:"Sahasrara",en:"Crown",c:"#8A7A5E",bg:"#EDE8D8",fg:"#2B2118",
   t:"The Meditation Club",
   img:"images/meditationclub.webp",
@@ -130,15 +117,7 @@ var CH = [
       '</div>';
     }
 
-    var media = s.img
-      ? '<div class="shot"><img src="'+s.img+'" alt="'+esc(s.t)+'" loading="lazy" decoding="async"><span class="warm"></span></div>'
-      : '<div class="terms rise">'+
-        [['T','Thought','What you tell yourself, usually without noticing you are doing it.'],
-         ['E','Emotion','How loudly that thought lands in the body on a given day.'],
-         ['B','Belief','What happens when a thought repeats until you stop questioning it.'],
-         ['A','Action','What you do, which changes on its own once the three above have.']]
-        .map(function(t){return '<div class="term" data-term><span class="L">'+t[0]+
-          '</span><div><span class="n">'+t[1]+'</span><p class="d">'+t[2]+'</p></div></div>'}).join('')+'</div>';
+    var media = '<div class="shot"><img src="'+s.img+'" alt="'+esc(s.t)+'" loading="lazy" decoding="async"><span class="warm"></span></div>';
 
     var go='';
     if(s.picker){
@@ -149,7 +128,7 @@ var CH = [
         : '<div class="go"><a class="pill solid is-soon" href="mailto:'+esc(CONFIG.email)+'?subject='+encodeURIComponent(s.t)+'"><span>'+esc(s.cta.label)+'</span></a></div>';
     }
 
-    return '<section class="chap'+(i%2?' flip':'')+(s.img?'':' teba')+'" id="'+s.id+'" data-chap="'+i+'" '+
+    return '<section class="chap'+(i%2?' flip':'')+'" id="'+s.id+'" data-chap="'+i+'" '+
       'style="--bg:'+s.bg+';--fg:'+s.fg+';--accent:'+s.c+'">'+
       '<div class="wrap grid">'+
         '<div class="rise">'+
@@ -393,7 +372,6 @@ var CH = [
   },{threshold:.2});
   chaps.forEach(function(c){io.observe(c)});
 
-  var terms=[].slice.call(document.querySelectorAll('[data-term]'));
   var bar=document.getElementById('bar');
   var hero=document.getElementById('hero');
 
@@ -410,8 +388,6 @@ var CH = [
     var abOn = ab.top<vh*.7 && ab.bottom>vh*.3;
     grounds.forEach(function(g){g.classList.toggle('on',abOn)});
     if(abOn){heroNodes.concat(railNodes).forEach(function(n){n.classList.remove('on')})}
-    terms.forEach(function(t){var b=t.getBoundingClientRect();
-      t.classList.toggle('on', b.top<vh*.68&&b.bottom>vh*.24)});
     var past = hero.getBoundingClientRect().bottom < vh*.35;
     rail.classList.toggle('show', past);
     bar.classList.toggle('solid', scrollY>50);

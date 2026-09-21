@@ -25,8 +25,8 @@ Read this before changing anything.
 
 | I want to change... | Edit this |
 |---|---|
-| The seven offerings: titles, prices, descriptions, links | the `CH` array at the top of `assets/site.js` |
-| The email address, the events source, the TEBA waitlist link | the `CONFIG` object at the top of `assets/site.js` |
+| The six offerings: titles, prices, descriptions, links | the `CH` array at the top of `assets/site.js` |
+| The email address, the events source | the `CONFIG` object at the top of `assets/site.js` |
 | Hero copy, the About section, the footer, the disclaimer | `index.html` |
 | Colours, spacing, layout, animation | `assets/styles.css` |
 | Events shown in the Events section | `content/events.json` (until the Google Sheet is connected) |
@@ -47,7 +47,7 @@ Each entry:
 - `t`, `for_`, `det`, `det2` — the copy
 - `f` — the fact rows, as `[label, value]` pairs
 - `cta` — `{label, href}`. If `href` is empty the button falls back to an email link.
-- `img` — path to the photo, or `null` for the TEBA chapter which shows the letter panel
+- `img` — path to the photo
 - `picker` — only on the counselling chapter, see below
 - `guides` — only on the guides chapter, makes it render from `content/guides.json`
 
@@ -161,7 +161,7 @@ There is no test suite. Run a local server and look at the page:
 python3 -m http.server 4321
 ```
 
-Then check the browser console is clean, the seven chapters render, and the picker still
+Then check the browser console is clean, the six chapters render, and the picker still
 produces the four correct prices and links.
 
 ## Known gaps

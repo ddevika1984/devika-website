@@ -152,20 +152,6 @@ h1.hero em{font-style:normal;color:var(--terra)}
 .rise{opacity:0;transform:translateY(28px);transition:opacity .9s ease,transform .9s cubic-bezier(.16,.9,.2,1)}
 .chap.in .rise{opacity:1;transform:none}
 
-/* TEBA chapter */
-.terms{border-top:1px solid color-mix(in srgb,var(--fg) 20%,transparent);margin-top:clamp(28px,4vw,48px)}
-.term{display:grid;grid-template-columns:clamp(58px,8vw,132px) minmax(0,1fr);gap:clamp(14px,3vw,40px);
-  padding:clamp(16px,2.4vw,28px) 0;border-bottom:1px solid color-mix(in srgb,var(--fg) 14%,transparent);
-  align-items:center}
-.term .L{font-size:clamp(40px,6.6vw,104px);font-weight:200;line-height:.78;letter-spacing:-.05em;
-  color:color-mix(in srgb,var(--fg) 16%,transparent);transition:color .7s cubic-bezier(.2,.8,.2,1)}
-.term.on .L{color:var(--accent)}
-.term .n{font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;
-  color:color-mix(in srgb,var(--fg) 68%,transparent)}
-.term .d{font-size:clamp(16px,1.8vw,23px);font-weight:300;line-height:1.3;margin-top:7px;max-width:42ch;
-  color:color-mix(in srgb,var(--fg) 74%,transparent);transition:color .6s}
-.term.on .d{color:var(--fg)}
-
 /* about card in hero */
 .aboutcard{display:flex;flex-direction:column;gap:14px;text-align:left;
   border:1px solid rgba(240,236,220,.16);border-radius:3px;padding:20px;
@@ -412,15 +398,6 @@ img{max-width:100%}
 #end .askline a{border-bottom:1px solid rgba(240,236,220,.35);padding-bottom:2px;
   transition:color .4s,border-color .4s}
 #end .askline a:hover{color:var(--terra);border-color:var(--terra)}
-
-/* ---- TEBA chapter: both columns start at the top and fill the same height ---- */
-.chap.teba .grid>.rise{justify-content:flex-start}
-.chap.teba .terms{margin-top:0;display:flex;flex-direction:column;flex:1;width:100%}
-.chap.teba .term{flex:1}
-@media (max-width:1000px){
-  .chap.teba .terms{display:block;flex:none;margin-top:clamp(24px,4vw,40px)}
-  .chap.teba .term{display:grid}
-}
 
 /* ---- footer: centred to match the block above it ---- */
 #end .askline{max-width:none}
