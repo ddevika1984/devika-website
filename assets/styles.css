@@ -277,7 +277,8 @@ h1.hero em{font-style:normal;color:var(--terra)}
 #events .top{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-end;justify-content:space-between;
   margin-bottom:clamp(26px,4vw,46px)}
 #events h2{font-size:clamp(28px,4vw,54px);font-weight:200;margin-top:16px}
-#events .blurb{color:rgba(240,236,220,.80);font-size:15.5px;max-width:38ch}
+#events .blurb{color:rgba(240,236,220,.80);font-size:15.5px;max-width:62ch;line-height:1.6;margin-top:10px}
+#events .blurb a{color:var(--cream);text-decoration:underline;text-underline-offset:3px}
 .agenda{border-top:1px solid rgba(240,236,220,.18)}
 .ev{display:grid;grid-template-columns:78px minmax(0,1fr) auto;gap:clamp(14px,2.6vw,34px);
   padding:20px 0 20px 0;border-bottom:1px solid rgba(240,236,220,.11);align-items:center;
