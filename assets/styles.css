@@ -169,7 +169,7 @@ h1.hero em{font-style:normal;color:var(--terra)}
 .aboutcard .more:hover{color:var(--terra);border-color:var(--terra)}
 
 /* philosophy */
-#philosophy{scroll-margin-top:86px;--accent:#503226;background:#20130E;color:var(--cream);
+#philosophy{scroll-margin-top:86px;--accent:#503226;background:#120E0D;color:var(--cream);
   padding:clamp(72px,10vh,140px) 0}
 #philosophy h2{font-size:clamp(28px,4vw,54px);font-weight:200;margin-top:18px;max-width:20ch}
 #philosophy .body{margin-top:22px;max-width:none;color:rgba(240,236,220,.84);font-size:16.5px;line-height:1.72}
@@ -179,7 +179,7 @@ h1.hero em{font-style:normal;color:var(--terra)}
 #about.in .rise{opacity:1;transform:none}
 #about.in .shot::after{transform:scaleY(0)}
 #about.in .shot img{transform:scale(1)}
-#about{scroll-margin-top:86px;--bg:#EDD6CF;--fg:#2B2118;--accent:#CC8A77;background:var(--bg);color:var(--fg);
+#about{scroll-margin-top:86px;--bg:#E7DDDA;--fg:#2B2118;--accent:#CC8A77;background:var(--bg);color:var(--fg);
   padding:clamp(80px,12vh,160px) 0;position:relative;overflow:clip}
 #about .grid{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1fr);
   gap:clamp(28px,5vw,72px);align-items:stretch}
@@ -265,7 +265,7 @@ h1.hero em{font-style:normal;color:var(--terra)}
   text-transform:uppercase;color:rgba(240,236,220,.5);margin-top:4px}
 
 /* events */
-#events{scroll-margin-top:86px;--accent:#CC8A77;background:#2B1712;color:var(--cream);
+#events{scroll-margin-top:86px;--accent:#CC8A77;background:#181211;color:var(--cream);
   padding:clamp(72px,10vh,140px) 0;border-top:1px solid rgba(240,236,220,.1);
   border-bottom:1px solid rgba(240,236,220,.1)}
 #events .top{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-end;justify-content:space-between;
