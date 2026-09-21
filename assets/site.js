@@ -18,7 +18,7 @@ var CONFIG = {
 };
 
 var CH = [
- {id:"c0",key:"root",sans:"Muladhara",en:"Root",c:"#8F5A42",bg:"#14100E",fg:"#F0ECDC",
+ {id:"c0",key:"root",sans:"Muladhara",en:"Root",c:"#8F5A42",bg:"#211A17",fg:"#F0ECDC",
   t:"Discovery call",
   img:"images/discoverycall.webp",
   for_:"For finding out whether I can actually help you.",

@@ -169,7 +169,8 @@ h1.hero em{font-style:normal;color:var(--terra)}
 .aboutcard .more:hover{color:var(--terra);border-color:var(--terra)}
 
 /* philosophy */
-#philosophy{scroll-margin-top:86px;padding:clamp(72px,10vh,140px) 0}
+#philosophy{scroll-margin-top:86px;background:#15110F;color:var(--cream);
+  padding:clamp(72px,10vh,140px) 0}
 #philosophy h2{font-size:clamp(28px,4vw,54px);font-weight:200;margin-top:18px;max-width:20ch}
 #philosophy .body{margin-top:22px;max-width:none;color:rgba(240,236,220,.84);font-size:16.5px;line-height:1.72}
 #philosophy .body p+p{margin-top:1.05em}
@@ -264,7 +265,7 @@ h1.hero em{font-style:normal;color:var(--terra)}
   text-transform:uppercase;color:rgba(240,236,220,.5);margin-top:4px}
 
 /* events */
-#events{scroll-margin-top:86px;--accent:#CC8A77;background:#120F0E;color:var(--cream);
+#events{scroll-margin-top:86px;--accent:#CC8A77;background:#1B1513;color:var(--cream);
   padding:clamp(72px,10vh,140px) 0;border-top:1px solid rgba(240,236,220,.1);
   border-bottom:1px solid rgba(240,236,220,.1)}
 #events .top{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-end;justify-content:space-between;
