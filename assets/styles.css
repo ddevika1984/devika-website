@@ -274,7 +274,8 @@ h1.hero em{font-style:normal;color:var(--terra)}
    it anchors to the viewport instead, flush with the bar's own side
    padding, regardless of where the button that opens it sits. */
 @media (max-width:640px){
-  .dropmenu{position:fixed;right:clamp(18px,4vw,56px);top:64px;width:min(86vw,320px)}
+  .dropmenu{position:fixed;right:clamp(18px,4vw,56px);top:64px;width:min(86vw,320px);
+    max-height:calc(100vh - 80px);overflow-y:auto}
 }
 
 /* events */
