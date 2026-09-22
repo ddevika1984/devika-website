@@ -32,7 +32,12 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 /* ---------------- top bar ---------------- */
 .bar{position:fixed;top:0;left:0;right:0;z-index:70;padding:18px 0;pointer-events:none;
   transition:background .6s}
-.bar.solid{background:linear-gradient(180deg,rgba(16,13,12,.86),transparent)}
+/* A flat, fully opaque-enough fill rather than a fade to transparent: the
+   fade used to drop to nothing well before the bottom of the bar, which
+   left the nav pills unreadable once scrolled over a light section (the
+   crown chapter, or About in some palettes), especially on mobile where
+   the bar itself is shorter so the fade compresses even faster. */
+.bar.solid{background:rgba(16,13,12,.94)}
 .bar .wrap{display:flex;align-items:center;gap:16px}
 .bar a,.bar button{pointer-events:auto}
 .bar .mk{display:flex;align-items:center;gap:10px}
@@ -46,7 +51,6 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
   .bar .wrap{gap:10px}
   .bar .pill{padding:9px 13px;font-size:9px;letter-spacing:.13em}
   .bar .right>a.pill:not(.solid){display:none}
-  .dropmenu{width:min(92vw,320px)}
 }
 @media (min-width:641px){.dropmenu .mobonly{display:none}}
 
@@ -263,6 +267,15 @@ h1.hero em{font-style:normal;color:var(--terra)}
 .dropmenu b{display:block;font-weight:300;font-size:14.5px;letter-spacing:-.01em;line-height:1.25}
 .dropmenu i{display:block;font-style:normal;font-family:var(--mono);font-size:8.5px;letter-spacing:.16em;
   text-transform:uppercase;color:rgba(240,236,220,.5);margin-top:4px}
+
+/* On narrow screens, right:0 on .dropmenu anchors it to the Offerings
+   button's own right edge, which sits left of "Book a call". A menu that
+   wide ran off the left of the screen with text clipped, so below 640px
+   it anchors to the viewport instead, flush with the bar's own side
+   padding, regardless of where the button that opens it sits. */
+@media (max-width:640px){
+  .dropmenu{position:fixed;right:clamp(18px,4vw,56px);top:64px;width:min(86vw,320px)}
+}
 
 /* events */
 #events{scroll-margin-top:86px;--accent:#CC8A77;background:#1B1513;color:var(--cream);
