@@ -50,7 +50,7 @@ const PRODUCTS = {
   'nutrition-4': {
     amount: 15000,
     name: 'Integrative nutrition',
-    calendlyUrl: 'https://calendly.com/REPLACE_ME/nutrition-session',
+    calendlyUrl: 'https://calendly.com/drddevikakamat--holisticwellness/integrative-nutrition',
     sessionsTotal: 4
   }
 };
