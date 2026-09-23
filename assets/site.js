@@ -54,16 +54,13 @@ var CH = [
   t:"Holistic counseling, rewiring and energy alignment",
   img:"images/holisticcounseling-v2.webp",
   for_:"For when you are carrying something you cannot put down.",
-  det:"Talking and gentle energy work in the same session. Mostly quiet. Take one session if something specific is sitting heavy, or four if it needs working through properly.",
-  f:[["Length","1 or 4 sessions"],["Where","Online or in person"],["Cost","From ₹8,000"]],
+  det:"Talking and gentle energy work in the same session. Mostly quiet, and focused on whatever is sitting heavy for you right now.",
+  f:[["Length","60 to 90 minutes"],["Where","Online or in person"],["Cost","From ₹8,000"]],
   picker:{
-    sessions:[["1","1 session"],["4","4 sessions"]],
-    places:[["online","Online"],["person","In person"]],
+    groups:[{key:"places",opts:[["online","Online"],["person","In person"]]}],
     prices:{
-      "1-online":{price:"₹8,000",  href:"https://rzp.io/rzp/JXSLclA"},
-      "1-person":{price:"₹10,000", href:"https://rzp.io/rzp/3BS7M02S"},
-      "4-online":{price:"₹28,000", href:"https://rzp.io/rzp/H44bYeyF"},
-      "4-person":{price:"₹35,000", href:"https://rzp.io/rzp/6fZnuhM"}
+      online:{price:"₹8,000",  href:"https://rzp.io/rzp/JXSLclA"},
+      person:{price:"₹10,000", href:"https://rzp.io/rzp/3BS7M02S"}
     }
   }},
 
@@ -106,13 +103,13 @@ var CH = [
 
     var picker='';
     if(s.picker){
-      function grp(name,opts){
-        return '<div class="pgroup" role="group" aria-label="'+esc(name)+'">'+opts.map(function(o,n){
-          return '<button type="button" class="popt'+(n===0?' on':'')+'" data-'+esc(name)+'="'+esc(o[0])+'">'+esc(o[1])+'</button>'
+      function grp(g){
+        return '<div class="pgroup" role="group" aria-label="'+esc(g.key)+'">'+g.opts.map(function(o,n){
+          return '<button type="button" class="popt'+(n===0?' on':'')+'" data-group="'+esc(g.key)+'" data-val="'+esc(o[0])+'">'+esc(o[1])+'</button>'
         }).join('')+'</div>';
       }
       picker='<div class="picker" data-picker>'+
-        grp('sessions',s.picker.sessions)+grp('places',s.picker.places)+
+        s.picker.groups.map(grp).join('')+
         '<div class="pout"><span class="pprice" data-pprice></span></div>'+
       '</div>';
     }
@@ -153,8 +150,9 @@ var CH = [
     var buy=sec.querySelector('[data-pbuy]');
     var out=p.querySelector('[data-pprice]');
     function state(){
-      return p.querySelector('.popt.on[data-sessions]').dataset.sessions+'-'+
-             p.querySelector('.popt.on[data-places]').dataset.places;
+      return data.groups.map(function(g){
+        return p.querySelector('.popt.on[data-group="'+g.key+'"]').dataset.val;
+      }).join('-');
     }
     function sync(){
       var hit=data.prices[state()];
@@ -163,8 +161,8 @@ var CH = [
     }
     p.addEventListener('click',function(e){
       var b=e.target.closest('.popt'); if(!b) return;
-      var attr=b.hasAttribute('data-sessions')?'sessions':'places';
-      p.querySelectorAll('.popt[data-'+attr+']').forEach(function(o){o.classList.remove('on')});
+      var group=b.dataset.group;
+      p.querySelectorAll('.popt[data-group="'+group+'"]').forEach(function(o){o.classList.remove('on')});
       b.classList.add('on');
       sync();
     });

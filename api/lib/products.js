@@ -52,18 +52,6 @@ const PRODUCTS = {
     name: 'Integrative nutrition',
     calendlyUrl: 'https://calendly.com/REPLACE_ME/nutrition-session',
     sessionsTotal: 4
-  },
-  'counsel-4-online': {
-    amount: 28000,
-    name: 'Holistic counseling (4 sessions, online)',
-    calendlyUrl: 'https://calendly.com/REPLACE_ME/counseling-online',
-    sessionsTotal: 4
-  },
-  'counsel-4-person': {
-    amount: 35000,
-    name: 'Holistic counseling (4 sessions, in person)',
-    calendlyUrl: 'https://calendly.com/REPLACE_ME/counseling-in-person',
-    sessionsTotal: 4
   }
 };
 

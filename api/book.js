@@ -6,14 +6,14 @@
    page survives someone switching to their banking app for UPI and
    coming back a minute later.
 
-   Each of the six Payment Pages needs its "Redirect URL" (Settings on
+   Each of the four Payment Pages needs its "Redirect URL" (Settings on
    the page, not the webhook) set to:
 
      https://<site>/api/book?p=<product key>
 
-   using the keys in lib/products.js, e.g. ?p=counsel-4-online. Razorpay
+   using the keys in lib/products.js, e.g. ?p=counsel-1-online. Razorpay
    adds razorpay_payment_id itself, so the full URL it hits looks like
-   /api/book?p=counsel-4-online&razorpay_payment_id=pay_xxx.
+   /api/book?p=counsel-1-online&razorpay_payment_id=pay_xxx.
 
    No email, no webhook dependency for the customer to see the link -
    this is the whole booking flow now. The Razorpay webhook

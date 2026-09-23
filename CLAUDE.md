@@ -58,16 +58,24 @@ Each entry:
 
 ## The counselling picker
 
-The throat chapter has four Razorpay links behind one offering. The `picker` object maps
-a combination of sessions and place to a price and a link:
+The throat chapter (a single 60 to 90 minute session) has two Razorpay links behind one
+offering, online or in person. The `picker` object is `{groups, prices}`: `groups` is an
+ordered list of `{key, opts}` toggles to render, and `prices` maps the selected option
+values, joined with `-` in group order, to a price and a link. With one group the key is
+just that group's value, unjoined:
 
 ```
-"4-person": {price:"₹35,000", href:"https://rzp.io/rzp/6fZnuhM"}
+picker:{
+  groups:[{key:"places",opts:[["online","Online"],["person","In person"]]}],
+  prices:{
+    online:{price:"₹8,000",  href:"https://rzp.io/rzp/JXSLclA"},
+    person:{price:"₹10,000", href:"https://rzp.io/rzp/3BS7M02S"}
+  }
+}
 ```
 
-The key is `<sessions>-<place>`. All four combinations must exist or the picker breaks.
-The displayed price and the link must agree with the Razorpay page. Verified as of the
-first build.
+Every combination the `groups` can produce must have a matching entry in `prices` or the
+picker breaks. The displayed price and the link must agree with the Razorpay page.
 
 Changing any price here means changing the matching `amount` in `api/lib/products.js` too,
 and no two offerings may share a price. See "Booking automation" below for why.
@@ -75,7 +83,6 @@ and no two offerings may share a price. See "Booking automation" below for why.
 | | Online | In person |
 |---|---|---|
 | 1 session | ₹8,000 · JXSLclA | ₹10,000 · 3BS7M02S |
-| 4 sessions | ₹28,000 · H44bYeyF | ₹35,000 · 6fZnuhM |
 
 ## Events and guides come from Google Sheets
 
@@ -142,7 +149,7 @@ Three parts, each doing one job:
 
 1. **`api/book.js`** — where every Payment Page's "Redirect URL" setting points, as
    `https://<site>/api/book?p=<product key>` (the keys are in `api/lib/products.js`,
-   e.g. `counsel-4-online`). Razorpay appends `razorpay_payment_id` to that URL itself.
+   e.g. `counsel-1-online`). Razorpay appends `razorpay_payment_id` to that URL itself.
    The page looks up the product from `p`, builds the Calendly link, and shows a button —
    a real page rather than an instant bounce, so someone who leaves the tab for their UPI
    app and comes back still finds it there.
@@ -253,7 +260,7 @@ python3 -m http.server 4321
 ```
 
 Then check the browser console is clean, the six chapters render, and the picker still
-produces the four correct prices and links.
+produces the two correct prices and links.
 
 ## Known gaps
 
