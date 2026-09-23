@@ -67,7 +67,10 @@ a combination of sessions and place to a price and a link:
 
 The key is `<sessions>-<place>`. All four combinations must exist or the picker breaks.
 The displayed price and the link must agree with the Razorpay page. Verified as of the
-first build:
+first build.
+
+Changing any price here means changing the matching `amount` in `api/lib/products.js` too,
+and no two offerings may share a price. See "Booking automation" below for why.
 
 | | Online | In person |
 |---|---|---|
@@ -125,6 +128,89 @@ form, so the button downloads rather than opening Drive's preview page.
 The sheet ids are in `api/events.js` and `api/guides.js`. They are not secrets, since
 the sheets are link-readable anyway. `SHEET_EVENTS_ID` and `SHEET_GUIDES_ID` environment
 variables override them if the sheets are ever replaced.
+
+## Booking automation
+
+After a Razorpay payment, Razorpay redirects the customer straight to `api/book.js`,
+which shows them their Calendly link on the spot. No email carries the customer's booking
+link; this replaced an earlier email-based version (which replaced Interakt, too
+expensive for what it did) because the redirect page covers the same case for far less
+to maintain. Devika books each package's later sessions herself off the Bookings sheet
+rather than an automated follow-up.
+
+Three parts, each doing one job:
+
+1. **`api/book.js`** — where every Payment Page's "Redirect URL" setting points, as
+   `https://<site>/api/book?p=<product key>` (the keys are in `api/lib/products.js`,
+   e.g. `counsel-4-online`). Razorpay appends `razorpay_payment_id` to that URL itself.
+   The page looks up the product from `p`, builds the Calendly link, and shows a button —
+   a real page rather than an instant bounce, so someone who leaves the tab for their UPI
+   app and comes back still finds it there.
+2. **`api/webhooks/razorpay.js`** — Razorpay calls this on every captured payment
+   (event `payment.captured`). It only records the payment in the Bookings sheet; nothing
+   here reaches the customer, so it existing or failing is invisible to them.
+3. **`api/webhooks/calendly.js`** — Calendly calls this when someone books
+   (`invitee.created`) or cancels (`invitee.canceled`) a slot. A booking updates the
+   sheet. A cancellation always updates the sheet, but only sends an email when Devika
+   was the one who cancelled (a last-minute conflict on her side) — when a client
+   cancels or reschedules themselves, Calendly already emails them, so a second email
+   from us would be noise. This is the one email still sent automatically, because it is
+   the one case Calendly has no wording of its own for.
+
+**These are Payment Pages, not Payment Links.** They look alike and the distinction is
+easy to miss, but it decides which webhook event to listen for. Payment Pages raise
+`payment.captured` and never raise `payment_link.paid`. Subscribing to the wrong one fails
+silently: nothing errors, the endpoint is simply never called. If payments stop showing up
+in the Bookings sheet, check the event subscription in Razorpay before anything else.
+
+**Which offering was bought is worked out from the amount**, both in the webhook and in
+`api/book.js`'s `?p=` parameter, because a Payment Page payment carries nothing else that
+identifies it. The dashboard displays a "Payment Page Title" and a `pl_...` id against
+each payment, but neither is in the webhook payload, and `notes`, `description` and
+`invoice_id` all arrive empty. So **every offering must keep a distinct price**. Two
+offerings priced the same breaks the webhook silently, recording one under the wrong name.
+A price in the `CH` array in `assets/site.js` and the matching `amount` in
+`api/lib/products.js` have to be changed together, along with the Razorpay page itself.
+An amount matching nothing is recorded and logged rather than guessed at.
+
+**Each Payment Page needs its own Redirect URL set**, pointing `api/book.js` at the right
+product — this is a Payment Page setting, separate from the webhook. Mixing up which `p`
+goes on which page sends someone to the wrong Calendly event type after they have already
+paid.
+
+**Every Calendly link carries `utm_source` (the product key) and `utm_content`
+(the Razorpay payment id).** Calendly passes both through to its webhook, which is how a
+booking is matched back to the exact payment rather than guessed from a name or email the
+person may have typed differently. `bookingUrl()` in `api/lib/products.js` builds this,
+and every link handed out has to go through it, including the one Devika resends on a
+cancellation.
+
+`api/lib/products.js` holds the price, name, Calendly event type URL and session count for
+each offering.
+
+**Where bookings are recorded**: a Google Sheet named "Devika website — Bookings", one
+"Bookings" tab, written to by an Apps Script Web App
+(`sheets/bookings-webapp.gs` — paste it into the sheet's Extensions → Apps Script, deploy
+as a Web App, put its `/exec` URL and your chosen shared secret into Vercel as
+`BOOKINGS_SHEET_URL` / `BOOKINGS_SHEET_SECRET`, matching the same secret at the top of the
+`.gs` file). This is a separate mechanism from `api/_sheet.js`: that one only *reads*
+sheets through Google's public gviz endpoint, which cannot write. Devika can open this
+sheet any time to see who paid, who is booked, and who still needs a nudge to book their
+next package session.
+
+**Environment variables** (`.env.example` lists all of them, set the real values only in
+Vercel, never committed):
+
+| Variable | Where it comes from |
+|---|---|
+| `RAZORPAY_WEBHOOK_SECRET` | Set when creating the webhook in Razorpay → Settings → Webhooks. No Razorpay API key is needed anywhere; the webhook payload carries the customer's name and email already |
+| `CALENDLY_WEBHOOK_SIGNING_KEY` | Returned once when the webhook subscription is created via Calendly's API (most plans have no dashboard toggle for this — it is a one-off API call) |
+| `HOST_EMAIL` | Devika's own email, used to tell "client rescheduled" apart from "Devika cancelled" |
+| `RESEND_API_KEY` / `EMAIL_FROM` | resend.com — used only for the reschedule email above; `EMAIL_FROM` needs a domain verified there before it can send to real customers |
+| `BOOKINGS_SHEET_URL` / `BOOKINGS_SHEET_SECRET` | From deploying `sheets/bookings-webapp.gs`, see above |
+
+**Known gap**: `api/lib/products.js` has placeholder Calendly URLs (`REPLACE_ME`) until
+the real Calendly event types exist and their booking page URLs are dropped in.
 
 ## Images
 
