@@ -6,7 +6,12 @@
    page survives someone switching to their banking app for UPI and
    coming back a minute later.
 
-   Each of the four Payment Pages needs its "Redirect URL" (Settings on
+   In-person counseling does not redirect here at all - Devika books that
+   one herself after the client emails her, so its Payment Page's success
+   message just says that directly, with no redirect and nothing to
+   configure here.
+
+   Each of the other Payment Pages needs its "Redirect URL" (Settings on
    the page, not the webhook) set to:
 
      https://<site>/api/book?p=<product key>
@@ -35,20 +40,11 @@ module.exports = async (req, res) => {
 
 function page({ product, link }) {
   const heading = product ? 'Thank you.' : 'Payment received.';
-  let body;
-  if (product && link) {
-    body = `Your ${escapeHtml(product.name.toLowerCase())} is booked as far as payment goes.
-       Tap below to pick a time that works for you.`;
-  } else if (product) {
-    /* A recognised offering with no Calendly link behind it - e.g.
-       in-person counseling, which Devika books herself by email rather
-       than through Calendly. */
-    body = `Your ${escapeHtml(product.name.toLowerCase())} is booked as far as payment goes.
-       Email us and we'll get you on the calendar.`;
-  } else {
-    body = `We couldn't tell which session this was for, so please email us and
+  const body = product
+    ? `Your ${escapeHtml(product.name.toLowerCase())} is booked as far as payment goes.
+       Tap below to pick a time that works for you.`
+    : `We couldn't tell which session this was for, so please email us and
        we'll get you booked by hand.`;
-  }
   const cta = product && link
     ? `<a class="btn" href="${escapeAttr(link)}">Book your session</a>`
     : `<a class="btn" href="mailto:info@drddevikakamat.com">Email us</a>`;
