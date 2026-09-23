@@ -38,13 +38,17 @@ const PRODUCTS = {
   'counsel-1-online': {
     amount: 8000,
     name: 'Holistic counseling (1 session, online)',
-    calendlyUrl: 'https://calendly.com/REPLACE_ME/counseling-online',
+    calendlyUrl: 'https://calendly.com/drddevikakamat--holisticwellness/holistic-councilling-rewiring-energy-alignment',
     sessionsTotal: 1
   },
+  /* In-person has no Calendly link on purpose - Devika books these
+     herself after the client emails her, rather than through Calendly.
+     api/book.js falls back to an "email us" button when calendlyUrl is
+     empty, which is exactly the behaviour wanted here. */
   'counsel-1-person': {
     amount: 10000,
     name: 'Holistic counseling (1 session, in person)',
-    calendlyUrl: 'https://calendly.com/REPLACE_ME/counseling-in-person',
+    calendlyUrl: '',
     sessionsTotal: 1
   },
   'nutrition-4': {

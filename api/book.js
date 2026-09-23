@@ -35,11 +35,20 @@ module.exports = async (req, res) => {
 
 function page({ product, link }) {
   const heading = product ? 'Thank you.' : 'Payment received.';
-  const body = product
-    ? `Your ${escapeHtml(product.name.toLowerCase())} is booked as far as payment goes.
-       Tap below to pick a time that works for you.`
-    : `We couldn't tell which session this was for, so please email us and
+  let body;
+  if (product && link) {
+    body = `Your ${escapeHtml(product.name.toLowerCase())} is booked as far as payment goes.
+       Tap below to pick a time that works for you.`;
+  } else if (product) {
+    /* A recognised offering with no Calendly link behind it - e.g.
+       in-person counseling, which Devika books herself by email rather
+       than through Calendly. */
+    body = `Your ${escapeHtml(product.name.toLowerCase())} is booked as far as payment goes.
+       Email us and we'll get you on the calendar.`;
+  } else {
+    body = `We couldn't tell which session this was for, so please email us and
        we'll get you booked by hand.`;
+  }
   const cta = product && link
     ? `<a class="btn" href="${escapeAttr(link)}">Book your session</a>`
     : `<a class="btn" href="mailto:info@drddevikakamat.com">Email us</a>`;
