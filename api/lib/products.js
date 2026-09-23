@@ -32,7 +32,7 @@ const PRODUCTS = {
   'discovery-call': {
     amount: 2500,
     name: 'Discovery call',
-    calendlyUrl: 'https://calendly.com/REPLACE_ME/discovery-call',
+    calendlyUrl: 'https://calendly.com/drddevikakamat--holisticwellness/soul-alchemy',
     sessionsTotal: 1
   },
   'counsel-1-online': {
