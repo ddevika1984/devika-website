@@ -57,7 +57,13 @@
       '<span><b>About Dr. Devika Kamat</b><i>In her own words</i></span></a>'+
       '<a role="menuitem" class="mobonly" href="#events">'+
       '<span class="dt" style="--c:#CC8A77"></span>'+
-      '<span><b>Events</b><i>Offline &amp; online</i></span></a>';
+      '<span><b>Events</b><i>Offline &amp; online</i></span></a>'+
+      '<a role="menuitem" class="mobonly" href="#gallery">'+
+      '<span class="dt" style="--c:#CC8A77"></span>'+
+      '<span><b>Gallery</b><i>From our sessions</i></span></a>'+
+      '<a role="menuitem" class="mobonly" href="#reviews">'+
+      '<span class="dt" style="--c:#CC8A77"></span>'+
+      '<span><b>Testimonials</b><i>What people say</i></span></a>';
     menu.innerHTML=head+CH.map(function(c){
       var sub=c.f&&c.f.length?c.f[c.f.length-1][1]:c.en;
       return '<a role="menuitem" href="#'+c.id+'"><span class="dt" style="--c:'+c.c+'"></span>'+
