@@ -154,6 +154,40 @@ secrets, since the sheets are link-readable anyway. `SHEET_EVENTS_ID`, `SHEET_GU
 and `SHEET_REVIEWS_ID` environment variables override them if the sheets are ever
 replaced.
 
+## Event and guide detail pages
+
+Every event and every guide also gets its own page, so the title on the site links to
+a URL that can be shared or dropped straight into an ad, an Instagram bio, or a WhatsApp
+message, and opens straight to that one event or guide with its full detail and its
+booking or buy button, rather than the visitor landing on the homepage and having to
+scroll to find it.
+
+`event.html` and `guide.html` are the two pages, one static template each, reused for
+every row. Which row to show comes from the URL: `/event?e=<slug>` and
+`/guide?g=<slug>`. `vercel.json`'s `cleanUrls` is what turns `event.html` into `/event`
+on the live site; hitting `event.html` directly also still works, which is how to test
+this locally with `python3 -m http.server`, since clean URLs are a Vercel-only rewrite.
+
+The slug is worked out from the title, not stored anywhere, so there is nothing to keep
+in sync by hand. `assets/site.js` builds the link on the listing; `assets/detail.js`
+(loaded only by these two pages) rebuilds the same slug from the sheet data to find the
+matching row. An event's slug also has its date appended, since the same title can recur
+(a monthly circle), and would otherwise collide; a guide's slug is just its title, since
+guides do not repeat. If a slug matches nothing, either page shows a plain "not found"
+message with a link back to the site rather than a broken page.
+
+These two pages fetch the same `/api/events` and `/api/guides` the homepage does, so
+they pick up a sheet edit within the same minute the homepage does, and fall back to
+`content/events.json` / `content/guides.json` the same way if the sheet is unreachable.
+There is nothing extra to maintain in the sheets themselves for this to work.
+
+Because the page is filled in by client-side JavaScript rather than rendered on the
+server, a chat app or social network unfurling the link before a person opens it will
+see the generic title and description in the page's `<head>`, not that specific event's.
+Getting a specific event's own preview image and description into a share card would
+need the page to be rendered server-side per slug, which is a bigger change; ask before
+building that if it turns out to matter.
+
 ## Booking automation
 
 After a Razorpay payment, Razorpay redirects the customer straight to `api/book.js`,

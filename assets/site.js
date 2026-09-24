@@ -82,6 +82,16 @@ var CH = [
   function esc(v){return String(v==null?'':v).replace(/[&<>"]/g,function(c){
     return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 
+  /* Turns a title into the slug event.html/guide.html match against. Must
+     build the same slug assets/detail.js does, or the link 404s. Events
+     add the date, since the same title can recur (a monthly circle) and
+     would otherwise collide; guides have no date so the title alone is it. */
+  function slugify(s){
+    return String(s||'').toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+  }
+  function eventSlug(r){return slugify(r.title)+'-'+String(r.date||'').trim()}
+  function guideSlug(r){return slugify(r.title)}
+
   /* Try the sheet, fall back to the committed JSON, and if both fail hand
      back an empty list so the section renders its own empty state. */
   function load(url,fallback){
@@ -233,7 +243,7 @@ var CH = [
           attrs='';
         }
         var meta=[r.format,r.length,free?'Free':r.price].filter(Boolean).join(' · ');
-        return '<div class="it"><div><b>'+esc(r.title)+'</b>'+
+        return '<div class="it"><div><b><a href="/guide?g='+esc(guideSlug(r))+'">'+esc(r.title)+'</a></b>'+
           (r.detail?'<p>'+esc(r.detail)+'</p>':'')+
           (meta?'<span class="mt">'+esc(meta)+'</span>':'')+'</div>'+
           '<a class="pill solid sm" href="'+esc(href)+'"'+attrs+'><span>'+label+'</span></a></div>';
@@ -353,7 +363,7 @@ var CH = [
         var img=usableLink(d.image);
         return '<div class="ev'+(img?' has-img':'')+'">'+
           '<div class="when"><div class="d">'+esc(day)+'</div><div class="m">'+esc(mon)+' '+esc(yr)+'</div></div>'+
-          '<div class="what"><b>'+esc(d.title)+'</b>'+
+          '<div class="what"><b><a href="/event?e='+esc(eventSlug(d))+'">'+esc(d.title)+'</a></b>'+
             (d.detail?'<p>'+esc(d.detail)+'</p>':'')+
             (bits?'<div class="evmeta">'+bits+'</div>':'')+
           '</div>'+
