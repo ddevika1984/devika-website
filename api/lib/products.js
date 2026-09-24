@@ -60,24 +60,36 @@ const PRODUCTS = {
   /* Membership, not a booking - no Calendly event, so no booking email.
      `membership.durationDays` is how long one payment covers, used by the
      webhook to stamp a paid_through date in the Bookings sheet so a
-     monthly Apps Script pass can flag whoever has lapsed. Monthly is a
-     true recurring Razorpay subscription (auto-charged, cancel anytime),
-     so a fresh payment.captured - and a fresh row here - arrives every
-     ~30 days on its own. Annual is a single upfront Payment Page payment
-     covering the full year. */
+     monthly Apps Script pass can flag whoever has lapsed.
+
+     "Monthly" is the try-it plan: one Payment Page payment, ₹1,198,
+     covers one month, nothing auto-renews - to keep going, they pay
+     again by hand next month.
+
+     "Annual" is the commit plan: a real Razorpay *Subscription*
+     (auto-charged, cancel anytime), already live at the picker's
+     `annual` href. It charges the same ₹1,198 every ~30 days on its
+     own, which means **its amount collides with meditation-monthly on
+     purpose** - the usual "every offering needs a distinct price" rule
+     does not apply here. The webhook tells the two apart a different
+     way: a subscription charge's payload carries a `subscription`
+     entity that a one-time Payment Page payment never has, so
+     webhooks/razorpay.js checks for that first and only falls back to
+     amount-matching (which is what actually finds meditation-monthly)
+     when it is absent. See that file for the detail. */
   'meditation-monthly': {
     amount: 1198,
-    name: 'Meditation Club (monthly)',
+    name: 'Meditation Club (monthly, one-time)',
     calendlyUrl: '',
     sessionsTotal: 0,
     membership: { durationDays: 30 }
   },
   'meditation-annual': {
-    amount: 14376,
-    name: 'Meditation Club (annual)',
+    amount: 1198,
+    name: 'Meditation Club (annual, subscription)',
     calendlyUrl: '',
     sessionsTotal: 0,
-    membership: { durationDays: 365 }
+    membership: { durationDays: 30 }
   }
 };
 

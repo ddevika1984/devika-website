@@ -78,17 +78,17 @@ var CH = [
   for_:"For building a practice you will actually keep.",
   det:"Twenty to thirty minutes, a group that sits together regularly. No experience needed and no pressure to say anything. Come when you can, miss it when you cannot.",
   f:[["Meets","Mon, Tue, Thu at 9.15pm"],["Format","Group"]],
-  note:"Pay monthly and cancel whenever you want, or pay once for the year.",
-  /* TODO once the annual Razorpay Payment Page exists: swap annual's href
-     below for its rzp.io link, and its price for whatever Devika sets
-     (₹14,376 assumed - 12 x ₹1,198 - confirm before wiring it in). Left
-     as a mailto so the button still does something sane and never 404s
-     in the meantime. */
+  note:"Try a single month, or subscribe and we will charge ₹1,198 every month until you cancel.",
+  /* TODO once the one-time monthly Razorpay Payment Page exists: swap
+     monthly's href below for its rzp.io link. Left as a mailto so the
+     button still does something sane and never 404s in the meantime.
+     annual's href is the pre-existing, already-live subscription link -
+     unchanged, do not touch without being asked (golden rule 1). */
   picker:{
     groups:[{key:"plan",opts:[["monthly","Monthly"],["annual","Annual"]]}],
     prices:{
-      monthly:{price:"₹1,198/month", href:"https://rzp.io/rzp/POuxLAl"},
-      annual:{price:"₹14,376/year (ask to pay)", href:"mailto:info@drddevikakamat.com?subject=Meditation%20Club%20-%20annual"}
+      monthly:{price:"₹1,198 (one month, ask to pay)", href:"mailto:info@drddevikakamat.com?subject=Meditation%20Club%20-%20one%20month"},
+      annual:{price:"₹1,198/month, billed monthly", href:"https://rzp.io/rzp/POuxLAl"}
     }
   }}
 ];

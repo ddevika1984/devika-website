@@ -289,39 +289,49 @@ the real Calendly event types exist and their booking page URLs are dropped in.
 
 The Meditation Club (the `c6`/"crown" chapter) is a membership, not a booked session -
 `meditation-monthly` and `meditation-annual` in `api/lib/products.js` have no Calendly
-event, same as the guides. Same amount-keyed-product rule as everywhere else applies: the
-monthly price (₹1,198) and the annual price (assumed ₹14,376 = 12 x ₹1,198, **confirm
-with Devika before this goes live**) must each stay distinct from every other offering.
+event, same as the guides. **The two plans are priced identically on purpose** (both
+₹1,198), which breaks the usual "every offering needs a distinct price" rule - see below
+for how the webhook copes.
 
-**Monthly is a real Razorpay subscription** (auto-charged, cancel anytime), already live
-at the picker's `monthly` href. Each month's charge raises its own `payment.captured`,
-so a fresh row lands in the Bookings sheet on its own roughly every 30 days - nothing
-extra to build for that half.
+- **"Monthly" is the try-it plan**: one Payment Page payment, ₹1,198, covers one month,
+  nothing auto-renews. **This Payment Page doesn't exist in Razorpay yet** - Devika needs
+  to create it herself (needs her own OTP to log in), no Redirect URL needed (there's no
+  Calendly step to send anyone to). Until she does, the site's `monthly` picker option
+  points at a `mailto:` link instead, so the button still does something sane rather than
+  404ing. Once she has the real `rzp.io` link, swap it into the `monthly` entry of the
+  picker's `prices` in `assets/data.js` (see the `TODO` comment on that chapter) - same
+  golden-rule-1 care as any other payment link.
+- **"Annual" is the commit plan**: a real Razorpay **Subscription** (auto-charged, cancel
+  anytime), already live at the picker's `annual` href - this is the pre-existing link
+  from before the monthly/annual split, untouched. It charges the same ₹1,198 every ~30
+  days on its own; nothing to build for that half.
 
-**Annual doesn't exist in Razorpay yet.** Devika needs to create it herself (needs her own
-OTP to log in) as a one-time Payment Page priced ₹14,376, no Redirect URL needed (there's
-no Calendly step to send anyone to). Until she does, the site's `annual` option points at
-a `mailto:` link instead of a Razorpay page, so the button still does something sane
-rather than 404ing. Once she has the real `rzp.io` link, swap it into the `annual` entry
-of the picker's `prices` in `assets/site.js` (see the `TODO` comment on that chapter) -
-same golden-rule-1 care as any other payment link.
+**Why amount-matching can't tell them apart, and what does instead**: a subscription
+charge's webhook payload carries a `subscription` entity alongside `payment`; a one-time
+Payment Page payment never has one. `api/webhooks/razorpay.js` checks for that first -
+if present, the payment is `meditation-annual` regardless of amount; only if absent does
+it fall back to the normal `productForAmount` lookup, which is what actually catches
+`meditation-monthly`. If a second subscription product is ever added, this needs to
+start matching on `event.payload.subscription.entity.plan_id` instead of assuming there's
+only one - see the comment in that file.
 
 **Tracking who's lapsed**: every membership payment gets a `paid_through` date stamped
-by the webhook (`paid_at` + 30 days for monthly, + 365 for annual - see
-`product.membership.durationDays` in `products.js`), written to a `paid_through` column in
-the Bookings sheet. `flagLapsedMembers_()` in `sheets/bookings-webapp.gs` finds each
-member's most recent Meditation Club row by email and colours it red once that date has
-passed. It needs to be scheduled once, by hand: open the sheet's Apps Script, click the
-clock icon (Triggers), add a time-driven trigger for `flagLapsedMembers_`, monthly. After
-that, Devika just scrolls the Bookings sheet once a month and drops the red rows from
-WhatsApp.
+by the webhook (`paid_at` + 30 days, for both plans - see `product.membership.durationDays`
+in `products.js`), written to a `paid_through` column in the Bookings sheet.
+`flagLapsedMembers_()` in `sheets/bookings-webapp.gs` finds each member's most recent
+Meditation Club row by email and colours it red once that date has passed. It needs to be
+scheduled once, by hand: open the sheet's Apps Script, click the clock icon (Triggers), add
+a time-driven trigger for `flagLapsedMembers_`, monthly. After that, Devika just scrolls
+the Bookings sheet once a month and drops the red rows from WhatsApp.
 
-Two things she needs to do manually for this to work, since neither is something a code
-change alone can reach:
+Three things she needs to do manually for this to work, since none of them is something a
+code change alone can reach:
 
-1. Add a `paid_through` header to row 1 of the live Bookings sheet (anywhere - columns
+1. Create the one-time "Monthly" Payment Page in Razorpay (₹1,198, no Redirect URL) and
+   send the `rzp.io` link back so it can be wired into `assets/data.js`.
+2. Add a `paid_through` header to row 1 of the live Bookings sheet (anywhere - columns
    are matched by name, not position).
-2. Re-paste `sheets/bookings-webapp.gs` into the sheet's Apps Script (Deploy -> Manage
+3. Re-paste `sheets/bookings-webapp.gs` into the sheet's Apps Script (Deploy -> Manage
    deployments -> pencil -> Version "New version", **not** "New deployment" - keeps the
    same URL, see the gotcha under "Booking automation" above), then add the monthly
    trigger described above.

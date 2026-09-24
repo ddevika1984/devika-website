@@ -16,12 +16,14 @@
    email out of this webhook, so nothing here is on the critical path for
    the customer - this exists purely so Devika has a record of who paid.
 
-   Which offering was bought comes from the amount. See lib/products.js
-   for why, and for the constraint that keeps it working.
+   Which offering was bought comes from the amount, EXCEPT for the
+   Meditation Club's annual subscription - see the branch below and the
+   comment on meditation-annual in lib/products.js for why amount alone
+   is not enough for that one.
    ------------------------------------------------------------------ */
 
 const crypto = require('crypto');
-const { productForAmount } = require('../lib/products.js');
+const { productForAmount, productFor } = require('../lib/products.js');
 const { upsertPayment } = require('../lib/bookings-sheet.js');
 
 module.exports = async (req, res) => {
@@ -60,7 +62,17 @@ module.exports = async (req, res) => {
 
   /* Razorpay works in paise. */
   const rupees = (payment.amount || 0) / 100;
-  const product = productForAmount(rupees);
+
+  /* A subscription charge's payload carries a `subscription` entity
+     alongside `payment`; a one-time Payment Page payment never does. The
+     Meditation Club's annual plan is priced identically to its one-time
+     monthly plan on purpose (same ₹1,198), so amount can't tell them
+     apart here - this can, and has to run first. There is only one
+     subscription product on the site today, so no plan_id lookup yet;
+     if a second one is ever added, match on
+     event.payload.subscription.entity.plan_id instead of assuming. */
+  const subscription = event.payload && event.payload.subscription && event.payload.subscription.entity;
+  const product = subscription ? productFor('meditation-annual') : productForAmount(rupees);
   const email = (payment.email || '').toLowerCase();
   const paidAt = new Date((payment.created_at || Date.now() / 1000) * 1000);
 
