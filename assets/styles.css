@@ -232,6 +232,15 @@ h1.hero em{font-style:normal;color:var(--terra)}
   #about .grid{align-items:start}
   #about .grid>.rise:first-child{display:block;position:sticky;top:clamp(92px,12vh,128px)}
   #about .shot{height:auto;min-height:0;flex:none;aspect-ratio:4/5}
+  /* .flip mirrors which side the photo sits on without touching its
+     position in the HTML - the sticky rule above targets :first-child,
+     so the photo has to stay first in the DOM for the pin-while-you-
+     scroll effect to survive. direction:rtl on the grid swaps the two
+     columns visually; direction:ltr on each child undoes it there, so
+     the text and "trained at" list still read left-to-right, same
+     trick .chap.flip already uses for the chapter sections. */
+  #about.flip .grid{direction:rtl}
+  #about.flip .grid>.rise{direction:ltr}
 }
 .ground{position:relative;z-index:2;width:clamp(20px,2.4vw,30px);height:clamp(20px,2.4vw,30px);
   display:flex;align-items:center;justify-content:center}
