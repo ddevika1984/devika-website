@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Guide — Dr. Devika Kamat</title>
+<meta name="description" content="A downloadable guide from Dr. Devika Kamat.">
+<link rel="icon" href="images/mark.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Dr. Devika Kamat">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body class="doc">
+
+<div class="docbar">
+  <div class="wrap">
+    <a class="mk" href="/"><img src="images/mark.png" alt=""><b>Dr. Devika Kamat</b></a>
+    <a class="pill back" href="/#c2" style="color:var(--cream)"><span>All guides</span></a>
+  </div>
+</div>
+
+<div class="wrap">
+<main id="main" style="--fg:var(--cream);--accent:var(--terra)">
+  <span class="mono">Loading&hellip;</span>
+</main>
+</div>
+
+<footer class="docfoot">
+  <div class="wrap">
+    <a href="/terms">Terms</a>
+    <a href="/privacy">Privacy</a>
+    <a href="/refunds">Refunds</a>
+    <a href="/delivery">Delivery</a>
+    <span class="sep">Dr. Devika Kamat</span>
+  </div>
+</footer>
+
+<script src="assets/detail.js"></script>
+<script>
+(function(){
+  var main=document.getElementById('main');
+  var slug=qparam('g');
+
+  function notFound(){
+    main.innerHTML='<span class="mono">Guide</span>'+
+      '<h1>Not found</h1>'+
+      '<p class="lead">This guide is not available anymore, or the link is wrong.</p>'+
+      '<p style="margin-top:26px"><a class="pill solid" href="/#c2"><span>See all guides</span></a></p>';
+  }
+
+  function render(r){
+    document.title=r.title+' — Dr. Devika Kamat';
+    var desc=r.detail||('A downloadable guide from Dr. Devika Kamat.');
+    var descMeta=document.querySelector('meta[name="description"]');
+    if(descMeta) descMeta.setAttribute('content',desc);
+
+    var free=!r.price||/^free$/i.test(String(r.price).trim());
+    var target=free
+      ? (usableLink(r.file) || usableLink(r.link))
+      : (usableLink(r.link) || usableLink(r.file));
+    var label=free?'Download':'Buy and download';
+    var attrs, href;
+    if(target){
+      href=target;
+      attrs=/^https?:/i.test(target) ? ' target="_blank" rel="noopener"' : ' download';
+    } else {
+      href='mailto:info@drddevikakamat.com?subject='+encodeURIComponent(r.title);
+      label='Ask for this';
+      attrs='';
+    }
+
+    var facts=[];
+    if(r.format) facts.push(['Format',r.format]);
+    if(r.length) facts.push(['Length',r.length]);
+    facts.push(['Price',free?'Free':r.price]);
+
+    main.innerHTML=
+      '<span class="mono">Guide</span>'+
+      '<h1>'+esc(r.title)+'</h1>'+
+      (r.detail?'<p class="lead">'+esc(r.detail)+'</p>':'')+
+      '<div class="facts">'+facts.map(function(p){
+        return '<div><div class="k">'+esc(p[0])+'</div><div class="v">'+esc(p[1])+'</div></div>';
+      }).join('')+'</div>'+
+      '<p style="margin-top:32px"><a class="pill solid" href="'+esc(href)+'"'+attrs+'><span>'+label+'</span></a></p>';
+  }
+
+  load('/api/guides','content/guides.json').then(function(rows){
+    var hit=(rows||[]).filter(function(r){return r&&r.title}).filter(function(r){
+      return slugify(r.title)===slug;
+    })[0];
+    if(!hit){ notFound(); return; }
+    render(hit);
+  }).catch(notFound);
+})();
+</script>
+</body>
+</html>

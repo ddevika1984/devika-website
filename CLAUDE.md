@@ -8,7 +8,7 @@ Read this before changing anything.
 ## The golden rules
 
 1. **Never change a payment link without being asked to.** Every `rzp.io` URL in
-   `assets/site.js` points at a live Razorpay page that takes real money. A wrong link
+   `assets/data.js` points at a live Razorpay page that takes real money. A wrong link
    sends someone to the wrong product, or to a 404 after they have decided to pay.
    If a price shown on the site and the price on the Razorpay page disagree, say so and
    stop. Do not "fix" it by guessing.
@@ -25,19 +25,26 @@ Read this before changing anything.
 
 | I want to change... | Edit this |
 |---|---|
-| The six paid/booked offerings: titles, prices, descriptions, links | the `CH` array at the top of `assets/site.js` |
-| The email address, the events source | the `CONFIG` object at the top of `assets/site.js` |
+| The six paid/booked offerings: titles, prices, descriptions, links | the `CH` array in `assets/data.js` |
+| The email address, the events source | the `CONFIG` object in `assets/data.js` |
 | Hero copy, the About section, the footer, the disclaimer | `index.html` |
 | Colours, spacing, layout, animation | `assets/styles.css` |
 | Events shown in the Events section | `content/events.json` (until the Google Sheet is connected) |
 | The downloadable guides | `content/guides.json` |
+| Reviews shown in the Reviews section | `content/reviews.json` (until the Google Sheet is connected) |
+| The Gallery photos | `<img>` tags directly in `index.html`'s `#gallery` section, files in `images/gallery/` |
 | Photos | `images/` |
 
 ## The `CH` array
 
-One entry per offering, in the order they appear on the page. The order of this array
-also drives the spine navigation and the Offerings dropdown, so reordering it reorders
-the whole site.
+Lives in `assets/data.js`, alongside `CONFIG`. One entry per offering, in the order they
+appear on the page. The order of this array also drives the spine navigation and the
+Offerings dropdown, so reordering it reorders the whole site.
+
+`assets/data.js` is loaded before `assets/detail.js`, `assets/chapter.js` and
+`assets/site.js` on `index.html`, and before `assets/detail.js` and `assets/chapter.js`
+on `offering.html`. Both pages render a chapter from the same `CH` array; see "Event,
+guide and offering detail pages" below.
 
 The hero says "Seven ways to come back to yourself," which is the six `CH` entries plus
 Events, counted as the seventh way to work together. If an entry is added to or removed
@@ -49,7 +56,8 @@ Each entry:
 - `id` — must stay unique and must not change (links point at it)
 - `key`, `sans`, `en` — the chakra labelling
 - `c`, `bg`, `fg` — accent, background and foreground colour for that chapter
-- `t`, `for_`, `det`, `det2` — the copy
+- `t`, `for_`, `det`, `det2` — the copy. `t`, the title, also becomes that offering's
+  slug on `offering.html` (see below), so changing a title changes its URL.
 - `f` — the fact rows, as `[label, value]` pairs
 - `cta` — `{label, href}`. If `href` is empty the button falls back to an email link.
 - `img` — path to the photo
@@ -84,19 +92,25 @@ and no two offerings may share a price. See "Booking automation" below for why.
 |---|---|---|
 | 1 session | ₹8,000 · JXSLclA | ₹10,000 · 3BS7M02S |
 
-## Events and guides come from Google Sheets
+## Events, guides and reviews come from Google Sheets
 
-Devika edits two spreadsheets. The site reads them and updates within about a minute.
+Devika edits these spreadsheets. The site reads them and updates within about a minute.
 No deploy, no pull request, nothing for a developer to do.
 
 | Sheet | Columns |
 |---|---|
-| Devika website — Events | Title, Date, Time, Place, Format, Price, Detail, Link |
+| Devika website — Events | Title, Date, Time, Place, Format, Price, Detail, Link, Image |
 | Devika website — Guides | Title, Detail, Format, Length, Price, File, Link |
+| Devika website — Reviews | Name, Review, Context, Rating |
 
-`api/events.js` and `api/guides.js` read them through Google's gviz endpoint and return
-clean JSON. The browser cannot call Google directly because Google sends no CORS headers,
-which is the only reason these functions exist.
+`api/events.js`, `api/guides.js` and `api/reviews.js` read them through Google's gviz
+endpoint and return clean JSON. The browser cannot call Google directly because Google
+sends no CORS headers, which is the only reason these functions exist.
+
+`Rating` is optional, 1 to 5; leaving it blank hides the stars for that review. `Context`
+is a short line under the name, such as "Holistic counselling client". As with Events and
+Guides, `SHEET_REVIEWS_ID` can be overridden with a Vercel environment variable if the
+sheet is ever replaced, without touching the code.
 
 Three things make this survive a spreadsheet being edited by a human:
 
@@ -112,7 +126,7 @@ Three things make this survive a spreadsheet being edited by a human:
 - **If a sheet is unreachable the page falls back** to the committed copy in `content/`.
   A broken sheet shows slightly stale content rather than an error.
 
-Both sheets must stay shared as **Anyone with the link, Viewer**. If that is turned off,
+Every sheet must stay shared as **Anyone with the link, Viewer**. If that is turned off,
 Google answers 401 and the site silently drops back to `content/`.
 
 Events with a date in the past are hidden automatically. Nothing needs deleting, so the
@@ -128,13 +142,65 @@ means nothing to the person filling in the sheet.
 **File and Link must hold a pasted URL, not an inserted file.** Dropping a file into a
 Sheets cell makes a chip, and the API returns only the chip's visible text, which is the
 filename. There is no way to recover the Drive address from it, so `usableLink` in
-`site.js` rejects anything without a scheme or a `files/` path and the row falls back to
-the email button. A Drive share link is accepted and rewritten to its direct download
-form, so the button downloads rather than opening Drive's preview page.
+`site.js` rejects anything without a scheme or a `files/`/`images/` path and the row
+falls back to the email button. A Drive share link is accepted and rewritten to its
+direct download form, so the button downloads rather than opening Drive's preview page.
 
-The sheet ids are in `api/events.js` and `api/guides.js`. They are not secrets, since
-the sheets are link-readable anyway. `SHEET_EVENTS_ID` and `SHEET_GUIDES_ID` environment
-variables override them if the sheets are ever replaced.
+**An event's `Image` column is optional and goes through that same `usableLink` check.**
+Leave it blank and the event just shows without a photo, no fallback needed there since
+it is not the only way to learn about the event. Paste a Drive share link, any direct
+image URL, or a path to a photo already committed under `images/` (e.g.
+`images/events/standing-tall.webp`, the convention for a flyer or "creative" made for one
+specific event, alongside `images/gallery/` for general photos). Dropping an image file
+straight into the cell produces the same unusable chip as above, so it is quietly ignored
+rather than shown broken.
+
+The sheet ids are in `api/events.js`, `api/guides.js` and `api/reviews.js`. They are not
+secrets, since the sheets are link-readable anyway. `SHEET_EVENTS_ID`, `SHEET_GUIDES_ID`
+and `SHEET_REVIEWS_ID` environment variables override them if the sheets are ever
+replaced.
+
+## Event, guide and offering detail pages
+
+Every event, every guide, and every one of the six `CH` offerings also gets its own page,
+so its title links to a URL that can be shared or dropped straight into an ad, an
+Instagram bio, or a WhatsApp message, and opens straight to that one thing with its full
+detail and its booking, buy or join button, rather than the visitor landing on the
+homepage and having to scroll or click through to find it.
+
+`event.html`, `guide.html` and `offering.html` are the three pages, one static template
+each, reused for every row or entry. Which one to show comes from the URL:
+`/event?e=<slug>`, `/guide?g=<slug>`, `/offering?o=<slug>`. `vercel.json`'s `cleanUrls`
+is what turns `event.html` into `/event` on the live site; hitting `event.html` directly
+also still works, which is how to test this locally with `python3 -m http.server`, since
+clean URLs are a Vercel-only rewrite.
+
+The slug is worked out from the title, not stored anywhere, so there is nothing to keep
+in sync by hand. `assets/site.js` builds the link on the events and guides listings;
+`assets/detail.js` (loaded by all three pages, and by `index.html`) rebuilds the same
+slug from the data to find the matching row or `CH` entry. An event's slug also has its
+date appended, since the same title can recur (a monthly circle), and would otherwise
+collide; a guide's or offering's slug is just its title, since neither repeats. If a slug
+matches nothing, the page shows a plain "not found" message with a link back to the site
+rather than a broken page.
+
+`event.html` and `guide.html` fetch the same `/api/events` and `/api/guides` the
+homepage does, so they pick up a sheet edit within the same minute the homepage does,
+and fall back to `content/events.json` / `content/guides.json` the same way if the sheet
+is unreachable. There is nothing extra to maintain in the sheets themselves for this to
+work. `offering.html` reads `CH` from `assets/data.js` directly, the same array the
+homepage renders from, through the same `chapterHTML`/`wireChapter` functions in
+`assets/chapter.js` that build and wire up each chapter on the homepage — so a chapter
+looks and behaves identically whether it is seen embedded on the homepage or on its own
+page, and there is only one place that knows how to render one, not two that can drift
+apart.
+
+Because the page is filled in by client-side JavaScript rather than rendered on the
+server, a chat app or social network unfurling the link before a person opens it will
+see the generic title and description in the page's `<head>`, not that specific item's.
+Getting a specific event's, guide's or offering's own preview image and description into
+a share card would need the page to be rendered server-side per slug, which is a bigger
+change; ask before building that if it turns out to matter.
 
 ## Booking automation
 
@@ -176,7 +242,7 @@ identifies it. The dashboard displays a "Payment Page Title" and a `pl_...` id a
 each payment, but neither is in the webhook payload, and `notes`, `description` and
 `invoice_id` all arrive empty. So **every offering must keep a distinct price**. Two
 offerings priced the same breaks the webhook silently, recording one under the wrong name.
-A price in the `CH` array in `assets/site.js` and the matching `amount` in
+A price in the `CH` array in `assets/data.js` and the matching `amount` in
 `api/lib/products.js` have to be changed together, along with the Razorpay page itself.
 An amount matching nothing is recorded and logged rather than guessed at.
 
@@ -300,8 +366,8 @@ There is no test suite. Run a local server and look at the page:
 python3 -m http.server 4321
 ```
 
-Then check the browser console is clean, the six chapters render, and the picker still
-produces the two correct prices and links.
+Then check the browser console is clean, the six chapters render, the picker still
+produces the two correct prices and links, and the Gallery and Reviews sections render.
 
 ## Known gaps
 

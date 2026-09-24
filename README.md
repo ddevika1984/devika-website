@@ -16,18 +16,25 @@ Then open http://localhost:4321.
 
 ```
 index.html            the page
+event.html             one event's own page, at /event?e=<slug>
+guide.html             one guide's own page, at /guide?g=<slug>
+offering.html          one offering's own page, at /offering?o=<slug>
 assets/styles.css     all styling
-assets/site.js        the seven offerings (CH), config, and behaviour
-api/                  reads the Google Sheets behind Events and Guides
+assets/data.js         the six offerings (CH) and config
+assets/detail.js       slug/link helpers shared by every page above
+assets/chapter.js      renders one CH entry, shared by index.html and offering.html
+assets/site.js         homepage-only behaviour
+api/                  reads the Google Sheets behind Events, Guides and Reviews
 content/events.json   fallback copy, used only if the sheet is unreachable
 content/guides.json   fallback copy, used only if the sheet is unreachable
+content/reviews.json  fallback copy, used only if the sheet is unreachable
 images/               photos and brand marks
 files/                the guide PDFs and audio
 ```
 
 ## Making a change
 
-Most edits are to the `CH` array or the `CONFIG` object at the top of `assets/site.js`.
+Most edits are to the `CH` array or the `CONFIG` object in `assets/data.js`.
 See [CLAUDE.md](CLAUDE.md) for what lives where and what must not be touched without
 checking first.
 

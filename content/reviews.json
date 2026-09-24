@@ -1,0 +1,14 @@
+[
+  {
+    "title": "Add a client's name here",
+    "context": "e.g. Holistic counselling client",
+    "review": "Placeholder review. Replace this row once the Google Sheet is connected, or edit it directly here.",
+    "rating": "5"
+  },
+  {
+    "title": "Second placeholder",
+    "context": "e.g. Integrative nutrition client",
+    "review": "Second placeholder review. Same idea.",
+    "rating": "5"
+  }
+]

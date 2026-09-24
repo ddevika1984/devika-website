@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Event — Dr. Devika Kamat</title>
+<meta name="description" content="Event details and booking, from Dr. Devika Kamat.">
+<link rel="icon" href="images/mark.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Dr. Devika Kamat">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body class="doc">
+
+<div class="docbar">
+  <div class="wrap">
+    <a class="mk" href="/"><img src="images/mark.png" alt=""><b>Dr. Devika Kamat</b></a>
+    <a class="pill back" href="/#events" style="color:var(--cream)"><span>All events</span></a>
+  </div>
+</div>
+
+<div class="wrap">
+<main id="main" style="--fg:var(--cream);--accent:var(--terra)">
+  <span class="mono">Loading&hellip;</span>
+</main>
+</div>
+
+<footer class="docfoot">
+  <div class="wrap">
+    <a href="/terms">Terms</a>
+    <a href="/privacy">Privacy</a>
+    <a href="/refunds">Refunds</a>
+    <a href="/delivery">Delivery</a>
+    <span class="sep">Dr. Devika Kamat</span>
+  </div>
+</footer>
+
+<script src="assets/detail.js"></script>
+<script>
+(function(){
+  var MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var main=document.getElementById('main');
+  var slug=qparam('e');
+
+  function notFound(){
+    main.innerHTML='<span class="mono">Event</span>'+
+      '<h1>Not found</h1>'+
+      '<p class="lead">This event is not available anymore, it may already have happened or been taken down.</p>'+
+      '<p style="margin-top:26px"><a class="pill solid" href="/#events"><span>See what is on</span></a></p>';
+  }
+
+  function render(d){
+    document.title=d.title+' — Dr. Devika Kamat';
+    var desc=d.detail||('An event with Dr. Devika Kamat.');
+    var descMeta=document.querySelector('meta[name="description"]');
+    if(descMeta) descMeta.setAttribute('content',desc);
+
+    var parts=String(d.date).split('-');
+    var day=parts[2]||'--', mon=MONTHS[(parseInt(parts[1],10)||1)-1]||'', yr=parts[0]||'';
+
+    var facts=[['Date',(mon+' '+day+', '+yr)]];
+    if(d.time) facts.push(['Time',d.time]);
+    if(d.place) facts.push(['Place',d.place]);
+    if(d.format) facts.push(['Format',d.format]);
+    if(d.price) facts.push(['Price',d.price]);
+
+    var img=usableLink(d.image);
+    var href=d.link||('mailto:info@drddevikakamat.com?subject='+encodeURIComponent(d.title));
+
+    main.innerHTML=
+      '<span class="mono">Event</span>'+
+      '<h1>'+esc(d.title)+'</h1>'+
+      (img?'<img class="heroimg" src="'+esc(img)+'" alt="">':'')+
+      (d.detail?'<p class="lead">'+esc(d.detail)+'</p>':'')+
+      '<div class="facts">'+facts.map(function(p){
+        return '<div><div class="k">'+esc(p[0])+'</div><div class="v">'+esc(p[1])+'</div></div>';
+      }).join('')+'</div>'+
+      '<p style="margin-top:32px"><a class="pill solid" href="'+esc(href)+'" target="_blank" rel="noopener"><span>Reserve a place</span></a></p>';
+  }
+
+  load('/api/events','content/events.json').then(function(rows){
+    var hit=(rows||[]).filter(function(r){return r&&r.title&&r.date}).filter(function(r){
+      return (slugify(r.title)+'-'+String(r.date).trim())===slug;
+    })[0];
+    if(!hit){ notFound(); return; }
+    render(hit);
+  }).catch(notFound);
+})();
+</script>
+</body>
+</html>

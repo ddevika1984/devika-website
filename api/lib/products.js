@@ -23,7 +23,7 @@
    alone rather than guessed at, and logged so it can be spotted.
 
    Prices must agree with the Razorpay page, same rule as the CH array in
-   assets/site.js. Verified against site.js as of the first build.
+   assets/data.js. Verified against that array as of the first build.
 
    Calendly URLs are placeholders until the real event types exist.
    ------------------------------------------------------------------ */
