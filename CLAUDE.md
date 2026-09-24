@@ -287,7 +287,7 @@ the real Calendly event types exist and their booking page URLs are dropped in.
 
 ## Meditation Club membership (who's paid, who hasn't)
 
-The Meditation Club (the `c6`/"crown" chapter) is a membership, not a booked session -
+The Meditation Club (the `meditation-club`/"crown" chapter) is a membership, not a booked session -
 `meditation-monthly` and `meditation-annual` in `api/lib/products.js` have no Calendly
 event, same as the guides. **The two plans are priced identically on purpose** (both
 ₹1,198), which breaks the usual "every offering needs a distinct price" rule - see below
