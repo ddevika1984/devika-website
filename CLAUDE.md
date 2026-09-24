@@ -31,6 +31,8 @@ Read this before changing anything.
 | Colours, spacing, layout, animation | `assets/styles.css` |
 | Events shown in the Events section | `content/events.json` (until the Google Sheet is connected) |
 | The downloadable guides | `content/guides.json` |
+| Reviews shown in the Reviews section | `content/reviews.json` (until the Google Sheet is connected) |
+| The Gallery photos | `<img>` tags directly in `index.html`'s `#gallery` section, files in `images/gallery/` |
 | Photos | `images/` |
 
 ## The `CH` array
@@ -84,19 +86,30 @@ and no two offerings may share a price. See "Booking automation" below for why.
 |---|---|---|
 | 1 session | ₹8,000 · JXSLclA | ₹10,000 · 3BS7M02S |
 
-## Events and guides come from Google Sheets
+## Events, guides and reviews come from Google Sheets
 
-Devika edits two spreadsheets. The site reads them and updates within about a minute.
+Devika edits these spreadsheets. The site reads them and updates within about a minute.
 No deploy, no pull request, nothing for a developer to do.
 
 | Sheet | Columns |
 |---|---|
 | Devika website — Events | Title, Date, Time, Place, Format, Price, Detail, Link |
 | Devika website — Guides | Title, Detail, Format, Length, Price, File, Link |
+| Devika website — Reviews | Name, Review, Context, Rating |
 
-`api/events.js` and `api/guides.js` read them through Google's gviz endpoint and return
-clean JSON. The browser cannot call Google directly because Google sends no CORS headers,
-which is the only reason these functions exist.
+`api/events.js`, `api/guides.js` and `api/reviews.js` read them through Google's gviz
+endpoint and return clean JSON. The browser cannot call Google directly because Google
+sends no CORS headers, which is the only reason these functions exist.
+
+**The Reviews sheet does not exist yet.** `SHEET_REVIEWS_ID` in `api/reviews.js` is empty
+on purpose rather than pointing at a real sheet, which is what makes the Reviews section
+render the placeholder rows in `content/reviews.json` instead of erroring. To go live:
+create a sheet named "Devika website — Reviews" with the columns above, share it as
+**Anyone with the link, Viewer** (matching Events and Guides below), and either put its id
+straight into `SHEET_REVIEWS_ID` or set the `SHEET_REVIEWS_ID` environment variable in
+Vercel, the same override pattern `SHEET_EVENTS_ID` and `SHEET_GUIDES_ID` already use.
+`Rating` is optional, 1 to 5; leaving it blank hides the stars for that review. `Context`
+is a short line under the name, such as "Holistic counselling client".
 
 Three things make this survive a spreadsheet being edited by a human:
 
@@ -112,7 +125,7 @@ Three things make this survive a spreadsheet being edited by a human:
 - **If a sheet is unreachable the page falls back** to the committed copy in `content/`.
   A broken sheet shows slightly stale content rather than an error.
 
-Both sheets must stay shared as **Anyone with the link, Viewer**. If that is turned off,
+Every sheet must stay shared as **Anyone with the link, Viewer**. If that is turned off,
 Google answers 401 and the site silently drops back to `content/`.
 
 Events with a date in the past are hidden automatically. Nothing needs deleting, so the
@@ -132,9 +145,10 @@ filename. There is no way to recover the Drive address from it, so `usableLink` 
 the email button. A Drive share link is accepted and rewritten to its direct download
 form, so the button downloads rather than opening Drive's preview page.
 
-The sheet ids are in `api/events.js` and `api/guides.js`. They are not secrets, since
-the sheets are link-readable anyway. `SHEET_EVENTS_ID` and `SHEET_GUIDES_ID` environment
-variables override them if the sheets are ever replaced.
+The sheet ids are in `api/events.js`, `api/guides.js` and `api/reviews.js`. They are not
+secrets, since the sheets are link-readable anyway. `SHEET_EVENTS_ID`, `SHEET_GUIDES_ID`
+and `SHEET_REVIEWS_ID` environment variables override them if the sheets are ever
+replaced.
 
 ## Booking automation
 
@@ -259,12 +273,16 @@ There is no test suite. Run a local server and look at the page:
 python3 -m http.server 4321
 ```
 
-Then check the browser console is clean, the six chapters render, and the picker still
-produces the two correct prices and links.
+Then check the browser console is clean, the six chapters render, the picker still
+produces the two correct prices and links, and the Gallery and Reviews sections render
+(the latter from `content/reviews.json` until a real sheet exists).
 
 ## Known gaps
 
 - The guides are placeholder rows.
+- The Reviews sheet does not exist yet; the section shows the placeholder rows in
+  `content/reviews.json`. See "Events, guides and reviews come from Google Sheets".
+- The Gallery section has no real photos yet.
 - Terms, privacy, refund and delivery policy pages do not exist yet. Razorpay requires
   them.
 

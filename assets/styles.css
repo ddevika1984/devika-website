@@ -200,6 +200,29 @@ h1.hero em{font-style:normal;color:var(--terra)}
 .trained .b{font-family:var(--mono);font-size:9px;letter-spacing:.11em;text-transform:uppercase;
   color:color-mix(in srgb,var(--fg) 55%,transparent);margin-left:auto;text-align:right}
 
+/* gallery */
+#gallery{scroll-margin-top:86px;--accent:#CC8A77;background:#171310;color:var(--cream);
+  padding:clamp(72px,10vh,140px) 0}
+#gallery .blurb{color:rgba(240,236,220,.80);font-size:15.5px;max-width:none;line-height:1.6;margin-top:10px}
+#gallery h2{font-size:clamp(28px,4vw,54px);font-weight:200;margin-top:18px;max-width:20ch}
+.galgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin-top:34px}
+.galgrid img{width:100%;height:260px;object-fit:cover;border-radius:3px;display:block;
+  filter:grayscale(.5) contrast(.94) brightness(.92);transition:filter .4s}
+.galgrid img:hover{filter:none}
+
+/* reviews */
+#reviews{scroll-margin-top:86px;--accent:#CC8A77;background:#100D0C;color:var(--cream);
+  padding:clamp(72px,10vh,140px) 0;border-top:1px solid rgba(240,236,220,.1)}
+#reviews h2{font-size:clamp(28px,4vw,54px);font-weight:200;margin-top:18px;max-width:20ch}
+.rvgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px;margin-top:34px}
+.rv{padding:22px;border:1px solid rgba(240,236,220,.14);border-radius:4px;
+  background:rgba(240,236,220,.03);display:flex;flex-direction:column;gap:12px}
+.rvstars{color:var(--accent);font-size:14px;letter-spacing:.1em}
+.rv p{font-size:15px;line-height:1.62;color:rgba(240,236,220,.85)}
+.rvwho b{display:block;font-weight:300;font-size:14.5px}
+.rvwho span{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.14em;
+  text-transform:uppercase;color:rgba(240,236,220,.55);margin-top:4px}
+
 /* The about photo used to stretch to the full height of the text column, which made it
    a very tall sliver. It now holds a 4:5 portrait and sticks as the copy scrolls past,
    so the top edges still line up and the column never reads as half empty.

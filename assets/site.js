@@ -14,6 +14,8 @@ var CONFIG = {
   eventsFallback: 'content/events.json',
   guidesUrl: '/api/guides',
   guidesFallback: 'content/guides.json',
+  reviewsUrl: '/api/reviews',
+  reviewsFallback: 'content/reviews.json',
   email: 'info@drddevikakamat.com'
 };
 
@@ -360,6 +362,37 @@ var CH = [
     }
 
     load(CONFIG.eventsUrl,CONFIG.eventsFallback).then(render);
+  })();
+
+  /* ---------- reviews ---------- */
+  (function(){
+    var list=document.getElementById('reviewgrid'); if(!list) return;
+
+    function stars(rating){
+      var n=Math.round(Number(rating));
+      if(!n||n<1) return '';
+      n=Math.min(n,5);
+      return '<div class="rvstars" aria-hidden="true">'+'&#9733;'.repeat(n)+'&#9734;'.repeat(5-n)+'</div>';
+    }
+
+    function render(rows){
+      rows=(rows||[]).filter(function(r){return r && r.title && r.review});
+      if(!rows.length){
+        list.innerHTML='<div class="evempty">New reviews are posted here as they come in.</div>';
+        return;
+      }
+      list.innerHTML=rows.map(function(r){
+        return '<div class="rv">'+
+          stars(r.rating)+
+          '<p>'+esc(r.review)+'</p>'+
+          '<div class="rvwho"><b>'+esc(r.title)+'</b>'+
+            (r.context?'<span>'+esc(r.context)+'</span>':'')+
+          '</div>'+
+        '</div>';
+      }).join('');
+    }
+
+    load(CONFIG.reviewsUrl,CONFIG.reviewsFallback).then(render);
   })();
 
   /* ---------- scroll state ---------- */
