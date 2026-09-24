@@ -282,7 +282,6 @@ produces the two correct prices and links, and the Gallery and Reviews sections 
 - The guides are placeholder rows.
 - The Reviews sheet does not exist yet; the section shows the placeholder rows in
   `content/reviews.json`. See "Events, guides and reviews come from Google Sheets".
-- The Gallery section has no real photos yet.
 - Terms, privacy, refund and delivery policy pages do not exist yet. Razorpay requires
   them.
 
