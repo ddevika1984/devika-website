@@ -349,12 +349,14 @@ var CH = [
         var bits=[d.time,d.place,d.format,d.price].filter(Boolean)
           .map(function(x){return '<span>'+esc(x)+'</span>'}).join('');
         var href=d.link||('mailto:'+CONFIG.email+'?subject='+encodeURIComponent(d.title));
-        return '<div class="ev">'+
+        var img=usableLink(d.image);
+        return '<div class="ev'+(img?' has-img':'')+'">'+
           '<div class="when"><div class="d">'+esc(day)+'</div><div class="m">'+esc(mon)+' '+esc(yr)+'</div></div>'+
           '<div class="what"><b>'+esc(d.title)+'</b>'+
             (d.detail?'<p>'+esc(d.detail)+'</p>':'')+
             (bits?'<div class="evmeta">'+bits+'</div>':'')+
           '</div>'+
+          (img?'<img class="evimg" src="'+esc(img)+'" alt="" loading="lazy" decoding="async">':'')+
           '<div class="act"><a class="pill solid" href="'+esc(href)+'" target="_blank" rel="noopener">'+
             '<span>Reserve a place</span></a></div>'+
         '</div>';

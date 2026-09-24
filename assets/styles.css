@@ -327,6 +327,8 @@ h1.hero em{font-style:normal;color:var(--terra)}
 .ev .what .evmeta{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:9px;
   font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
   color:rgba(240,236,220,.66)}
+.ev.has-img{grid-template-columns:78px minmax(0,1fr) 96px auto}
+.ev .evimg{width:96px;height:96px;object-fit:cover;border-radius:4px;display:block}
 .ev .act{display:flex;gap:8px;align-items:center;white-space:nowrap}
 .ev .kill{width:28px;height:28px;border-radius:50%;border:1px solid rgba(240,236,220,.25);
   display:none;align-items:center;justify-content:center;font-size:14px;line-height:1;
@@ -357,7 +359,8 @@ h1.hero em{font-style:normal;color:var(--terra)}
   .facts div:nth-child(even){padding-left:16px}
   .kit .it{grid-template-columns:minmax(0,1fr)}
   .kit .it .pill.sm{justify-self:start;margin-top:12px}
-  .ev{grid-template-columns:60px minmax(0,1fr)}
+  .ev,.ev.has-img{grid-template-columns:60px minmax(0,1fr)}
+  .ev .evimg{grid-column:2;width:100%;max-width:280px;height:160px;margin-top:10px}
   .ev .act{grid-column:2;justify-content:flex-start;margin-top:10px}
 }
 

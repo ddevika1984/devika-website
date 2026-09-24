@@ -46,5 +46,6 @@ module.exports = async (req, res) =>
     format: r.format || '',
     price:  r.price  || '',
     detail: r.detail || '',
-    link:   r.link   || ''
+    link:   r.link   || '',
+    image:  r.image  || ''
   }));
