@@ -62,6 +62,17 @@ module.exports = async (req, res) => {
   const rupees = (payment.amount || 0) / 100;
   const product = productForAmount(rupees);
   const email = (payment.email || '').toLowerCase();
+  const paidAt = new Date((payment.created_at || Date.now() / 1000) * 1000);
+
+  /* Membership products (the Meditation Club) carry a durationDays that
+     says how long this one payment covers. Stamping paid_through here,
+     at capture time, means the Bookings sheet can flag a lapsed member
+     with a plain date comparison - see flagLapsedMembers_ in
+     sheets/bookings-webapp.gs - without recomputing it from paid_at every
+     time the sheet is checked. */
+  const paidThrough = product && product.membership
+    ? new Date(paidAt.getTime() + product.membership.durationDays * 24 * 60 * 60 * 1000).toISOString()
+    : '';
 
   try {
     await upsertPayment({
@@ -73,7 +84,8 @@ module.exports = async (req, res) => {
       customer_email: email,
       customer_phone: payment.contact || '',
       amount: rupees,
-      paid_at: new Date((payment.created_at || Date.now() / 1000) * 1000).toISOString()
+      paid_at: paidAt.toISOString(),
+      paid_through: paidThrough
     });
   } catch (err) {
     /* Log and still 200 - Razorpay retries on non-2xx, and a sheet hiccup

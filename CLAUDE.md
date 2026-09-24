@@ -219,6 +219,47 @@ Vercel, never committed):
 **Known gap**: `api/lib/products.js` has placeholder Calendly URLs (`REPLACE_ME`) until
 the real Calendly event types exist and their booking page URLs are dropped in.
 
+## Meditation Club membership (who's paid, who hasn't)
+
+The Meditation Club (the `c6`/"crown" chapter) is a membership, not a booked session -
+`meditation-monthly` and `meditation-annual` in `api/lib/products.js` have no Calendly
+event, same as the guides. Same amount-keyed-product rule as everywhere else applies: the
+monthly price (₹1,198) and the annual price (assumed ₹14,376 = 12 x ₹1,198, **confirm
+with Devika before this goes live**) must each stay distinct from every other offering.
+
+**Monthly is a real Razorpay subscription** (auto-charged, cancel anytime), already live
+at the picker's `monthly` href. Each month's charge raises its own `payment.captured`,
+so a fresh row lands in the Bookings sheet on its own roughly every 30 days - nothing
+extra to build for that half.
+
+**Annual doesn't exist in Razorpay yet.** Devika needs to create it herself (needs her own
+OTP to log in) as a one-time Payment Page priced ₹14,376, no Redirect URL needed (there's
+no Calendly step to send anyone to). Until she does, the site's `annual` option points at
+a `mailto:` link instead of a Razorpay page, so the button still does something sane
+rather than 404ing. Once she has the real `rzp.io` link, swap it into the `annual` entry
+of the picker's `prices` in `assets/site.js` (see the `TODO` comment on that chapter) -
+same golden-rule-1 care as any other payment link.
+
+**Tracking who's lapsed**: every membership payment gets a `paid_through` date stamped
+by the webhook (`paid_at` + 30 days for monthly, + 365 for annual - see
+`product.membership.durationDays` in `products.js`), written to a `paid_through` column in
+the Bookings sheet. `flagLapsedMembers_()` in `sheets/bookings-webapp.gs` finds each
+member's most recent Meditation Club row by email and colours it red once that date has
+passed. It needs to be scheduled once, by hand: open the sheet's Apps Script, click the
+clock icon (Triggers), add a time-driven trigger for `flagLapsedMembers_`, monthly. After
+that, Devika just scrolls the Bookings sheet once a month and drops the red rows from
+WhatsApp.
+
+Two things she needs to do manually for this to work, since neither is something a code
+change alone can reach:
+
+1. Add a `paid_through` header to row 1 of the live Bookings sheet (anywhere - columns
+   are matched by name, not position).
+2. Re-paste `sheets/bookings-webapp.gs` into the sheet's Apps Script (Deploy -> Manage
+   deployments -> pencil -> Version "New version", **not** "New deployment" - keeps the
+   same URL, see the gotcha under "Booking automation" above), then add the monthly
+   trigger described above.
+
 ## Images
 
 Source photos are HEIC or large JPEG. They are converted to 1200x1500 WebP before being

@@ -56,12 +56,33 @@ const PRODUCTS = {
     name: 'Integrative nutrition',
     calendlyUrl: 'https://calendly.com/drddevikakamat--holisticwellness/integrative-nutrition',
     sessionsTotal: 4
+  },
+  /* Membership, not a booking - no Calendly event, so no booking email.
+     `membership.durationDays` is how long one payment covers, used by the
+     webhook to stamp a paid_through date in the Bookings sheet so a
+     monthly Apps Script pass can flag whoever has lapsed. Monthly is a
+     true recurring Razorpay subscription (auto-charged, cancel anytime),
+     so a fresh payment.captured - and a fresh row here - arrives every
+     ~30 days on its own. Annual is a single upfront Payment Page payment
+     covering the full year. */
+  'meditation-monthly': {
+    amount: 1198,
+    name: 'Meditation Club (monthly)',
+    calendlyUrl: '',
+    sessionsTotal: 0,
+    membership: { durationDays: 30 }
+  },
+  'meditation-annual': {
+    amount: 14376,
+    name: 'Meditation Club (annual)',
+    calendlyUrl: '',
+    sessionsTotal: 0,
+    membership: { durationDays: 365 }
   }
 };
 
-/* The meditation club (a monthly subscription) and the paid guides have
-   no Calendly event behind them, so they are deliberately absent and
-   their payments are recorded without a booking email. */
+/* The paid guides have no Calendly event behind them either, so their
+   payments are recorded without a booking email the same way. */
 function productForAmount(rupees) {
   const amount = Number(rupees);
   if (!amount) return null;

@@ -9,23 +9,36 @@
    The sheet needs one tab named "Bookings" with this header row in row 1:
 
    payment_id | reference_id | product_name | customer_name |
-   customer_email | customer_phone | amount | paid_at | sessions_total |
-   sessions_booked | status | calendly_event_uri | calendly_start_time |
-   calendly_end_time | followup_sent | last_updated
+   customer_email | customer_phone | amount | paid_at | paid_through |
+   sessions_total | sessions_booked | status | calendly_event_uri |
+   calendly_start_time | calendly_end_time | followup_sent | last_updated
 
    Column order does not matter as long as every header above is present
    somewhere in row 1 - this script looks columns up by name, the same
    way the rest of the site reads its sheets.
+
+   paid_through is blank for anything that is not a membership product
+   (a one-off session has no "through" date). For the Meditation Club it
+   is stamped by the webhook at payment time - see products.js - and is
+   what flagLapsedMembers_ below reads to decide who has lapsed.
+
+   flagLapsedMembers_ is not wired to run itself. Once this file is
+   pasted in, open the clock icon (Triggers) on the left, add a
+   time-driven trigger for flagLapsedMembers_, monthly, whatever day
+   suits - it colours a member's most recent Meditation Club row red
+   once their paid_through date has passed, so scrolling the sheet once
+   a month is enough to see who to drop from WhatsApp.
    ------------------------------------------------------------------ */
 
 var SHARED_SECRET = 'REPLACE_ME_WITH_A_RANDOM_STRING';
 var SHEET_NAME = 'Bookings';
+var LAPSED_COLOR = '#f4c7c3';
 
 var COLUMNS = [
   'payment_id', 'reference_id', 'product_name', 'customer_name',
-  'customer_email', 'customer_phone', 'amount', 'paid_at', 'sessions_total',
-  'sessions_booked', 'status', 'calendly_event_uri', 'calendly_start_time',
-  'calendly_end_time', 'followup_sent', 'last_updated'
+  'customer_email', 'customer_phone', 'amount', 'paid_at', 'paid_through',
+  'sessions_total', 'sessions_booked', 'status', 'calendly_event_uri',
+  'calendly_start_time', 'calendly_end_time', 'followup_sent', 'last_updated'
 ];
 
 function sheet_() {
@@ -109,6 +122,7 @@ function upsertPayment_(body) {
     customer_phone: body.customer_phone,
     amount: body.amount,
     paid_at: body.paid_at,
+    paid_through: body.paid_through || '',
     sessions_total: body.sessions_total,
     sessions_booked: 0,
     status: 'paid',
@@ -226,6 +240,46 @@ function pendingFollowups_() {
     }
   }
   return out;
+}
+
+/* Run monthly (see the file header for how to schedule it). Finds each
+   member's most recent Meditation Club row by email - a monthly
+   subscriber gets a fresh row every ~30 days, so earlier rows are just
+   history - and colours that row red if its paid_through date has
+   passed, clears the colour otherwise. Only touches Meditation Club
+   rows; everything else in the sheet is left alone. */
+function flagLapsedMembers_() {
+  var sheet = sheet_();
+  var map = headerMap_(sheet);
+  var lastRow = sheet.getLastRow();
+  if (lastRow < 2) return;
+
+  var nameCol = map['product_name'];
+  var emailCol = map['customer_email'];
+  var ptCol = map['paid_through'];
+  if (nameCol === undefined || emailCol === undefined || ptCol === undefined) {
+    throw new Error('missing product_name, customer_email or paid_through column');
+  }
+
+  var names = sheet.getRange(2, nameCol + 1, lastRow - 1, 1).getValues();
+  var emails = sheet.getRange(2, emailCol + 1, lastRow - 1, 1).getValues();
+
+  var latestRowForEmail = {};
+  for (var i = 0; i < names.length; i++) {
+    var productName = String(names[i][0]);
+    if (productName.indexOf('Meditation Club') !== 0) continue;
+    var email = String(emails[i][0]).toLowerCase() || ('row-' + (i + 2)); // no email: treat as its own member so the row is still checked
+    latestRowForEmail[email] = i + 2; // later rows overwrite, so this ends up the latest
+  }
+
+  var today = new Date();
+  Object.keys(latestRowForEmail).forEach(function (email) {
+    var r = latestRowForEmail[email];
+    var paidThroughRaw = sheet.getRange(r, ptCol + 1).getValue();
+    var paidThrough = paidThroughRaw ? new Date(paidThroughRaw) : null;
+    var lapsed = paidThrough && paidThrough < today;
+    sheet.getRange(r, 1, 1, sheet.getLastColumn()).setBackground(lapsed ? LAPSED_COLOR : null);
+  });
 }
 
 /* Apps Script Web Apps cannot send a non-200 HTTP status from doGet/doPost
