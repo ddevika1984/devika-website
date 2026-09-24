@@ -101,15 +101,10 @@ No deploy, no pull request, nothing for a developer to do.
 endpoint and return clean JSON. The browser cannot call Google directly because Google
 sends no CORS headers, which is the only reason these functions exist.
 
-**The Reviews sheet does not exist yet.** `SHEET_REVIEWS_ID` in `api/reviews.js` is empty
-on purpose rather than pointing at a real sheet, which is what makes the Reviews section
-render the placeholder rows in `content/reviews.json` instead of erroring. To go live:
-create a sheet named "Devika website — Reviews" with the columns above, share it as
-**Anyone with the link, Viewer** (matching Events and Guides below), and either put its id
-straight into `SHEET_REVIEWS_ID` or set the `SHEET_REVIEWS_ID` environment variable in
-Vercel, the same override pattern `SHEET_EVENTS_ID` and `SHEET_GUIDES_ID` already use.
 `Rating` is optional, 1 to 5; leaving it blank hides the stars for that review. `Context`
-is a short line under the name, such as "Holistic counselling client".
+is a short line under the name, such as "Holistic counselling client". As with Events and
+Guides, `SHEET_REVIEWS_ID` can be overridden with a Vercel environment variable if the
+sheet is ever replaced, without touching the code.
 
 Three things make this survive a spreadsheet being edited by a human:
 
@@ -274,14 +269,11 @@ python3 -m http.server 4321
 ```
 
 Then check the browser console is clean, the six chapters render, the picker still
-produces the two correct prices and links, and the Gallery and Reviews sections render
-(the latter from `content/reviews.json` until a real sheet exists).
+produces the two correct prices and links, and the Gallery and Reviews sections render.
 
 ## Known gaps
 
 - The guides are placeholder rows.
-- The Reviews sheet does not exist yet; the section shows the placeholder rows in
-  `content/reviews.json`. See "Events, guides and reviews come from Google Sheets".
 - Terms, privacy, refund and delivery policy pages do not exist yet. Razorpay requires
   them.
 
