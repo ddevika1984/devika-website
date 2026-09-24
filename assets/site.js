@@ -189,8 +189,9 @@ var CH = [
     var drive=/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?[^#]*id=)([-\w]{16,})/.exec(s);
     if(drive) return 'https://drive.google.com/uc?export=download&id='+drive[1];
     if(/^https?:\/\//i.test(s)) return s;
-    /* a file committed alongside the site, e.g. files/morning.pdf */
-    if(/^\/?files\/[^\s]+\.[a-z0-9]{2,5}$/i.test(s)) return s;
+    /* a file committed alongside the site, e.g. files/morning.pdf or
+       images/events/standing-tall.webp */
+    if(/^\/?(files|images)\/[^\s]+\.[a-z0-9]{2,5}$/i.test(s)) return s;
     return '';
   }
 

@@ -136,15 +136,18 @@ means nothing to the person filling in the sheet.
 **File and Link must hold a pasted URL, not an inserted file.** Dropping a file into a
 Sheets cell makes a chip, and the API returns only the chip's visible text, which is the
 filename. There is no way to recover the Drive address from it, so `usableLink` in
-`site.js` rejects anything without a scheme or a `files/` path and the row falls back to
-the email button. A Drive share link is accepted and rewritten to its direct download
-form, so the button downloads rather than opening Drive's preview page.
+`site.js` rejects anything without a scheme or a `files/`/`images/` path and the row
+falls back to the email button. A Drive share link is accepted and rewritten to its
+direct download form, so the button downloads rather than opening Drive's preview page.
 
 **An event's `Image` column is optional and goes through that same `usableLink` check.**
 Leave it blank and the event just shows without a photo, no fallback needed there since
-it is not the only way to learn about the event. Paste a Drive share link or any direct
-image URL; dropping an image file into the cell produces the same unusable chip as above,
-so it is quietly ignored rather than shown broken.
+it is not the only way to learn about the event. Paste a Drive share link, any direct
+image URL, or a path to a photo already committed under `images/` (e.g.
+`images/events/standing-tall.webp`, the convention for a flyer or "creative" made for one
+specific event, alongside `images/gallery/` for general photos). Dropping an image file
+straight into the cell produces the same unusable chip as above, so it is quietly ignored
+rather than shown broken.
 
 The sheet ids are in `api/events.js`, `api/guides.js` and `api/reviews.js`. They are not
 secrets, since the sheets are link-readable anyway. `SHEET_EVENTS_ID`, `SHEET_GUIDES_ID`
