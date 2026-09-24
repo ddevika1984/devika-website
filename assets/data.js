@@ -78,17 +78,30 @@ var CH = [
   for_:"For building a practice you will actually keep.",
   det:"Twenty to thirty minutes, a group that sits together regularly. No experience needed and no pressure to say anything. Come when you can, miss it when you cannot.",
   f:[["Meets","Mon, Tue, Thu at 9.15pm"],["Format","Group"]],
-  note:"Pay once and renew later if you enjoy it, or subscribe and we will charge ₹1,198 every month until you cancel.",
+  note:"Pick Monthly to try it and pay once, or Annual to subscribe and let it auto-renew.",
   /* TODO once the one-time monthly Razorpay Payment Page exists: swap
      monthly's href below for its rzp.io link. Left as a mailto so the
      button still does something sane and never 404s in the meantime.
      annual's href is the pre-existing, already-live subscription link -
-     unchanged, do not touch without being asked (golden rule 1). */
+     unchanged, do not touch without being asked (golden rule 1).
+
+     `sub` is the one-line explainer chapter.js renders under the price,
+     specifically so it is unmissable which option auto-charges and
+     which does not - both cost the same ₹1,198, so the price line alone
+     does not make that distinction. */
   picker:{
     groups:[{key:"plan",opts:[["monthly","Monthly"],["annual","Annual"]]}],
     prices:{
-      monthly:{price:"₹1,198, pay once, renew later if you enjoy it", href:"mailto:info@drddevikakamat.com?subject=Meditation%20Club%20-%20one%20month"},
-      annual:{price:"₹1,198/month, billed monthly", href:"https://rzp.io/rzp/POuxLAl"}
+      monthly:{
+        price:"₹1,198",
+        sub:"One-time payment. Covers one month - come back and pay again if you want to continue.",
+        href:"mailto:info@drddevikakamat.com?subject=Meditation%20Club%20-%20one%20month"
+      },
+      annual:{
+        price:"₹1,198/month",
+        sub:"Subscription. Auto-charged every month until you cancel.",
+        href:"https://rzp.io/rzp/POuxLAl"
+      }
     }
   }}
 ];

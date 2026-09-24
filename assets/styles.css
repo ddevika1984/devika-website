@@ -427,6 +427,8 @@ img{max-width:100%}
 .popt.on{background:var(--accent);color:var(--bg)}
 .pout{display:inline-flex;align-items:baseline;gap:8px;margin-left:2px}
 .pprice{font-size:clamp(20px,2.4vw,28px);font-weight:200;letter-spacing:-.03em;color:var(--fg)}
+.psub{flex-basis:100%;margin:2px 0 0;font-size:13px;line-height:1.5;
+  color:color-mix(in srgb,var(--fg) 62%,transparent)}
 @media (max-width:520px){
   .picker{gap:10px}
   .pgroup{width:100%;justify-content:stretch}
