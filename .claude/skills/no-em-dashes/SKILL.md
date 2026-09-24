@@ -1,6 +1,6 @@
 ---
 name: no-em-dashes
-description: Writing style rule for this site. Use whenever drafting or editing any user-facing copy for this repo (index.html, the CH array or CONFIG strings in assets/site.js, content/events.json, content/guides.json, or any other prose the site shows visitors). Never use an em dash.
+description: Writing style rule for this site. Use whenever drafting or editing any user-facing copy for this repo (index.html, the CH array or CONFIG strings in assets/data.js, content/events.json, content/guides.json, content/reviews.json, or any other prose the site shows visitors). Never use an em dash.
 ---
 
 # No em dashes

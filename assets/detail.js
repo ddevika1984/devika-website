@@ -1,20 +1,24 @@
 /* ------------------------------------------------------------------
-   Shared by event.html and guide.html: the single-item pages that give
-   each event or guide its own shareable URL (?e=... or ?g=...). Not
-   loaded by index.html, so it duplicates a few small helpers from
-   site.js rather than adding a load-order dependency between pages.
+   Small helpers shared by every page that reads an event, a guide or a
+   chapter by its slug: index.html (assets/site.js, assets/chapter.js),
+   event.html, guide.html and offering.html. Loaded before all of them,
+   right after assets/data.js, so there is exactly one copy of how a
+   slug is built and one copy of usableLink's rules.
    ------------------------------------------------------------------ */
 
 function esc(v){return String(v==null?'':v).replace(/[&<>"]/g,function(c){
   return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 
-/* Turns a title into the slug used in the page's URL. Events add the date
-   too (see eventSlug in site.js) since the same title can recur, such as
-   a monthly circle, and would otherwise collide. This copy must build the
-   same slug the listing page links to, or the link 404s. */
+/* Turns a title into the slug used in that item's URL. Events add the
+   date too, since the same title can recur (a monthly circle) and would
+   otherwise collide; guides and chapters have no date, so the title
+   alone is it. */
 function slugify(s){
   return String(s||'').toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
 }
+function eventSlug(r){return slugify(r.title)+'-'+String(r.date||'').trim()}
+function guideSlug(r){return slugify(r.title)}
+function chapterSlug(s){return slugify(s.t)}
 
 /* Same rule as usableLink in assets/site.js: accepts a real URL, rewrites
    a Drive share link to its direct-download form, accepts a files/ or

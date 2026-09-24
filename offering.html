@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dr. Devika Kamat</title>
+<meta name="description" content="Integrative nutrition, lifestyle medicine and energy work with Dr. Devika Kamat.">
+<link rel="icon" href="images/mark.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Dr. Devika Kamat">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+
+<div class="docbar">
+  <div class="wrap">
+    <a class="mk" href="/"><img src="images/mark.png" alt=""><b>Dr. Devika Kamat</b></a>
+    <a class="pill back" href="/" style="color:var(--cream)"><span>All offerings</span></a>
+  </div>
+</div>
+
+<div id="main"><div class="wrap" style="padding:60px 0"><span class="mono">Loading&hellip;</span></div></div>
+
+<footer class="docfoot">
+  <div class="wrap">
+    <a href="/terms">Terms</a>
+    <a href="/privacy">Privacy</a>
+    <a href="/refunds">Refunds</a>
+    <a href="/delivery">Delivery</a>
+    <span class="sep">Dr. Devika Kamat</span>
+  </div>
+</footer>
+
+<script src="assets/data.js"></script>
+<script src="assets/detail.js"></script>
+<script src="assets/chapter.js"></script>
+<script>
+(function(){
+  var main=document.getElementById('main');
+  var slug=qparam('o');
+
+  function notFound(){
+    document.body.classList.add('doc');
+    main.innerHTML='<div class="wrap"><main>'+
+      '<span class="mono">Offering</span>'+
+      '<h1>Not found</h1>'+
+      '<p class="lead">This is not something currently offered, or the link is wrong.</p>'+
+      '<p style="margin-top:26px"><a class="pill solid" href="/"><span>See everything on offer</span></a></p>'+
+    '</main></div>';
+  }
+
+  var idx=-1, hit=null;
+  CH.forEach(function(s,i){ if(chapterSlug(s)===slug){ idx=i; hit=s; } });
+
+  if(!hit){
+    notFound();
+  } else {
+    document.title=hit.t+' — Dr. Devika Kamat';
+    var descMeta=document.querySelector('meta[name="description"]');
+    if(descMeta) descMeta.setAttribute('content', hit.for_||hit.t);
+
+    main.innerHTML=chapterHTML(hit,idx);
+    var sec=main.querySelector('.chap');
+    wireChapter(sec,hit);
+    requestAnimationFrame(function(){ sec.classList.add('in'); });
+  }
+})();
+</script>
+</body>
+</html>
