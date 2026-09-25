@@ -6,13 +6,8 @@
    page survives someone switching to their banking app for UPI and
    coming back a minute later.
 
-   In-person counseling does not redirect here at all - Devika books that
-   one herself after the client emails her, so its Payment Page's success
-   message just says that directly, with no redirect and nothing to
-   configure here.
-
-   Each of the other Payment Pages needs its "Redirect URL" (Settings on
-   the page, not the webhook) set to:
+   Each Payment Page needs its "Redirect URL" (Settings on the page, not
+   the webhook) set to:
 
      https://<site>/api/book?p=<product key>
 
@@ -24,6 +19,12 @@
    this is the whole booking flow now. The Razorpay webhook
    (webhooks/razorpay.js) still fires separately to record the payment
    in the Bookings sheet; it no longer sends anything to the customer.
+
+   In-person counseling (`counsel-1-person`) is the one exception: no
+   Calendly event, location and time vary, so its product entry carries
+   a `whatsapp` number instead of a `calendlyUrl` and this page shows a
+   "message on WhatsApp" button in its place - see the branch in page()
+   below.
    ------------------------------------------------------------------ */
 
 const { productFor, bookingUrl } = require('./lib/products.js');
@@ -39,15 +40,23 @@ module.exports = async (req, res) => {
 };
 
 function page({ product, link }) {
-  const heading = product ? 'Thank you.' : 'Payment received.';
-  const body = product
-    ? `Your ${escapeHtml(product.name.toLowerCase())} is booked as far as payment goes.
-       Tap below to pick a time that works for you.`
-    : `We couldn't tell which session this was for, so please email us and
+  const heading = product ? 'Thank you!' : 'Payment received.';
+  let body, cta;
+
+  if (product && product.whatsapp) {
+    body = `Please contact Dr Devika on WhatsApp at ${formatPhone(product.whatsapp)} for location and time.`;
+    cta = `<a class="btn" href="https://wa.me/${escapeAttr(product.whatsapp)}">Message on WhatsApp</a>`;
+  } else if (product) {
+    body = `Your ${escapeHtml(product.name.toLowerCase())} is booked as far as payment goes.
+       Tap below to pick a time that works for you.`;
+    cta = link
+      ? `<a class="btn" href="${escapeAttr(link)}">Book your session</a>`
+      : `<a class="btn" href="mailto:info@drddevikakamat.com">Email us</a>`;
+  } else {
+    body = `We couldn't tell which session this was for, so please email us and
        we'll get you booked by hand.`;
-  const cta = product && link
-    ? `<a class="btn" href="${escapeAttr(link)}">Book your session</a>`
-    : `<a class="btn" href="mailto:info@drddevikakamat.com">Email us</a>`;
+    cta = `<a class="btn" href="mailto:info@drddevikakamat.com">Email us</a>`;
+  }
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -84,6 +93,15 @@ function page({ product, link }) {
   </div>
 </body>
 </html>`;
+}
+
+/* wa.me needs the full international number (91xxxxxxxxxx); the page
+   copy reads better as the plain 10-digit number Devika actually gives
+   out, so this strips a leading "91" only when what's left is a normal
+   10-digit Indian mobile number. */
+function formatPhone(whatsapp) {
+  const digits = String(whatsapp);
+  return digits.startsWith('91') && digits.length === 12 ? digits.slice(2) : digits;
 }
 
 function escapeHtml(s) {

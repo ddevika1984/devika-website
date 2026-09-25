@@ -251,6 +251,13 @@ product — this is a Payment Page setting, separate from the webhook. Mixing up
 goes on which page sends someone to the wrong Calendly event type after they have already
 paid.
 
+**In-person counseling (`counsel-1-person`) redirects here too, but shows a WhatsApp
+button instead of a Calendly one.** Its Payment Page's Redirect URL needs setting to
+`https://<site>/api/book?p=counsel-1-person`, same as any other offering - the difference
+is entirely in `api/lib/products.js`: that product has a `whatsapp` number instead of a
+`calendlyUrl`, and `api/book.js` checks for that first and shows "Please contact Dr Devika
+on WhatsApp at [number] for location and time" with a `wa.me` button when present.
+
 **Every Calendly link carries `utm_source` (the product key) and `utm_content`
 (the Razorpay payment id).** Calendly passes both through to its webhook, which is how a
 booking is matched back to the exact payment rather than guessed from a name or email the

@@ -41,15 +41,18 @@ const PRODUCTS = {
     calendlyUrl: 'https://calendly.com/drddevikakamat--holisticwellness/holistic-councilling-rewiring-energy-alignment',
     sessionsTotal: 1
   },
-  /* In-person has no Calendly link on purpose - Devika books these
-     herself after the client emails her, rather than through Calendly.
-     api/book.js falls back to an "email us" button when calendlyUrl is
-     empty, which is exactly the behaviour wanted here. */
+  /* In-person has no Calendly link on purpose - location and time vary,
+     so Devika sorts it out over WhatsApp herself after payment rather
+     than through Calendly. `whatsapp` is a phone number in international
+     format (no +, no spaces) that api/book.js uses to show a "message on
+     WhatsApp" button instead of the usual Calendly/email one - see that
+     file. */
   'counsel-1-person': {
     amount: 10000,
     name: 'Holistic counseling (1 session, in person)',
     calendlyUrl: '',
-    sessionsTotal: 1
+    sessionsTotal: 1,
+    whatsapp: '919324452512'
   },
   'nutrition-4': {
     amount: 15000,
