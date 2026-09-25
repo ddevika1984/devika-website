@@ -26,10 +26,11 @@
    "message on WhatsApp" button in its place - see the branch in page()
    below.
 
-   The Meditation Club's one-time monthly plan (`meditation-monthly`) is
-   another: paying gets you into a WhatsApp *group*, not a session, so
-   its product entry carries a `whatsappGroup` invite link instead, and
-   this page shows a "join the group" button that goes straight there.
+   Both Meditation Club plans (`meditation-monthly` and
+   `meditation-annual`) are another exception: paying gets you into a
+   WhatsApp *group*, not a session, so their product entries carry a
+   `whatsappGroup` invite link instead, and this page shows a "join the
+   group" button that goes straight there.
    ------------------------------------------------------------------ */
 
 const { productFor, bookingUrl } = require('./lib/products.js');

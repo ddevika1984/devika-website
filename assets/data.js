@@ -80,9 +80,11 @@ var CH = [
   f:[["Meets","Mon, Tue, Thu at 9.15pm"],["Format","Group"]],
   note:"Pick Monthly to try it and pay once, or Annual to subscribe and let it auto-renew.",
   /* Both hrefs are live, real Razorpay pages now - do not touch without
-     being asked (golden rule 1). monthly's Payment Page needs its
-     Redirect URL set to https://<site>/api/book?p=meditation-monthly
-     (see the whatsappGroup note on that product in products.js).
+     being asked (golden rule 1). Both Payment Pages need their Redirect
+     URL set (https://<site>/api/book?p=meditation-monthly and
+     ?p=meditation-annual respectively) - see the whatsappGroup note on
+     those products in products.js, both send the customer to join the
+     WhatsApp group after paying.
 
      `sub` is the one-line explainer chapter.js renders under the price,
      specifically so it is unmissable which option auto-charges and
@@ -99,7 +101,7 @@ var CH = [
       annual:{
         price:"₹1,198/month",
         sub:"Subscription. Auto-charged every month until you cancel.",
-        href:"https://rzp.io/rzp/POuxLAl"
+        href:"https://rzp.io/rzp/ZKpaUoT"
       }
     }
   }}

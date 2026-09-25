@@ -300,18 +300,21 @@ event, same as the guides. **The two plans are priced identically on purpose** (
 ₹1,198), which breaks the usual "every offering needs a distinct price" rule - see below
 for how the webhook copes.
 
+Both plans send the customer to join the Meditation Club's WhatsApp *group* after paying,
+rather than book anything - via a `whatsappGroup` invite link on each product in
+`products.js` that `api/book.js` checks for before its usual Calendly/email logic (same
+pattern as `counsel-1-person`'s `whatsapp` field, see the "Booking automation" section
+above). Each Payment Page's Redirect URL needs setting in Razorpay accordingly
+(unconfirmed whether that's been done for either yet):
+
 - **"Monthly" is the try-it plan**: one Payment Page payment, ₹1,198, covers one month,
   nothing auto-renews - live at `https://rzp.io/rzp/TxHHo7r`, wired into the picker's
-  `monthly` entry in `assets/data.js`. Its Redirect URL needs setting in Razorpay to
-  `https://<site>/api/book?p=meditation-monthly` (unconfirmed whether that's been done
-  yet) - unlike the other offerings this one sends the customer to join the Meditation
-  Club's WhatsApp *group* rather than book anything, via a `whatsappGroup` invite link on
-  that product in `products.js` that `api/book.js` checks for (same pattern as
-  `counsel-1-person`'s `whatsapp` field, see the "Booking automation" section above).
+  `monthly` entry in `assets/data.js`. Redirect URL:
+  `https://<site>/api/book?p=meditation-monthly`.
 - **"Annual" is the commit plan**: a real Razorpay **Subscription** (auto-charged, cancel
-  anytime), already live at the picker's `annual` href - this is the pre-existing link
-  from before the monthly/annual split, untouched. It charges the same ₹1,198 every ~30
-  days on its own; nothing to build for that half.
+  anytime), live at `https://rzp.io/rzp/ZKpaUoT`, wired into the picker's `annual` entry.
+  It charges the same ₹1,198 every ~30 days on its own. Redirect URL:
+  `https://<site>/api/book?p=meditation-annual`.
 
 **Why amount-matching can't tell them apart, and what does instead**: a subscription
 charge's webhook payload carries a `subscription` entity alongside `payment`; a one-time

@@ -80,16 +80,17 @@ const PRODUCTS = {
      webhooks/razorpay.js checks for that first and only falls back to
      amount-matching (which is what actually finds meditation-monthly)
      when it is absent. See that file for the detail. */
+  /* Neither plan has a Calendly event, and neither gets the ordinary
+     "email us" fallback either - both go straight to the WhatsApp
+     *group* invite. api/book.js checks whatsappGroup before
+     whatsapp/calendlyUrl and shows a "join the group" page with this
+     link instead of the usual booking or contact copy. */
   'meditation-monthly': {
     amount: 1198,
     name: 'Meditation Club (monthly, one-time)',
     calendlyUrl: '',
     sessionsTotal: 0,
     membership: { durationDays: 30 },
-    /* No Calendly, no WhatsApp *contact* - this one goes straight to the
-       WhatsApp *group* invite. api/book.js checks whatsappGroup before
-       whatsapp/calendlyUrl and shows a "join the group" page with this
-       link instead of the usual booking or contact copy. */
     whatsappGroup: 'https://chat.whatsapp.com/D4QZ0xrQFtpKXCrj5Lsu8C?mode=gi_t'
   },
   'meditation-annual': {
@@ -97,7 +98,8 @@ const PRODUCTS = {
     name: 'Meditation Club (annual, subscription)',
     calendlyUrl: '',
     sessionsTotal: 0,
-    membership: { durationDays: 30 }
+    membership: { durationDays: 30 },
+    whatsappGroup: 'https://chat.whatsapp.com/D4QZ0xrQFtpKXCrj5Lsu8C?mode=gi_t'
   }
 };
 
