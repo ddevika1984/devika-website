@@ -79,11 +79,10 @@ var CH = [
   det:"Twenty to thirty minutes, a group that sits together regularly. No experience needed and no pressure to say anything. Come when you can, miss it when you cannot.",
   f:[["Meets","Mon, Tue, Thu at 9.15pm"],["Format","Group"]],
   note:"Pick Monthly to try it and pay once, or Annual to subscribe and let it auto-renew.",
-  /* TODO once the one-time monthly Razorpay Payment Page exists: swap
-     monthly's href below for its rzp.io link. Left as a mailto so the
-     button still does something sane and never 404s in the meantime.
-     annual's href is the pre-existing, already-live subscription link -
-     unchanged, do not touch without being asked (golden rule 1).
+  /* Both hrefs are live, real Razorpay pages now - do not touch without
+     being asked (golden rule 1). monthly's Payment Page needs its
+     Redirect URL set to https://<site>/api/book?p=meditation-monthly
+     (see the whatsappGroup note on that product in products.js).
 
      `sub` is the one-line explainer chapter.js renders under the price,
      specifically so it is unmissable which option auto-charges and
@@ -95,7 +94,7 @@ var CH = [
       monthly:{
         price:"₹1,198",
         sub:"One-time payment. Covers one month - come back and pay again if you want to continue.",
-        href:"mailto:info@drddevikakamat.com?subject=Meditation%20Club%20-%20one%20month"
+        href:"https://rzp.io/rzp/TxHHo7r"
       },
       annual:{
         price:"₹1,198/month",
