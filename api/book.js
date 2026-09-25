@@ -20,11 +20,16 @@
    (webhooks/razorpay.js) still fires separately to record the payment
    in the Bookings sheet; it no longer sends anything to the customer.
 
-   In-person counseling (`counsel-1-person`) is the one exception: no
+   In-person counseling (`counsel-1-person`) is one exception: no
    Calendly event, location and time vary, so its product entry carries
    a `whatsapp` number instead of a `calendlyUrl` and this page shows a
    "message on WhatsApp" button in its place - see the branch in page()
    below.
+
+   The Meditation Club's one-time monthly plan (`meditation-monthly`) is
+   another: paying gets you into a WhatsApp *group*, not a session, so
+   its product entry carries a `whatsappGroup` invite link instead, and
+   this page shows a "join the group" button that goes straight there.
    ------------------------------------------------------------------ */
 
 const { productFor, bookingUrl } = require('./lib/products.js');
@@ -43,7 +48,10 @@ function page({ product, link }) {
   const heading = product ? 'Thank you!' : 'Payment received.';
   let body, cta;
 
-  if (product && product.whatsapp) {
+  if (product && product.whatsappGroup) {
+    body = `Tap below to join the Meditation Club WhatsApp group.`;
+    cta = `<a class="btn" href="${escapeAttr(product.whatsappGroup)}">Join the WhatsApp group</a>`;
+  } else if (product && product.whatsapp) {
     body = `Please contact Dr Devika on WhatsApp at ${formatPhone(product.whatsapp)} for location and time.`;
     cta = `<a class="btn" href="https://wa.me/${escapeAttr(product.whatsapp)}">Message on WhatsApp</a>`;
   } else if (product) {

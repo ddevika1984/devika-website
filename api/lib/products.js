@@ -85,7 +85,12 @@ const PRODUCTS = {
     name: 'Meditation Club (monthly, one-time)',
     calendlyUrl: '',
     sessionsTotal: 0,
-    membership: { durationDays: 30 }
+    membership: { durationDays: 30 },
+    /* No Calendly, no WhatsApp *contact* - this one goes straight to the
+       WhatsApp *group* invite. api/book.js checks whatsappGroup before
+       whatsapp/calendlyUrl and shows a "join the group" page with this
+       link instead of the usual booking or contact copy. */
+    whatsappGroup: 'https://chat.whatsapp.com/D4QZ0xrQFtpKXCrj5Lsu8C?mode=gi_t'
   },
   'meditation-annual': {
     amount: 1198,

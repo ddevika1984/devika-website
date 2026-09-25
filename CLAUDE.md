@@ -301,13 +301,15 @@ event, same as the guides. **The two plans are priced identically on purpose** (
 for how the webhook copes.
 
 - **"Monthly" is the try-it plan**: one Payment Page payment, ₹1,198, covers one month,
-  nothing auto-renews. **This Payment Page doesn't exist in Razorpay yet** - Devika needs
-  to create it herself (needs her own OTP to log in), no Redirect URL needed (there's no
-  Calendly step to send anyone to). Until she does, the site's `monthly` picker option
-  points at a `mailto:` link instead, so the button still does something sane rather than
-  404ing. Once she has the real `rzp.io` link, swap it into the `monthly` entry of the
-  picker's `prices` in `assets/data.js` (see the `TODO` comment on that chapter) - same
-  golden-rule-1 care as any other payment link.
+  nothing auto-renews. Its Redirect URL needs setting in Razorpay to
+  `https://<site>/api/book?p=meditation-monthly` - unlike the other offerings this one
+  sends the customer to join the Meditation Club's WhatsApp *group* rather than book
+  anything, via a `whatsappGroup` invite link on that product in `products.js` that
+  `api/book.js` checks for (same pattern as `counsel-1-person`'s `whatsapp` field, see the
+  "Booking automation" section above). The site's `monthly` picker option still points at
+  a `mailto:` link until the real `rzp.io` payment link is dropped into the `monthly`
+  entry of the picker's `prices` in `assets/data.js` (see the `TODO` comment on that
+  chapter) - same golden-rule-1 care as any other payment link.
 - **"Annual" is the commit plan**: a real Razorpay **Subscription** (auto-charged, cancel
   anytime), already live at the picker's `annual` href - this is the pre-existing link
   from before the monthly/annual split, untouched. It charges the same ₹1,198 every ~30
