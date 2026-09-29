@@ -38,23 +38,15 @@
 
     <div class="infobar">
       A Navratri Women's Circle &middot; Offline &amp; Online<br>
-      <b>Friday, 16 October</b> &middot; <b>7 to 8 PM</b>
-    </div>
-
-    <div class="picker" data-picker>
-      <div class="pgroup" role="group" aria-label="format">
-        <button type="button" class="popt on" data-val="offline">Offline</button>
-        <button type="button" class="popt" data-val="online">Online</button>
-      </div>
-      <div class="pout"><span class="pprice" data-pprice>&#8377;2,400</span></div>
+      <b>Friday, 16 October</b> &middot; <b>7 to 8 PM</b><br>
+      Energy exchange &middot; <span style="white-space:nowrap">Offline <b>&#8377;2,400</b></span> &middot; <span style="white-space:nowrap">Online <b>&#8377;2,000</b></span>
     </div>
 
     <p class="note">Come dressed in a colour that makes you feel like Devi.</p>
 
     <div class="go">
-      <a class="pill solid" data-pbuy href="mailto:info@drddevikakamat.com?subject=Reserve%20a%20seat%3A%20Devi%20Within%2C%20Offline">
-        <span>Reserve your seat</span>
-      </a>
+      <a class="pill solid" data-book="offline" href="mailto:info@drddevikakamat.com?subject=Reserve%20a%20seat%3A%20Devi%20Within%2C%20Offline"><span>Book offline &middot; &#8377;2,400</span></a>
+      <a class="pill solid" data-book="online" href="mailto:info@drddevikakamat.com?subject=Reserve%20a%20seat%3A%20Devi%20Within%2C%20Online"><span>Book online &middot; &#8377;2,000</span></a>
     </div>
   </div>
 
@@ -139,9 +131,8 @@
     <p class="lead">This is a sacred circle, not a class.</p>
     <p>Seats are few, and held for the women meant to be in them. Claim yours.</p>
     <div class="go">
-      <a class="pill solid" data-pbuy href="mailto:info@drddevikakamat.com?subject=Reserve%20a%20seat%3A%20Devi%20Within%2C%20Offline">
-        <span>Reserve your seat</span>
-      </a>
+      <a class="pill solid" data-book="offline" href="mailto:info@drddevikakamat.com?subject=Reserve%20a%20seat%3A%20Devi%20Within%2C%20Offline"><span>Book offline &middot; &#8377;2,400</span></a>
+      <a class="pill solid" data-book="online" href="mailto:info@drddevikakamat.com?subject=Reserve%20a%20seat%3A%20Devi%20Within%2C%20Online"><span>Book online &middot; &#8377;2,000</span></a>
     </div>
   </section>
 
@@ -157,28 +148,25 @@
   </div>
 </footer>
 
+<script src="assets/detail.js"></script>
 <script>
-/* Standalone picker: swaps the shown price and both Reserve buttons'
-   links together. The hrefs are a mailto placeholder until the real
-   Razorpay links for this event exist; see the TODO in the source. */
+/* The payment links live in the Events sheet, on the row whose Page
+   column says devi-within, in its Offline Link / Online Link columns.
+   Until one is filled in, that button stays the email in the markup. */
 (function(){
-  var PRICES={
-    offline:{price:'₹2,400', href:'mailto:info@drddevikakamat.com?subject=Reserve%20a%20seat%3A%20Devi%20Within%2C%20Offline'},
-    online:{price:'₹2,000', href:'mailto:info@drddevikakamat.com?subject=Reserve%20a%20seat%3A%20Devi%20Within%2C%20Online'}
-  };
-  var picker=document.querySelector('[data-picker]');
-  var out=picker.querySelector('[data-pprice]');
-  var buys=document.querySelectorAll('[data-pbuy]');
-  function sync(){
-    var hit=PRICES[picker.querySelector('.popt.on').dataset.val];
-    out.textContent=hit.price;
-    buys.forEach(function(b){ b.href=hit.href; });
-  }
-  picker.addEventListener('click',function(e){
-    var b=e.target.closest('.popt'); if(!b) return;
-    picker.querySelectorAll('.popt').forEach(function(o){o.classList.remove('on')});
-    b.classList.add('on');
-    sync();
+  load('/api/events','content/events.json').then(function(rows){
+    var row=(rows||[]).filter(function(r){
+      return /(^|\/)devi-within\/?$/i.test(eventPage(r));
+    })[0];
+    if(!row) return;
+    var links={offline:usableLink(row.offline), online:usableLink(row.online)};
+    document.querySelectorAll('[data-book]').forEach(function(a){
+      var href=links[a.dataset.book];
+      if(!href) return;
+      a.href=href;
+      a.target='_blank';
+      a.rel='noopener';
+    });
   });
 })();
 </script>

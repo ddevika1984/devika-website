@@ -68,7 +68,6 @@
     if(d.price) facts.push(['Price',d.price]);
 
     var img=usableLink(d.image);
-    var href=d.link||('mailto:info@drddevikakamat.com?subject='+encodeURIComponent(d.title));
 
     main.innerHTML=
       '<span class="mono">Event</span>'+
@@ -78,7 +77,7 @@
       '<div class="facts">'+facts.map(function(p){
         return '<div><div class="k">'+esc(p[0])+'</div><div class="v">'+esc(p[1])+'</div></div>';
       }).join('')+'</div>'+
-      '<p style="margin-top:32px"><a class="pill solid" href="'+esc(href)+'" target="_blank" rel="noopener"><span>Reserve a place</span></a></p>';
+      '<p style="margin-top:32px;display:flex;gap:10px;flex-wrap:wrap">'+eventButtonsHTML(d)+'</p>';
   }
 
   load('/api/events','content/events.json').then(function(rows){
@@ -86,6 +85,8 @@
       return (slugify(r.title)+'-'+String(r.date).trim())===slug;
     })[0];
     if(!hit){ notFound(); return; }
+    var own=eventPage(hit);
+    if(own){ location.replace(own); return; }
     render(hit);
   }).catch(notFound);
 })();

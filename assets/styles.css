@@ -335,14 +335,18 @@ h1.hero em{font-style:normal;color:var(--terra)}
   color:var(--accent);margin-top:5px}
 .ev .what b{display:block;font-weight:300;font-size:clamp(17px,1.9vw,22px);letter-spacing:-.02em}
 .ev .what b a{transition:color .3s}
-.ev .what b a:hover{color:var(--accent)}
+.ev:hover .what b a{color:var(--accent)}
+/* The title's link is stretched over the whole row, so a tap on the date,
+   the text or the photo opens the event too. .act sits above it so the
+   booking buttons still go to their own links. */
+.ev .what b a::after{content:"";position:absolute;inset:0}
 .ev .what p{font-size:14.5px;color:rgba(240,236,220,.78);margin-top:6px;max-width:52ch;line-height:1.58}
 .ev .what .evmeta{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:9px;
   font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
   color:rgba(240,236,220,.66)}
 .ev.has-img{grid-template-columns:78px minmax(0,1fr) 96px auto}
 .ev .evimg{width:96px;height:96px;object-fit:cover;border-radius:4px;display:block}
-.ev .act{display:flex;gap:8px;align-items:center;white-space:nowrap}
+.ev .act{display:flex;gap:8px;align-items:center;white-space:nowrap;position:relative;z-index:1}
 .ev .kill{width:28px;height:28px;border-radius:50%;border:1px solid rgba(240,236,220,.25);
   display:none;align-items:center;justify-content:center;font-size:14px;line-height:1;
   color:rgba(240,236,220,.6);transition:background .35s,color .35s,border-color .35s}
@@ -374,7 +378,7 @@ h1.hero em{font-style:normal;color:var(--terra)}
   .kit .it .pill.sm{justify-self:start;margin-top:12px}
   .ev,.ev.has-img{grid-template-columns:60px minmax(0,1fr)}
   .ev .evimg{grid-column:2;width:100%;max-width:280px;height:160px;margin-top:10px}
-  .ev .act{grid-column:2;justify-content:flex-start;margin-top:10px}
+  .ev .act{grid-column:2;justify-content:flex-start;margin-top:10px;flex-wrap:wrap}
 }
 
 /* footer */
@@ -543,10 +547,9 @@ body.doc{background:#100D0C;color:var(--cream)}
 .devi .infobar{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
   color:rgba(240,236,220,.72);margin-top:30px;line-height:2;text-align:center}
 .devi .infobar b{color:var(--cream);font-weight:500}
-.devi .picker{justify-content:center;margin-top:26px}
 .devi .note{text-align:center;margin-top:18px;font-style:italic;font-size:14.5px;
   color:rgba(240,236,220,.7)}
-.devi .go{display:flex;justify-content:center;margin-top:30px}
+.devi .go{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:30px}
 .devi section{padding:clamp(40px,7vh,68px) 0;border-top:1px solid rgba(240,236,220,.12)}
 .devi h2{font-size:clamp(22px,3vw,30px);font-weight:200;letter-spacing:-.02em}
 .devi h3{font-size:15.5px;font-weight:400;color:var(--accent);margin:28px 0 4px}

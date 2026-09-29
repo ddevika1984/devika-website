@@ -47,5 +47,11 @@ module.exports = async (req, res) =>
     price:  r.price  || '',
     detail: r.detail || '',
     link:   r.link   || '',
-    image:  r.image  || ''
+    image:  r.image  || '',
+    /* Optional. Page points the event at its own hand-built page (e.g.
+       devi-within). Offline Link / Online Link replace the single Reserve
+       button with one button per format. Headers arrive lowercased. */
+    page:    r.page || '',
+    offline: r['offline link'] || r.offline || '',
+    online:  r['online link']  || r.online  || ''
   }));

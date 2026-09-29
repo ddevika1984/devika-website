@@ -99,7 +99,7 @@ No deploy, no pull request, nothing for a developer to do.
 
 | Sheet | Columns |
 |---|---|
-| Devika website — Events | Title, Date, Time, Place, Format, Price, Detail, Link, Image |
+| Devika website — Events | Title, Date, Time, Place, Format, Price, Detail, Link, Image, and optionally Page, Offline Link, Online Link |
 | Devika website — Guides | Title, Detail, Format, Length, Price, File, Link |
 | Devika website — Reviews | Name, Review, Context, Rating |
 
@@ -206,9 +206,20 @@ change; ask before building that if it turns out to matter.
 guide's bio, testimonials. Those get a hand-built one-off page instead, styled to match
 (see `.devi` in `assets/styles.css`), with `devi-within.html` as the example. It is not
 part of the slug system above; it is its own page at its own filename, `cleanUrls`
-turning it into `/devi-within`. To make it show up in the Events section rather than
-sitting unlinked, add a row to the Events sheet whose `Link` points at that URL, the same
-as any other event's `Link`, rather than a Razorpay page.
+turning it into `/devi-within`. Its row in the Events sheet says so in the **Page**
+column (`devi-within`, `/devi-within` or the full URL all work, see `eventPage()` in
+`assets/detail.js`). With Page filled in, the event's whole row on the homepage links
+there instead of to `event.html`, and `event.html` redirects there too, so an old
+`/event?e=` link still lands in the right place.
+
+**Offline Link / Online Link** are two optional Events sheet columns for an event sold at
+two prices by format. Fill in either and the row's single "Reserve a place" button (fed
+by `Link`) becomes two, "Book offline" and "Book online"; the one still blank asks by
+email until it is filled in (`eventButtons()` in `assets/detail.js`). A hand-built page
+reads the same two columns from its own row, so the payment links live in one place:
+`devi-within.html` fetches `/api/events`, finds the row whose Page is `devi-within`, and
+points its two buttons there. The prices printed on that page (₹2,400 / ₹2,000) are
+hand-written in its HTML and have to agree with the Razorpay pages, per golden rule 1.
 
 ## Booking automation
 
@@ -402,10 +413,9 @@ produces the two correct prices and links, and the Gallery and Reviews sections 
 - The guides are placeholder rows.
 - Terms, privacy, refund and delivery policy pages do not exist yet. Razorpay requires
   them.
-- `devi-within.html`'s two "Reserve your seat" buttons still point at a `mailto:`
-  placeholder. They need the real Razorpay links for the offline and online prices
-  (₹2,400 / ₹2,000) dropped into the `PRICES` object at the bottom of the file, and the
-  event still needs a row added to the Events sheet (see above) to appear on the site.
+- Devi Within's payment buttons fall back to email until its Events sheet row has a
+  Page of `devi-within` and its Offline Link / Online Link filled in (see "Event, guide
+  and offering detail pages" above). Nothing in the code needs changing for that.
 
 ## Caching
 
