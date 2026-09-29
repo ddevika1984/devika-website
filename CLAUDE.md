@@ -259,6 +259,13 @@ product — this is a Payment Page setting, separate from the webhook. Mixing up
 goes on which page sends someone to the wrong Calendly event type after they have already
 paid.
 
+**In-person counseling (`counsel-1-person`) redirects here too, but shows a WhatsApp
+button instead of a Calendly one.** Its Payment Page's Redirect URL needs setting to
+`https://<site>/api/book?p=counsel-1-person`, same as any other offering - the difference
+is entirely in `api/lib/products.js`: that product has a `whatsapp` number instead of a
+`calendlyUrl`, and `api/book.js` checks for that first and shows "Please contact Dr Devika
+on WhatsApp at [number] for location and time" with a `wa.me` button when present.
+
 **Every Calendly link carries `utm_source` (the product key) and `utm_content`
 (the Razorpay payment id).** Calendly passes both through to its webhook, which is how a
 booking is matched back to the exact payment rather than guessed from a name or email the
@@ -292,6 +299,60 @@ Vercel, never committed):
 
 **Known gap**: `api/lib/products.js` has placeholder Calendly URLs (`REPLACE_ME`) until
 the real Calendly event types exist and their booking page URLs are dropped in.
+
+## Meditation Club membership (who's paid, who hasn't)
+
+The Meditation Club (the `meditation-club`/"crown" chapter) is a membership, not a booked session -
+`meditation-monthly` and `meditation-annual` in `api/lib/products.js` have no Calendly
+event, same as the guides. **The two plans are priced identically on purpose** (both
+₹1,198), which breaks the usual "every offering needs a distinct price" rule - see below
+for how the webhook copes.
+
+Both plans send the customer to join the Meditation Club's WhatsApp *group* after paying,
+rather than book anything - via a `whatsappGroup` invite link on each product in
+`products.js` that `api/book.js` checks for before its usual Calendly/email logic (same
+pattern as `counsel-1-person`'s `whatsapp` field, see the "Booking automation" section
+above). Each Payment Page's Redirect URL needs setting in Razorpay accordingly
+(unconfirmed whether that's been done for either yet):
+
+- **"Monthly" is the try-it plan**: one Payment Page payment, ₹1,198, covers one month,
+  nothing auto-renews - live at `https://rzp.io/rzp/TxHHo7r`, wired into the picker's
+  `monthly` entry in `assets/data.js`. Redirect URL:
+  `https://<site>/api/book?p=meditation-monthly`.
+- **"Annual" is the commit plan**: a real Razorpay **Subscription** (auto-charged, cancel
+  anytime), live at `https://rzp.io/rzp/ZKpaUoT`, wired into the picker's `annual` entry.
+  It charges the same ₹1,198 every ~30 days on its own. Redirect URL:
+  `https://<site>/api/book?p=meditation-annual`.
+
+**Why amount-matching can't tell them apart, and what does instead**: a subscription
+charge's webhook payload carries a `subscription` entity alongside `payment`; a one-time
+Payment Page payment never has one. `api/webhooks/razorpay.js` checks for that first -
+if present, the payment is `meditation-annual` regardless of amount; only if absent does
+it fall back to the normal `productForAmount` lookup, which is what actually catches
+`meditation-monthly`. If a second subscription product is ever added, this needs to
+start matching on `event.payload.subscription.entity.plan_id` instead of assuming there's
+only one - see the comment in that file.
+
+**Tracking who's lapsed**: every membership payment gets a `paid_through` date stamped
+by the webhook (`paid_at` + 30 days, for both plans - see `product.membership.durationDays`
+in `products.js`), written to a `paid_through` column in the Bookings sheet.
+`flagLapsedMembers_()` in `sheets/bookings-webapp.gs` finds each member's most recent
+Meditation Club row by email and colours it red once that date has passed. It needs to be
+scheduled once, by hand: open the sheet's Apps Script, click the clock icon (Triggers), add
+a time-driven trigger for `flagLapsedMembers_`, monthly. After that, Devika just scrolls
+the Bookings sheet once a month and drops the red rows from WhatsApp.
+
+Three things she needs to do manually for this to work, since none of them is something a
+code change alone can reach:
+
+1. Create the one-time "Monthly" Payment Page in Razorpay (₹1,198, no Redirect URL) and
+   send the `rzp.io` link back so it can be wired into `assets/data.js`.
+2. Add a `paid_through` header to row 1 of the live Bookings sheet (anywhere - columns
+   are matched by name, not position).
+3. Re-paste `sheets/bookings-webapp.gs` into the sheet's Apps Script (Deploy -> Manage
+   deployments -> pencil -> Version "New version", **not** "New deployment" - keeps the
+   same URL, see the gotcha under "Booking automation" above), then add the monthly
+   trigger described above.
 
 ## Images
 

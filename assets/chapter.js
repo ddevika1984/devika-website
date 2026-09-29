@@ -28,6 +28,7 @@ function chapterHTML(s,i){
         }).join('')+'</div>';
       }).join('')+
       '<div class="pout"><span class="pprice" data-pprice></span></div>'+
+      '<p class="psub" data-psub></p>'+
     '</div>';
   }
 
@@ -68,6 +69,7 @@ function wireChapter(sec,s){
   if(p && s.picker){
     var buy=sec.querySelector('[data-pbuy]');
     var out=p.querySelector('[data-pprice]');
+    var sub=p.querySelector('[data-psub]');
     function state(){
       return s.picker.groups.map(function(g){
         return p.querySelector('.popt.on[data-group="'+g.key+'"]').dataset.val;
@@ -77,6 +79,11 @@ function wireChapter(sec,s){
       var hit=s.picker.prices[state()];
       out.textContent=hit.price;
       buy.href=hit.href;
+      /* sub is optional - only the Meditation Club's picker uses it, to
+         spell out which option auto-renews when two options share a
+         price and the number alone can't say so. */
+      sub.textContent=hit.sub||'';
+      sub.style.display=hit.sub?'':'none';
     }
     p.addEventListener('click',function(e){
       var b=e.target.closest('.popt'); if(!b) return;

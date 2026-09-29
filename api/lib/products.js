@@ -41,27 +41,70 @@ const PRODUCTS = {
     calendlyUrl: 'https://calendly.com/drddevikakamat--holisticwellness/holistic-councilling-rewiring-energy-alignment',
     sessionsTotal: 1
   },
-  /* In-person has no Calendly link on purpose - Devika books these
-     herself after the client emails her, rather than through Calendly.
-     api/book.js falls back to an "email us" button when calendlyUrl is
-     empty, which is exactly the behaviour wanted here. */
+  /* In-person has no Calendly link on purpose - location and time vary,
+     so Devika sorts it out over WhatsApp herself after payment rather
+     than through Calendly. `whatsapp` is a phone number in international
+     format (no +, no spaces) that api/book.js uses to show a "message on
+     WhatsApp" button instead of the usual Calendly/email one - see that
+     file. */
   'counsel-1-person': {
     amount: 10000,
     name: 'Holistic counseling (1 session, in person)',
     calendlyUrl: '',
-    sessionsTotal: 1
+    sessionsTotal: 1,
+    whatsapp: '919324452512'
   },
   'nutrition-4': {
     amount: 15000,
     name: 'Integrative nutrition',
     calendlyUrl: 'https://calendly.com/drddevikakamat--holisticwellness/integrative-nutrition',
     sessionsTotal: 4
+  },
+  /* Membership, not a booking - no Calendly event, so no booking email.
+     `membership.durationDays` is how long one payment covers, used by the
+     webhook to stamp a paid_through date in the Bookings sheet so a
+     monthly Apps Script pass can flag whoever has lapsed.
+
+     "Monthly" is the try-it plan: one Payment Page payment, ₹1,198,
+     covers one month, nothing auto-renews - to keep going, they pay
+     again by hand next month.
+
+     "Annual" is the commit plan: a real Razorpay *Subscription*
+     (auto-charged, cancel anytime), already live at the picker's
+     `annual` href. It charges the same ₹1,198 every ~30 days on its
+     own, which means **its amount collides with meditation-monthly on
+     purpose** - the usual "every offering needs a distinct price" rule
+     does not apply here. The webhook tells the two apart a different
+     way: a subscription charge's payload carries a `subscription`
+     entity that a one-time Payment Page payment never has, so
+     webhooks/razorpay.js checks for that first and only falls back to
+     amount-matching (which is what actually finds meditation-monthly)
+     when it is absent. See that file for the detail. */
+  /* Neither plan has a Calendly event, and neither gets the ordinary
+     "email us" fallback either - both go straight to the WhatsApp
+     *group* invite. api/book.js checks whatsappGroup before
+     whatsapp/calendlyUrl and shows a "join the group" page with this
+     link instead of the usual booking or contact copy. */
+  'meditation-monthly': {
+    amount: 1198,
+    name: 'Meditation Club (monthly, one-time)',
+    calendlyUrl: '',
+    sessionsTotal: 0,
+    membership: { durationDays: 30 },
+    whatsappGroup: 'https://chat.whatsapp.com/D4QZ0xrQFtpKXCrj5Lsu8C?mode=gi_t'
+  },
+  'meditation-annual': {
+    amount: 1198,
+    name: 'Meditation Club (annual, subscription)',
+    calendlyUrl: '',
+    sessionsTotal: 0,
+    membership: { durationDays: 30 },
+    whatsappGroup: 'https://chat.whatsapp.com/D4QZ0xrQFtpKXCrj5Lsu8C?mode=gi_t'
   }
 };
 
-/* The meditation club (a monthly subscription) and the paid guides have
-   no Calendly event behind them, so they are deliberately absent and
-   their payments are recorded without a booking email. */
+/* The paid guides have no Calendly event behind them either, so their
+   payments are recorded without a booking email the same way. */
 function productForAmount(rupees) {
   const amount = Number(rupees);
   if (!amount) return null;

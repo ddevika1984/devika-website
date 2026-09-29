@@ -16,12 +16,14 @@
    email out of this webhook, so nothing here is on the critical path for
    the customer - this exists purely so Devika has a record of who paid.
 
-   Which offering was bought comes from the amount. See lib/products.js
-   for why, and for the constraint that keeps it working.
+   Which offering was bought comes from the amount, EXCEPT for the
+   Meditation Club's annual subscription - see the branch below and the
+   comment on meditation-annual in lib/products.js for why amount alone
+   is not enough for that one.
    ------------------------------------------------------------------ */
 
 const crypto = require('crypto');
-const { productForAmount } = require('../lib/products.js');
+const { productForAmount, productFor } = require('../lib/products.js');
 const { upsertPayment } = require('../lib/bookings-sheet.js');
 
 module.exports = async (req, res) => {
@@ -60,8 +62,29 @@ module.exports = async (req, res) => {
 
   /* Razorpay works in paise. */
   const rupees = (payment.amount || 0) / 100;
-  const product = productForAmount(rupees);
+
+  /* A subscription charge's payload carries a `subscription` entity
+     alongside `payment`; a one-time Payment Page payment never does. The
+     Meditation Club's annual plan is priced identically to its one-time
+     monthly plan on purpose (same ₹1,198), so amount can't tell them
+     apart here - this can, and has to run first. There is only one
+     subscription product on the site today, so no plan_id lookup yet;
+     if a second one is ever added, match on
+     event.payload.subscription.entity.plan_id instead of assuming. */
+  const subscription = event.payload && event.payload.subscription && event.payload.subscription.entity;
+  const product = subscription ? productFor('meditation-annual') : productForAmount(rupees);
   const email = (payment.email || '').toLowerCase();
+  const paidAt = new Date((payment.created_at || Date.now() / 1000) * 1000);
+
+  /* Membership products (the Meditation Club) carry a durationDays that
+     says how long this one payment covers. Stamping paid_through here,
+     at capture time, means the Bookings sheet can flag a lapsed member
+     with a plain date comparison - see flagLapsedMembers_ in
+     sheets/bookings-webapp.gs - without recomputing it from paid_at every
+     time the sheet is checked. */
+  const paidThrough = product && product.membership
+    ? new Date(paidAt.getTime() + product.membership.durationDays * 24 * 60 * 60 * 1000).toISOString()
+    : '';
 
   try {
     await upsertPayment({
@@ -73,7 +96,8 @@ module.exports = async (req, res) => {
       customer_email: email,
       customer_phone: payment.contact || '',
       amount: rupees,
-      paid_at: new Date((payment.created_at || Date.now() / 1000) * 1000).toISOString()
+      paid_at: paidAt.toISOString(),
+      paid_through: paidThrough
     });
   } catch (err) {
     /* Log and still 200 - Razorpay retries on non-2xx, and a sheet hiccup

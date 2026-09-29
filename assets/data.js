@@ -26,7 +26,7 @@ var CONFIG = {
 };
 
 var CH = [
- {id:"c0",key:"root",sans:"Muladhara",en:"Root",c:"#8F5A42",bg:"#211A17",fg:"#F0ECDC",
+ {id:"discovery-call",key:"root",sans:"Muladhara",en:"Root",c:"#8F5A42",bg:"#211A17",fg:"#F0ECDC",
   t:"Discovery call",
   img:"images/discoverycall.webp",
   for_:"For finding out whether I can actually help you.",
@@ -34,7 +34,7 @@ var CH = [
   f:[["Length","30 minutes"],["Where","Online"],["Cost","₹2,500"]],
   cta:{label:"Book this",href:"https://rzp.io/rzp/2CNVQp0i"}},
 
- {id:"c1",key:"sacral",sans:"Svadhisthana",en:"Sacral",c:"#7A4340",bg:"#1E1614",fg:"#F0ECDC",
+ {id:"wellness-circle",key:"sacral",sans:"Svadhisthana",en:"Sacral",c:"#7A4340",bg:"#1E1614",fg:"#F0ECDC",
   t:"35+ Women's Wellness Circle",
   img:"images/womenswellnesscircle.webp",
   for_:"For not doing this on your own.",
@@ -42,7 +42,7 @@ var CH = [
   f:[["Format","Group"],["Cost","Free"]],
   cta:{label:"Join this",href:"https://chat.whatsapp.com/DIMbyxT7PbLBq0O6Puo1BI?mode=gi_t"}},
 
- {id:"c2",key:"solar",sans:"Manipura",en:"Solar plexus",c:"#AC6670",bg:"#2C1C1C",fg:"#F0ECDC",
+ {id:"guides",key:"solar",sans:"Manipura",en:"Solar plexus",c:"#AC6670",bg:"#2C1C1C",fg:"#F0ECDC",
   t:"Guides You Can Download and Use",
   img:"images/selfhelp.webp",
   for_:"For the days you would rather do this on your own.",
@@ -50,7 +50,7 @@ var CH = [
   f:[],
   guides:true},
 
- {id:"c3",key:"heart",sans:"Anahata",en:"Heart",c:"#CC8A77",bg:"#3E2723",fg:"#F0ECDC",
+ {id:"nutrition",key:"heart",sans:"Anahata",en:"Heart",c:"#CC8A77",bg:"#3E2723",fg:"#F0ECDC",
   t:"Integrative nutrition",
   img:"images/integrativenutrition.webp",
   for_:"For energy, digestion and weight that will not shift.",
@@ -58,7 +58,7 @@ var CH = [
   f:[["Length","4 sessions over 1 month"],["Format","One to one"],["Cost","₹15,000"]],
   cta:{label:"Book this",href:"https://rzp.io/rzp/hJMniutv"}},
 
- {id:"c4",key:"throat",sans:"Vishuddha",en:"Throat",c:"#9C9078",bg:"#453F35",fg:"#F0ECDC",
+ {id:"counseling",key:"throat",sans:"Vishuddha",en:"Throat",c:"#9C9078",bg:"#453F35",fg:"#F0ECDC",
   t:"Holistic counseling, rewiring and energy alignment",
   img:"images/holisticcounseling-v2.webp",
   for_:"For when you are carrying something you cannot put down.",
@@ -72,12 +72,37 @@ var CH = [
     }
   }},
 
- {id:"c6",key:"crown",sans:"Sahasrara",en:"Crown",c:"#8A7A5E",bg:"#EDE8D8",fg:"#2B2118",
+ {id:"meditation-club",key:"crown",sans:"Sahasrara",en:"Crown",c:"#8A7A5E",bg:"#EDE8D8",fg:"#2B2118",
   t:"The Meditation Club",
   img:"images/meditationclub.webp",
   for_:"For building a practice you will actually keep.",
   det:"Twenty to thirty minutes, a group that sits together regularly. No experience needed and no pressure to say anything. Come when you can, miss it when you cannot.",
-  f:[["Meets","Mon, Tue, Thu at 9.15pm"],["Format","Group"],["Cost","₹1,198 a month"]],
-  note:"A monthly subscription. Cancel whenever you want.",
-  cta:{label:"Join this",href:"https://rzp.io/rzp/POuxLAl"}}
+  f:[["Meets","Mon, Tue, Thu at 9.15pm"],["Format","Group"]],
+  note:"Pick Monthly to try it and pay once, or Annual to subscribe and let it auto-renew.",
+  /* Both hrefs are live, real Razorpay pages now - do not touch without
+     being asked (golden rule 1). Both Payment Pages need their Redirect
+     URL set (https://<site>/api/book?p=meditation-monthly and
+     ?p=meditation-annual respectively) - see the whatsappGroup note on
+     those products in products.js, both send the customer to join the
+     WhatsApp group after paying.
+
+     `sub` is the one-line explainer chapter.js renders under the price,
+     specifically so it is unmissable which option auto-charges and
+     which does not - both cost the same ₹1,198, so the price line alone
+     does not make that distinction. */
+  picker:{
+    groups:[{key:"plan",opts:[["monthly","Monthly"],["annual","Annual"]]}],
+    prices:{
+      monthly:{
+        price:"₹1,198",
+        sub:"One-time payment. Covers one month - come back and pay again if you want to continue.",
+        href:"https://rzp.io/rzp/TxHHo7r"
+      },
+      annual:{
+        price:"₹1,198/month",
+        sub:"Subscription. Auto-charged every month until you cancel.",
+        href:"https://rzp.io/rzp/ZKpaUoT"
+      }
+    }
+  }}
 ];
