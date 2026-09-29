@@ -202,6 +202,14 @@ Getting a specific event's, guide's or offering's own preview image and descript
 a share card would need the page to be rendered server-side per slug, which is a bigger
 change; ask before building that if it turns out to matter.
 
+**Some events need more than the Events sheet's columns can hold**: a full brief, a
+guide's bio, testimonials. Those get a hand-built one-off page instead, styled to match
+(see `.devi` in `assets/styles.css`), with `devi-within.html` as the example. It is not
+part of the slug system above; it is its own page at its own filename, `cleanUrls`
+turning it into `/devi-within`. To make it show up in the Events section rather than
+sitting unlinked, add a row to the Events sheet whose `Link` points at that URL, the same
+as any other event's `Link`, rather than a Razorpay page.
+
 ## Booking automation
 
 After a Razorpay payment, Razorpay redirects the customer straight to `api/book.js`,
@@ -333,6 +341,10 @@ produces the two correct prices and links, and the Gallery and Reviews sections 
 - The guides are placeholder rows.
 - Terms, privacy, refund and delivery policy pages do not exist yet. Razorpay requires
   them.
+- `devi-within.html`'s two "Reserve your seat" buttons still point at a `mailto:`
+  placeholder. They need the real Razorpay links for the offline and online prices
+  (₹2,400 / ₹2,000) dropped into the `PRICES` object at the bottom of the file, and the
+  event still needs a row added to the Events sheet (see above) to appear on the site.
 
 ## Caching
 

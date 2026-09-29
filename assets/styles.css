@@ -504,6 +504,63 @@ body.doc{background:#100D0C;color:var(--cream)}
 /* event.html and guide.html reuse this same .doc shell for their one-item
    pages, so a link to a single event or guide has somewhere to point. */
 .doc .heroimg{width:100%;max-height:420px;object-fit:cover;border-radius:4px;margin-top:22px}
+/* Anything still waiting on real information (a payment link, in this
+   case) is deliberately impossible to miss, same idea as .doc .todo. */
+.todo{background:rgba(204,138,119,.16);color:#F0C3B4;border:1px dashed rgba(204,138,119,.6);
+  border-radius:3px;padding:1px 7px;font-family:var(--mono);font-size:11px;letter-spacing:.08em}
+
+/* ============================================================
+   One-off event landing pages, e.g. devi-within.html.
+   Some events need far more than the Events sheet's columns can hold: a
+   full brief, a guide bio, testimonials. Those get their own hand-built
+   page instead of the generic event.html template, styled to sit
+   comfortably alongside the rest of the site rather than the plainer
+   .doc pages.
+   ============================================================ */
+.devi{max-width:740px;margin:0 auto;padding:0 24px}
+.devi .hero{text-align:center;padding:clamp(50px,9vh,92px) 0 clamp(36px,6vh,58px)}
+.devi .eyeb{justify-content:center}
+.devi h1{font-size:clamp(30px,5vw,52px);font-weight:200;letter-spacing:-.03em;line-height:1.1;
+  margin-top:20px;text-wrap:balance}
+.devi .sub{font-size:clamp(16px,1.8vw,20px);font-weight:300;font-style:italic;color:var(--accent);
+  margin-top:18px}
+/* This page has no scroll-triggered .in class to reveal the photo with
+   (see the duotone block further down), so show it immediately instead. */
+.devi .shot{min-height:auto;aspect-ratio:16/9;border-radius:4px;margin-top:34px}
+.devi .shot::after{transform:scaleY(0)}
+.devi .shot img{transform:scale(1)}
+.devi .infobar{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+  color:rgba(240,236,220,.72);margin-top:30px;line-height:2;text-align:center}
+.devi .infobar b{color:var(--cream);font-weight:500}
+.devi .picker{justify-content:center;margin-top:26px}
+.devi .note{text-align:center;margin-top:18px;font-style:italic;font-size:14.5px;
+  color:rgba(240,236,220,.7)}
+.devi .go{display:flex;justify-content:center;margin-top:30px}
+.devi section{padding:clamp(40px,7vh,68px) 0;border-top:1px solid rgba(240,236,220,.12)}
+.devi h2{font-size:clamp(22px,3vw,30px);font-weight:200;letter-spacing:-.02em}
+.devi h3{font-size:15.5px;font-weight:400;color:var(--accent);margin:28px 0 4px}
+.devi p{font-size:15.5px;line-height:1.75;color:rgba(240,236,220,.86);margin-top:14px}
+.devi .lead{font-size:17px;color:var(--cream)}
+.devi ul.checklist{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:12px}
+.devi ul.checklist li{display:flex;gap:12px;align-items:flex-start;font-size:15px;line-height:1.55;
+  color:rgba(240,236,220,.88)}
+.devi ul.checklist li::before{content:"";flex:0 0 7px;width:7px;height:7px;border-radius:50%;
+  background:var(--accent);margin-top:7px}
+.devi .triad{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:24px}
+.devi .triad div{padding-top:18px;border-top:1px solid rgba(240,236,220,.14)}
+.devi .triad b{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--accent)}
+.devi .triad p{margin-top:8px;font-size:14.5px}
+.devi blockquote{margin:26px 0 0;padding:2px 0 2px 22px;border-left:2px solid var(--accent);
+  font-size:clamp(17px,2vw,21px);font-weight:300;font-style:italic;line-height:1.5;color:var(--cream)}
+.devi blockquote cite{display:block;margin-top:12px;font-family:var(--mono);font-size:10px;
+  letter-spacing:.13em;text-transform:uppercase;font-style:normal;color:rgba(240,236,220,.6)}
+.devi .rvgrid{margin-top:22px}
+.devi .close{text-align:center;border-bottom:0}
+.devi .close .go{margin-top:8px}
+@media (max-width:640px){
+  .devi .triad{grid-template-columns:1fr;gap:20px}
+}
 
 /* ============================================================
    Warm duotone over the photographs.
