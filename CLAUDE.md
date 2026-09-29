@@ -413,9 +413,11 @@ produces the two correct prices and links, and the Gallery and Reviews sections 
 - The guides are placeholder rows.
 - Terms, privacy, refund and delivery policy pages do not exist yet. Razorpay requires
   them.
-- Devi Within's payment buttons fall back to email until its Events sheet row has a
-  Page of `devi-within` and its Offline Link / Online Link filled in (see "Event, guide
-  and offering detail pages" above). Nothing in the code needs changing for that.
+- Devi Within's payment links (offline `rzp.io/rzp/Deviwithin`, online
+  `rzp.io/rzp/aaPtUAqy`) are hard-coded in `devi-within.html` as the buttons' defaults,
+  but a value in its Events sheet row's Offline Link / Online Link overrides them, and
+  the homepage's buttons read only the sheet. So the sheet and the page can disagree:
+  if a link changes, change it in both or clear the sheet cells.
 
 ## Caching
 
