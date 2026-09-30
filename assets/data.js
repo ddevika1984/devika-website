@@ -54,7 +54,7 @@ var CH = [
   t:"Integrative nutrition",
   img:"images/integrativenutrition.webp",
   for_:"For energy, digestion and weight that will not shift.",
-  det:"A month of eating built around the routine you already have, the budget you already have and the kitchen you already have. Three nutrition sessions and one energy session across the month, reviewed weekly and adjusted as we go.",
+  det:"A month of eating built around the routine you already have, the budget you already have and the kitchen you already have. Three nutrition sessions and one session on wellness, stress management and mindset across the month, reviewed weekly and adjusted as we go.",
   f:[["Length","4 sessions over 1 month"],["Format","One to one"],["Cost","₹15,000"]],
   cta:{label:"Book this",href:"https://rzp.io/rzp/hJMniutv"}},
 
