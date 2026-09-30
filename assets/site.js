@@ -18,6 +18,31 @@
     wireChapter(sec,s);
   });
 
+  /* ---------- the offerings, for search engines ----------
+     The business itself is described in index.html's <head> (#ld-org);
+     this adds what it offers, built from CH so there is no second copy
+     of the titles to fall out of date. No prices: a structured-data
+     price that disagreed with Razorpay would be worse than none. */
+  (function(){
+    var site='https://www.drdevikawellness.space';
+    var ld=document.createElement('script');
+    ld.type='application/ld+json';
+    ld.textContent=JSON.stringify({
+      '@context':'https://schema.org',
+      '@type':'OfferCatalog',
+      '@id':site+'/#offerings',
+      name:'Ways to work with Dr. Devika Kamat',
+      itemListElement:CH.map(function(s){
+        return {'@type':'Offer', itemOffered:{
+          '@type':'Service', name:s.t, description:s.det,
+          url:site+'/offering?o='+chapterSlug(s),
+          provider:{'@id':site+'/#practice'}
+        }};
+      })
+    });
+    document.head.appendChild(ld);
+  })();
+
   /* ---------- spine nodes (crown at top, root at bottom) ---------- */
   function nodes(into){
     CH.slice().reverse().forEach(function(s){

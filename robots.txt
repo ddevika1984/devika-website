@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+# The thank-you pages after payment hold WhatsApp group invites and
+# booking links, and the webhooks are for Razorpay and Calendly only.
+# Everything else under /api/ stays open: the homepage fetches its
+# events, guides and reviews from there, and Google needs those too.
+Disallow: /api/book
+Disallow: /api/webhooks/
+
+Sitemap: https://www.drdevikawellness.space/sitemap.xml

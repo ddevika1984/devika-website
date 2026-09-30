@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Pages for search engines to find. Update by hand when a page is added
+     or an offering's title changes (its /offering?o= slug comes from the
+     title). Policy pages are left out on purpose: they are noindex. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://www.drdevikawellness.space/</loc><lastmod>2026-09-30</lastmod></url>
+  <url><loc>https://www.drdevikawellness.space/offering?o=discovery-call</loc><lastmod>2026-09-30</lastmod></url>
+  <url><loc>https://www.drdevikawellness.space/offering?o=35-women-s-wellness-circle</loc><lastmod>2026-09-30</lastmod></url>
+  <url><loc>https://www.drdevikawellness.space/offering?o=guides-you-can-download-and-use</loc><lastmod>2026-09-30</lastmod></url>
+  <url><loc>https://www.drdevikawellness.space/offering?o=integrative-nutrition</loc><lastmod>2026-09-30</lastmod></url>
+  <url><loc>https://www.drdevikawellness.space/offering?o=holistic-counseling-rewiring-and-energy-alignment</loc><lastmod>2026-09-30</lastmod></url>
+  <url><loc>https://www.drdevikawellness.space/offering?o=the-meditation-club</loc><lastmod>2026-09-30</lastmod></url>
+  <url><loc>https://www.drdevikawellness.space/devi-within</loc><lastmod>2026-09-30</lastmod></url>
+  <url><loc>https://www.drdevikawellness.space/navratri-guide</loc><lastmod>2026-09-30</lastmod></url>
+</urlset>

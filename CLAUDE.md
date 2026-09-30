@@ -48,8 +48,8 @@ guide and offering detail pages" below.
 
 The hero says "Seven ways to come back to yourself," which is the six `CH` entries plus
 Events, counted as the seventh way to work together. If an entry is added to or removed
-from `CH`, that headline (and the matching line in the hero card and the meta/og
-descriptions) needs updating by hand, it is not calculated from the array length.
+from `CH`, that headline (and the matching line in the hero card and the og:description)
+needs updating by hand, it is not calculated from the array length.
 
 Each entry:
 
@@ -384,6 +384,27 @@ code change alone can reach:
    deployments -> pencil -> Version "New version", **not** "New deployment" - keeps the
    same URL, see the gotcha under "Booking automation" above), then add the monthly
    trigger described above.
+
+## Search engines
+
+- **Title and description** in `index.html`'s `<head>` carry her location (Mumbai) and
+  core terms. The fuller list of topics she wants to be found for lives in the JSON-LD
+  `knowsAbout`, not stuffed into the title.
+- **JSON-LD**: `#ld-org` in `index.html` describes her (Person, with credentials) and the
+  practice (ProfessionalService, Mumbai). `assets/site.js` appends an `OfferCatalog` built
+  from `CH`, so offering names are never written twice. It deliberately has **no prices**,
+  so it can never disagree with Razorpay.
+- **`robots.txt`** blocks only `/api/book` (post-payment pages holding WhatsApp group
+  invites and booking links) and `/api/webhooks/`. The rest of `/api/` must stay crawlable:
+  the homepage fetches its events, guides and reviews from there, and Google's renderer
+  needs them too.
+- **`sitemap.xml` is hand-maintained.** Add a line when a page is added, and fix the
+  `/offering?o=` line if an offering's title changes, since its slug comes from the title.
+- **Known limit**: the chapters, events, guides and reviews are rendered by JavaScript.
+  Google runs it; AI crawlers (ChatGPT, Claude, Perplexity) generally don't, so to them
+  the homepage shows only its static sections, and `offering.html`, `event.html` and
+  `guide.html` look nearly empty. The hand-built pages (`devi-within.html`,
+  `navratri-guide.html`) are fine.
 
 ## Images
 
