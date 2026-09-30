@@ -13,7 +13,8 @@
    payment_id | reference_id | product_name | customer_name |
    customer_email | customer_phone | amount | paid_at | paid_through |
    sessions_total | sessions_booked | status | calendly_event_uri |
-   calendly_start_time | calendly_end_time | followup_sent | last_updated
+   calendly_start_time | calendly_end_time | followup_sent | last_updated |
+   reminder_sent | lapse_notified
 
    Column order does not matter as long as every header above is present
    somewhere in row 1 - this script looks columns up by name, the same
@@ -22,25 +23,41 @@
    paid_through is blank for anything that is not a membership product
    (a one-off session has no "through" date). For the Meditation Club it
    is stamped by the webhook at payment time - see products.js - and is
-   what flagLapsedMembers_ below reads to decide who has lapsed.
+   what checkMemberships below reads to decide who is due or lapsed.
 
-   flagLapsedMembers_ is not wired to run itself. Once this file is
-   pasted in, open the clock icon (Triggers) on the left, add a
-   time-driven trigger for flagLapsedMembers_, monthly, whatever day
-   suits - it colours a member's most recent Meditation Club row red
-   once their paid_through date has passed, so scrolling the sheet once
-   a month is enough to see who to drop from WhatsApp.
+   Meditation Club check: after pasting, run setupDailyCheck() once
+   (function dropdown -> setupDailyCheck -> Run). It schedules
+   checkMemberships() every morning, which emails NOTIFY_EMAIL a list of
+   Monthly members whose month ends within REMIND_DAYS_BEFORE days, and
+   of anyone whose membership has lapsed, each with a WhatsApp link that
+   opens a ready-written reminder. Lapsed rows are also coloured red.
+   Each person is emailed about once per payment, not every day.
+
+   When updating an already-deployed copy of this script, copy the
+   existing SHARED_SECRET value out first and put it back after pasting,
+   then Deploy -> Manage deployments -> pencil -> Version: New version.
+   A New deployment would change the /exec URL Vercel is pointing at.
    ------------------------------------------------------------------ */
 
 var SHARED_SECRET = 'REPLACE_ME_WITH_A_RANDOM_STRING';
 var SHEET_NAME = 'Bookings';
 var LAPSED_COLOR = '#f4c7c3';
 
+var NOTIFY_EMAIL = 'info@drddevikakamat.com';
+var REMIND_DAYS_BEFORE = 3;
+/* An auto-renew charge lands on the same date each month, which can be
+   up to 31 days after the last one while paid_through is stamped at +30.
+   Without a grace period a member would be reported lapsed for a day at
+   the end of every long month. */
+var LAPSE_GRACE_DAYS = 3;
+var RENEW_URL = 'https://www.drdevikawellness.space/meditation-club';
+
 var COLUMNS = [
   'payment_id', 'reference_id', 'product_name', 'customer_name',
   'customer_email', 'customer_phone', 'amount', 'paid_at', 'paid_through',
   'sessions_total', 'sessions_booked', 'status', 'calendly_event_uri',
-  'calendly_start_time', 'calendly_end_time', 'followup_sent', 'last_updated'
+  'calendly_start_time', 'calendly_end_time', 'followup_sent', 'last_updated',
+  'reminder_sent', 'lapse_notified'
 ];
 
 /* Creates the Bookings tab if it is missing and adds any header in COLUMNS
@@ -260,44 +277,134 @@ function pendingFollowups_() {
   return out;
 }
 
-/* Run monthly (see the file header for how to schedule it). Finds each
-   member's most recent Meditation Club row by email - a monthly
-   subscriber gets a fresh row every ~30 days, so earlier rows are just
-   history - and colours that row red if its paid_through date has
-   passed, clears the colour otherwise. Only touches Meditation Club
-   rows; everything else in the sheet is left alone. */
-function flagLapsedMembers_() {
+/* Runs every morning once setupDailyCheck() has been run (see the file
+   header). Public, no trailing underscore, because Apps Script hides
+   underscore functions from the Run menu and the Triggers screen.
+
+   Looks at each member's most recent Meditation Club row, matched by
+   email: every payment is a new row, including each monthly auto-renew
+   charge, so earlier rows are just history. Then:
+   - lapsed (paid_through + LAPSE_GRACE_DAYS has passed): row goes red,
+     and they are listed once, flagged by lapse_notified;
+   - a Monthly (one-time) member within REMIND_DAYS_BEFORE of the end of
+     their month: listed once, flagged by reminder_sent. Auto-renew
+     members are not reminded, since they renew by themselves; if their
+     charge fails, no new row arrives and they show up as lapsed.
+   A renewal creates a new, unflagged row, so the next cycle starts clean.
+   Flags are only written after the email has gone, so a failed send is
+   retried the next morning rather than lost. */
+function checkMemberships() {
   var sheet = sheet_();
   var map = headerMap_(sheet);
   var lastRow = sheet.getLastRow();
   if (lastRow < 2) return;
 
-  var nameCol = map['product_name'];
-  var emailCol = map['customer_email'];
-  var ptCol = map['paid_through'];
-  if (nameCol === undefined || emailCol === undefined || ptCol === undefined) {
-    throw new Error('missing product_name, customer_email or paid_through column');
+  var latest = {};
+  for (var r = 2; r <= lastRow; r++) {
+    var obj = rowToObject_(sheet, map, r);
+    if (String(obj.reference_id).indexOf('meditation-') !== 0) continue;
+    var key = String(obj.customer_email).toLowerCase() || ('row-' + r);
+    latest[key] = { row: r, obj: obj };
   }
 
-  var names = sheet.getRange(2, nameCol + 1, lastRow - 1, 1).getValues();
-  var emails = sheet.getRange(2, emailCol + 1, lastRow - 1, 1).getValues();
-
-  var latestRowForEmail = {};
-  for (var i = 0; i < names.length; i++) {
-    var productName = String(names[i][0]);
-    if (productName.indexOf('Meditation Club') !== 0) continue;
-    var email = String(emails[i][0]).toLowerCase() || ('row-' + (i + 2)); // no email: treat as its own member so the row is still checked
-    latestRowForEmail[email] = i + 2; // later rows overwrite, so this ends up the latest
-  }
-
-  var today = new Date();
-  Object.keys(latestRowForEmail).forEach(function (email) {
-    var r = latestRowForEmail[email];
-    var paidThroughRaw = sheet.getRange(r, ptCol + 1).getValue();
-    var paidThrough = paidThroughRaw ? new Date(paidThroughRaw) : null;
-    var lapsed = paidThrough && paidThrough < today;
-    sheet.getRange(r, 1, 1, sheet.getLastColumn()).setBackground(lapsed ? LAPSED_COLOR : null);
+  var now = new Date();
+  var day = 24 * 60 * 60 * 1000;
+  var dueSoon = [];
+  var lapsed = [];
+  Object.keys(latest).forEach(function (key) {
+    var e = latest[key];
+    var paidThrough = e.obj.paid_through ? new Date(e.obj.paid_through) : null;
+    if (!paidThrough || isNaN(paidThrough.getTime())) return;
+    var isLapsed = paidThrough.getTime() + LAPSE_GRACE_DAYS * day < now.getTime();
+    sheet.getRange(e.row, 1, 1, sheet.getLastColumn()).setBackground(isLapsed ? LAPSED_COLOR : null);
+    e.paidThrough = paidThrough;
+    if (isLapsed) {
+      if (!truthy_(e.obj.lapse_notified)) lapsed.push(e);
+    } else if (e.obj.reference_id === 'meditation-monthly' &&
+               paidThrough.getTime() - now.getTime() <= REMIND_DAYS_BEFORE * day &&
+               !truthy_(e.obj.reminder_sent)) {
+      dueSoon.push(e);
+    }
   });
+
+  if (!dueSoon.length && !lapsed.length) return;
+
+  MailApp.sendEmail({
+    to: NOTIFY_EMAIL,
+    subject: 'Meditation Club: ' +
+      (dueSoon.length ? dueSoon.length + ' due to renew' : '') +
+      (dueSoon.length && lapsed.length ? ', ' : '') +
+      (lapsed.length ? lapsed.length + ' lapsed' : ''),
+    htmlBody: membershipEmail_(dueSoon, lapsed)
+  });
+
+  dueSoon.forEach(function (e) { writeFields_(sheet, map, e.row, { reminder_sent: true }); });
+  lapsed.forEach(function (e) { writeFields_(sheet, map, e.row, { lapse_notified: true }); });
+}
+
+/* Run once from the editor. Replaces any earlier schedule for the
+   membership check, so running it twice does not send two emails. */
+function setupDailyCheck() {
+  ScriptApp.getProjectTriggers().forEach(function (t) {
+    var fn = t.getHandlerFunction();
+    if (fn === 'checkMemberships' || fn === 'flagLapsedMembers_') ScriptApp.deleteTrigger(t);
+  });
+  ScriptApp.newTrigger('checkMemberships').timeBased().everyDays(1).atHour(9).create();
+  sheet_();
+}
+
+/* Kept so an older trigger pointing at the previous name still works. */
+function flagLapsedMembers_() {
+  checkMemberships();
+}
+
+function truthy_(v) {
+  return v === true || String(v).toLowerCase() === 'true';
+}
+
+function membershipEmail_(dueSoon, lapsed) {
+  function fmt(d) {
+    return Utilities.formatDate(d, 'Asia/Kolkata', 'd MMM yyyy');
+  }
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
+  function rows(list, message) {
+    return list.map(function (e) {
+      var o = e.obj;
+      var phone = String(o.customer_phone || '').replace(/\D/g, '');
+      var wa = phone
+        ? '<a href="https://wa.me/' + phone + '?text=' + encodeURIComponent(message(e)) + '">Send WhatsApp reminder</a>'
+        : 'No phone number';
+      return '<tr>' +
+        '<td style="padding:6px 12px 6px 0">' + esc(o.customer_email || '(no email)') + '</td>' +
+        '<td style="padding:6px 12px 6px 0">' + esc(o.customer_phone || '') + '</td>' +
+        '<td style="padding:6px 12px 6px 0">' + (o.reference_id === 'meditation-annual' ? 'Auto-renew' : 'Monthly') + '</td>' +
+        '<td style="padding:6px 12px 6px 0">' + fmt(e.paidThrough) + '</td>' +
+        '<td style="padding:6px 0">' + wa + '</td>' +
+      '</tr>';
+    }).join('');
+  }
+  function table(title, intro, list, message) {
+    if (!list.length) return '';
+    return '<h3 style="margin:24px 0 6px">' + title + '</h3><p style="margin:0 0 8px">' + intro + '</p>' +
+      '<table style="border-collapse:collapse;font-size:14px">' +
+      '<tr style="text-align:left"><th>Email</th><th>Phone</th><th>Plan</th><th>Paid until</th><th></th></tr>' +
+      rows(list, message) + '</table>';
+  }
+  return '<div style="font-family:Arial,sans-serif;color:#2B2118">' +
+    table('Due to renew', 'Monthly members whose month ends within ' + REMIND_DAYS_BEFORE + ' days.', dueSoon, function (e) {
+      return 'Hi! A gentle reminder that your Meditation Club month ends on ' + fmt(e.paidThrough) +
+        '. If you would like to keep sitting with us, you can renew here: ' + RENEW_URL;
+    }) +
+    table('Lapsed', 'Their membership has ended and no renewal has come in. Send a reminder, or remove them from the WhatsApp group.', lapsed, function (e) {
+      return 'Hi! Your Meditation Club membership ended on ' + fmt(e.paidThrough) +
+        '. We would love to have you back. You can rejoin here: ' + RENEW_URL;
+    }) +
+    '<p style="margin-top:24px;font-size:12px;color:#8A7A5E">Sent by your Bookings sheet. Lapsed rows are coloured red there.</p>' +
+    '</div>';
 }
 
 /* Apps Script Web Apps cannot send a non-200 HTTP status from doGet/doPost

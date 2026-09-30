@@ -367,23 +367,29 @@ only one - see the comment in that file.
 **Tracking who's lapsed**: every membership payment gets a `paid_through` date stamped
 by the webhook (`paid_at` + 30 days, for both plans - see `product.membership.durationDays`
 in `products.js`), written to a `paid_through` column in the Bookings sheet.
-`flagLapsedMembers_()` in `sheets/bookings-webapp.gs` finds each member's most recent
-Meditation Club row by email and colours it red once that date has passed. It needs to be
-scheduled once, by hand: open the sheet's Apps Script, click the clock icon (Triggers), add
-a time-driven trigger for `flagLapsedMembers_`, monthly. After that, Devika just scrolls
-the Bookings sheet once a month and drops the red rows from WhatsApp.
+`checkMemberships()` in `sheets/bookings-webapp.gs` runs every morning and looks at each
+member's most recent Meditation Club row by email. It emails Devika (`NOTIFY_EMAIL`) a
+list of Monthly members whose month ends within 3 days, and of anyone lapsed (3-day grace,
+since an auto-renew charge can land 31 days after the last), each with a `wa.me` link that
+opens a ready-written reminder; lapsed rows also go red. `reminder_sent` /
+`lapse_notified` columns stop the same person being emailed twice per payment. Auto-renew
+members get no "due" reminder: if their charge fails, no new row arrives and they lapse.
 
-Three things she needs to do manually for this to work, since none of them is something a
-code change alone can reach:
+Scheduling: run `setupDailyCheck()` once from the Apps Script editor. It must be a public
+function (no trailing underscore): Apps Script hides `_` functions from the Run menu and the
+Triggers screen, which is why the old instruction to schedule `flagLapsedMembers_` by hand
+could never be followed. That name is kept as an alias so an existing trigger still works.
 
-1. Create the one-time "Monthly" Payment Page in Razorpay (₹1,198, no Redirect URL) and
-   send the `rzp.io` link back so it can be wired into `assets/data.js`.
-2. Add a `paid_through` header to row 1 of the live Bookings sheet (anywhere - columns
-   are matched by name, not position).
-3. Re-paste `sheets/bookings-webapp.gs` into the sheet's Apps Script (Deploy -> Manage
-   deployments -> pencil -> Version "New version", **not** "New deployment" - keeps the
-   same URL, see the gotcha under "Booking automation" above), then add the monthly
-   trigger described above.
+What Devika has to do for this to work, since none of it is something a code change can
+reach:
+
+1. Get payments into the Bookings sheet at all: the Razorpay webhook (payment.captured to
+   `/api/webhooks/razorpay`) and `RAZORPAY_WEBHOOK_SECRET` in Vercel. As of 30 Sep 2026 the
+   sheet had received no real payments, so this is the first blocker.
+2. Re-paste `sheets/bookings-webapp.gs` into the sheet's Apps Script, **keeping her existing
+   SHARED_SECRET** (Deploy -> Manage deployments -> pencil -> Version "New version", **not**
+   "New deployment", which changes the URL), then run `setupDailyCheck()` once. The script
+   adds any missing headers (`paid_through`, `reminder_sent`, `lapse_notified`) itself.
 
 ## Search engines
 
