@@ -55,7 +55,7 @@ const PRODUCTS = {
     whatsapp: '919324452512'
   },
   'nutrition-4': {
-    amount: 15000,
+    amount: 12700,
     name: 'Integrative nutrition',
     calendlyUrl: 'https://calendly.com/drddevikakamat--holisticwellness/integrative-nutrition',
     sessionsTotal: 4
