@@ -77,17 +77,32 @@ var CH = [
   img:"images/meditationclub.webp",
   for_:"For building a practice you will actually keep.",
   det:"Twenty to thirty minutes, a group that sits together regularly. No experience needed and no pressure to say anything. Come when you can, miss it when you cannot.",
-  f:[["Meets","Mon, Tue, Thu at 9.15pm"],["Format","Group"],["Cost","₹1,198 a month"]],
-  note:"One-time payment. Covers one month, then pay again whenever you want to continue.",
-  /* Live Razorpay Payment Page - do not touch without being asked (golden
-     rule 1). Its Redirect URL should be https://<site>/api/book?p=meditation-monthly,
-     which sends the customer to join the WhatsApp group after paying.
+  f:[["Meets","Mon, Tue, Thu at 9.15pm"],["Format","Group"]],
+  note:"Pick Monthly to try it and pay once, or Auto-renew to subscribe and keep your place each month.",
+  /* Both hrefs are live Razorpay links - do not touch without being asked
+     (golden rule 1). Their Redirect URLs should be
+     https://<site>/api/book?p=meditation-monthly and ?p=meditation-annual,
+     which send the customer to join the WhatsApp group after paying.
 
-     The "Auto-renew" subscription option was taken down on 30 Sep 2026:
-     its link, https://rzp.io/rzp/ZKpaUoT, shows an error on Razorpay.
-     To bring it back once Devika has a working subscription link, restore
-     the two-option picker from git history (commit 92cde55) with the new
-     link in its `annual` entry; meditation-annual in api/lib/products.js
-     and the webhook's subscription handling are still in place. */
-  cta:{label:"Join this",href:"https://rzp.io/rzp/TxHHo7r"}}
+     Auto-renew (key `annual`) is RNKAxkAi since 30 Sep 2026, replacing
+     ZKpaUoT, which had started showing an error on Razorpay.
+
+     `sub` is the one-line explainer chapter.js renders under the price,
+     so it is unmissable which option auto-charges and which does not -
+     both cost the same ₹1,198, so the price alone does not say. */
+  picker:{
+    groups:[{key:"plan",opts:[["monthly","Monthly"],["annual","Auto-renew"]]}],
+    prices:{
+      monthly:{
+        price:"₹1,198",
+        sub:"One-time payment. Covers one month, then pay again whenever you want to continue.",
+        href:"https://rzp.io/rzp/TxHHo7r"
+      },
+      annual:{
+        price:"₹1,198/month",
+        sub:"Subscription. ₹1,198 is charged on the day you join, then on the same date every month until you cancel.",
+        href:"https://rzp.io/rzp/RNKAxkAi"
+      }
+    }
+  }}
 ];
