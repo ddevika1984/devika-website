@@ -348,7 +348,10 @@ above). Each Payment Page's Redirect URL needs setting in Razorpay accordingly
   `https://<site>/api/book?p=meditation-monthly`.
 - **"Annual" (labelled "Auto-renew" on the site, since it has no 12-month term) is the
   commit plan**: a real Razorpay **Subscription** (auto-charged, cancel
-  anytime), live at `https://rzp.io/rzp/ZKpaUoT`, wired into the picker's `annual` entry.
+  anytime). **Currently off the site**: its link, `https://rzp.io/rzp/ZKpaUoT`, showed an
+  error on Razorpay on 30 Sep 2026, so the Meditation Club chapter was cut back to a single
+  Monthly `cta`. When a working subscription link exists, restore the picker from commit
+  `92cde55` with the new link in its `annual` entry.
   It charges the same ₹1,198 every ~30 days on its own. Redirect URL:
   `https://<site>/api/book?p=meditation-annual`.
 
@@ -428,6 +431,8 @@ produces the two correct prices and links, and the Gallery and Reviews sections 
 ## Known gaps
 
 - The guides are placeholder rows.
+- The Meditation Club's Auto-renew subscription is off the site until Devika sends a
+  working Razorpay subscription link (see "Meditation Club membership" above).
 - Terms, privacy, refund and delivery policy pages do not exist yet. Razorpay requires
   them.
 - Devi Within's payment links (offline `rzp.io/rzp/Deviwithin`, online
