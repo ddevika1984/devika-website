@@ -159,7 +159,7 @@
 (function(){
   load('/api/events','content/events.json').then(function(rows){
     var row=(rows||[]).filter(function(r){
-      return /(^|\/)devi-within\/?$/i.test(eventPage(r));
+      return /(^|\/)devi-within\/?$/i.test(ownPage(r));
     })[0];
     if(!row) return;
     var links={offline:usableLink(row.offline), online:usableLink(row.online)};

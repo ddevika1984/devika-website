@@ -100,7 +100,7 @@ No deploy, no pull request, nothing for a developer to do.
 | Sheet | Columns |
 |---|---|
 | Devika website — Events | Title, Date, Time, Place, Format, Price, Detail, Link, Image, and optionally Page, Offline Link, Online Link |
-| Devika website — Guides | Title, Detail, Format, Length, Price, File, Link |
+| Devika website — Guides | Title, Detail, Format, Length, Price, File, Link, and optionally Page |
 | Devika website — Reviews | Name, Review, Context, Rating |
 
 `api/events.js`, `api/guides.js` and `api/reviews.js` read them through Google's gviz
@@ -207,7 +207,7 @@ guide's bio, testimonials. Those get a hand-built one-off page instead, styled t
 (see `.devi` in `assets/styles.css`), with `devi-within.html` as the example. It is not
 part of the slug system above; it is its own page at its own filename, `cleanUrls`
 turning it into `/devi-within`. Its row in the Events sheet says so in the **Page**
-column (`devi-within`, `/devi-within` or the full URL all work, see `eventPage()` in
+column (`devi-within`, `/devi-within` or the full URL all work, see `ownPage()` in
 `assets/detail.js`). With Page filled in, the event's whole row on the homepage links
 there instead of to `event.html`, and `event.html` redirects there too, so an old
 `/event?e=` link still lands in the right place.
@@ -220,6 +220,16 @@ reads the same two columns from its own row, so the payment links live in one pl
 `devi-within.html` fetches `/api/events`, finds the row whose Page is `devi-within`, and
 points its two buttons there. The prices printed on that page (₹2,400 / ₹2,000) are
 hand-written in its HTML and have to agree with the Razorpay pages, per golden rule 1.
+
+**Guides work the same way.** The Guides sheet has its own optional **Page** column; a
+guide row with one links there from the homepage list (the whole row is clickable) and
+from `guide.html`, instead of to the generic guide page. `navratri-guide.html`
+(`/navratri-guide`) is the one so far, for the paid Navratri download. Unlike Devi
+Within it has **no price or payment link written into the page at all**: it reads both
+from its Guides sheet row (Price, and Link or File) through the same `guideButton()` the
+list uses, so the page, the list and the Razorpay page can only disagree if the sheet
+does. Until that row carries `navratri-guide` in its Page column, the page's buttons ask
+by email and it shows no price.
 
 ## Booking automation
 

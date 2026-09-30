@@ -106,31 +106,13 @@ function wireChapter(sec,s){
         return;
       }
       box.innerHTML=rows.map(function(r){
-        var free=!r.price||/^free$/i.test(String(r.price).trim());
-        /* Take whichever column actually holds a link. File is the intended
-           home for a free guide and Link for a paid one, but that is a
-           distinction only this code cares about, and putting the address in
-           the other column should not silently break the button. */
-        var target=free
-          ? (usableLink(r.file) || usableLink(r.link))
-          : (usableLink(r.link) || usableLink(r.file));
-        var label=free?'Download':'Buy and download';
-        var attrs, href;
-        if(target){
-          href=target;
-          attrs=/^https?:/i.test(target)
-            ? ' target="_blank" rel="noopener"'
-            : ' download';
-        } else {
-          href='mailto:'+CONFIG.email+'?subject='+encodeURIComponent(r.title);
-          label='Ask for this';
-          attrs='';
-        }
-        var meta=[r.format,r.length,free?'Free':r.price].filter(Boolean).join(' · ');
-        return '<div class="it"><div><b><a href="/guide?g='+esc(guideSlug(r))+'">'+esc(r.title)+'</a></b>'+
+        var btn=guideButton(r);
+        var more=ownPage(r)||('/guide?g='+guideSlug(r));
+        var meta=[r.format,r.length,btn.free?'Free':r.price].filter(Boolean).join(' · ');
+        return '<div class="it"><div><b><a href="'+esc(more)+'">'+esc(r.title)+'</a></b>'+
           (r.detail?'<p>'+esc(r.detail)+'</p>':'')+
           (meta?'<span class="mt">'+esc(meta)+'</span>':'')+'</div>'+
-          '<a class="pill solid sm" href="'+esc(href)+'"'+attrs+'><span>'+label+'</span></a></div>';
+          '<a class="pill solid sm" href="'+esc(btn.href)+'"'+btn.attrs+'><span>'+btn.label+'</span></a></div>';
       }).join('');
     }
     load(CONFIG.guidesUrl,CONFIG.guidesFallback).then(render);

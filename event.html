@@ -85,7 +85,7 @@
       return (slugify(r.title)+'-'+String(r.date).trim())===slug;
     })[0];
     if(!hit){ notFound(); return; }
-    var own=eventPage(hit);
+    var own=ownPage(hit);
     if(own){ location.replace(own); return; }
     render(hit);
   }).catch(notFound);

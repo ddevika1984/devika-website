@@ -12,5 +12,7 @@ module.exports = async (req, res) =>
     length: r.length || '',
     price:  r.price  || '',
     file:   r.file   || '',
-    link:   r.link   || ''
+    link:   r.link   || '',
+    /* Optional: the guide's own hand-built page, e.g. navratri-guide. */
+    page:   r.page   || ''
   }));

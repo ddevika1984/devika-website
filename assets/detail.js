@@ -1,7 +1,8 @@
 /* ------------------------------------------------------------------
    Small helpers shared by every page that reads an event, a guide or a
    chapter by its slug: index.html (assets/site.js, assets/chapter.js),
-   event.html, guide.html and offering.html. Loaded before all of them,
+   event.html, guide.html, offering.html and the hand-built pages
+   (devi-within.html, navratri-guide.html). Loaded before all of them,
    right after assets/data.js, so there is exactly one copy of how a
    slug is built and one copy of usableLink's rules.
    ------------------------------------------------------------------ */
@@ -34,11 +35,15 @@ function usableLink(raw){
   return '';
 }
 
-/* An event's own hand-built page, from the sheet's Page column. Takes
-   "devi-within", "/devi-within", "devi-within.html" or a full URL, and
-   returns '' for anything else so a typo falls back to event.html rather
-   than a 404. */
-function eventPage(r){
+function siteEmail(){
+  return (typeof CONFIG!=='undefined'&&CONFIG.email)||'info@drddevikakamat.com';
+}
+
+/* An event's or guide's own hand-built page, from its sheet's Page
+   column. Takes "devi-within", "/devi-within", "devi-within.html" or a
+   full URL, and returns '' for anything else so a typo falls back to
+   event.html / guide.html rather than a 404. */
+function ownPage(r){
   var s=String((r&&r.page)||'').trim();
   if(!s) return '';
   if(/^https?:\/\//i.test(s)) return s;
@@ -46,12 +51,30 @@ function eventPage(r){
   return /^[a-z0-9-]+$/i.test(s) ? '/'+s : '';
 }
 
+/* A guide's one button. Takes whichever of File or Link actually holds a
+   usable address, preferring File for a free guide and Link for a paid
+   one; that distinction means nothing to whoever fills in the sheet, so
+   the other column should not silently break the button. Nothing usable
+   (or a Sheets file chip) asks by email instead of offering a 404.
+   download only works same-origin, so a Drive or Razorpay link opens in
+   a tab instead. */
+function guideButton(r){
+  var free=!r.price||/^free$/i.test(String(r.price).trim());
+  var target=free
+    ? (usableLink(r.file) || usableLink(r.link))
+    : (usableLink(r.link) || usableLink(r.file));
+  if(!target) return {free:free, label:'Ask for this', attrs:'',
+    href:'mailto:'+siteEmail()+'?subject='+encodeURIComponent(r.title)};
+  return {free:free, label:free?'Download':'Buy and download', href:target,
+    attrs:/^https?:/i.test(target) ? ' target="_blank" rel="noopener"' : ' download'};
+}
+
 /* The booking buttons for an event. With either Offline Link or Online
    Link filled in, both buttons show, and the one still missing asks by
    email instead, so adding the second link later needs no other change.
    With neither, it is the single Reserve button from the Link column. */
 function eventButtons(r){
-  var email=(typeof CONFIG!=='undefined'&&CONFIG.email)||'info@drddevikakamat.com';
+  var email=siteEmail();
   function ask(what){
     return 'mailto:'+email+'?subject='+encodeURIComponent('Reserve a seat: '+r.title+(what?', '+what:''));
   }

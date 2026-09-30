@@ -276,7 +276,11 @@ h1.hero em{font-style:normal;color:var(--terra)}
 .kit .it:hover::before{transform:scaleY(1)}
 .kit b{display:block;font-weight:300;font-size:clamp(16.5px,1.8vw,21px);letter-spacing:-.018em;line-height:1.2}
 .kit b a{transition:color .3s}
-.kit b a:hover{color:var(--accent)}
+.kit .it:hover b a{color:var(--accent)}
+/* Same stretched link as the event rows: the whole guide row opens its
+   page, and the buy/download button sits above it with its own link. */
+.kit b a::after{content:"";position:absolute;inset:0}
+.kit .it .pill{position:relative;z-index:1}
 .kit p{font-size:14.5px;line-height:1.55;margin-top:6px;max-width:46ch;
   color:color-mix(in srgb,var(--fg) 74%,transparent)}
 .kit .mt{display:block;margin-top:9px;font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;

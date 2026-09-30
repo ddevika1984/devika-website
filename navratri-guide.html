@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Navratri Guide: Nine Days to Nourish the Devi Within | Dr. Devika Kamat</title>
+<meta name="description" content="A downloadable nine day Navratri guide from Dr. Devika Kamat: a video walkthrough, day-wise nutrition plans, fasting guidelines and a grocery list.">
+<link rel="icon" href="images/mark.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Dr. Devika Kamat">
+<meta property="og:title" content="Navratri Guide: Nine Days to Nourish the Devi Within">
+<meta property="og:description" content="Food, movement and thought for the nine days of Navratri. Eat well, not less or more.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+
+<div class="docbar">
+  <div class="wrap">
+    <a class="mk" href="/"><img src="images/mark.png" alt=""><b>Dr. Devika Kamat</b></a>
+    <a class="pill back" href="/#guides" style="color:var(--cream)"><span>All guides</span></a>
+  </div>
+</div>
+
+<div class="devi">
+
+  <div class="hero">
+    <div class="eyeb"><span class="dot"></span><span class="mono">Navratri guide &middot; Pay once, download to keep</span></div>
+    <h1>Nine Days to Nourish the Devi Within</h1>
+    <p class="sub">Food, movement and thought for Navratri. Eat well, not less or more.</p>
+
+    <div class="shot">
+      <img src="images/integrativenutrition.webp" alt="Fresh, nourishing food" loading="lazy" decoding="async">
+      <span class="warm"></span>
+    </div>
+
+    <div class="infobar">
+      Downloadable guide &middot; Video walkthrough &middot; 9 day plan<br>
+      <span data-price-line hidden>Price &middot; <b data-price></b></span>
+    </div>
+
+    <div class="go">
+      <a class="pill solid" data-buy href="mailto:info@drddevikakamat.com?subject=Navratri%20guide"><span>Buy and download</span></a>
+    </div>
+  </div>
+
+  <section>
+    <h2>These nine days are for you</h2>
+    <p class="lead">Navratri is nine days to turn inward: to reflect on the feminine energy you
+    carry, and to draw in everything that nourishes and strengthens it.</p>
+    <p>That means the food on your plate, the way you move your body, and the thoughts you keep
+    returning to. This guide brings all three together, day by day, so you are never left
+    wondering what to eat or where to begin. Think of it as your companion for the whole of
+    Navratri.</p>
+  </section>
+
+  <section>
+    <h2>Fast, or simply eat well</h2>
+    <p>The nutrition plans work whether you are fasting, keeping Navratri as a ritual, or simply
+    want nine days of eating that leaves you lighter and steadier. The fasting guidelines are
+    included, so you can follow the plan in whichever way suits you.</p>
+    <p class="lead">The idea is not to eat less, or to eat more. It is to learn to eat well.</p>
+  </section>
+
+  <section>
+    <h2>What you receive</h2>
+    <p>As soon as your payment goes through, you receive a downloadable file with:</p>
+    <ul class="checklist">
+      <li>A pre-recorded video of me walking you through the plan and how to get the most from it</li>
+      <li>Day-wise nutrition plans for all nine days</li>
+      <li>The guidelines, including how to follow the plan if you are fasting</li>
+      <li>A grocery list of everything you will need</li>
+    </ul>
+    <p class="note" style="text-align:left">If you are pregnant, managing a health condition or
+    taking medication, please check with your doctor before you fast.</p>
+  </section>
+
+  <section class="close">
+    <p class="lead">Awaken the Devi within.</p>
+    <p>Nine days of eating, moving and thinking in a way that nourishes you.</p>
+    <div class="go">
+      <a class="pill solid" data-buy href="mailto:info@drddevikakamat.com?subject=Navratri%20guide"><span>Buy and download</span></a>
+    </div>
+  </section>
+
+</div>
+
+<footer class="docfoot">
+  <div class="wrap">
+    <a href="/terms">Terms</a>
+    <a href="/privacy">Privacy</a>
+    <a href="/refunds">Refunds</a>
+    <a href="/delivery">Delivery</a>
+    <span class="sep">Dr. Devika Kamat</span>
+  </div>
+</footer>
+
+<script src="assets/detail.js"></script>
+<script>
+/* The price and the payment link both come from the Guides sheet, from
+   the row whose Page column says navratri-guide, so they are kept in one
+   place and cannot disagree with the list on the homepage. Until that row
+   is found, the buttons ask by email and no price is shown. */
+(function(){
+  function money(p){
+    p=String(p||'').trim();
+    return /^\d+(\.\d+)?$/.test(p) ? '₹'+Number(p).toLocaleString('en-IN') : p;
+  }
+  load('/api/guides','content/guides.json').then(function(rows){
+    var row=(rows||[]).filter(function(r){
+      return /(^|\/)navratri-guide\/?$/i.test(ownPage(r));
+    })[0];
+    if(!row) return;
+    var btn=guideButton(row);
+    var price=btn.free?'Free':money(row.price);
+    document.querySelectorAll('[data-buy]').forEach(function(a){
+      a.href=btn.href;
+      if(/^https?:/i.test(btn.href)){ a.target='_blank'; a.rel='noopener'; }
+      a.querySelector('span').textContent=btn.label+(price?' · '+price:'');
+    });
+    if(price){
+      document.querySelector('[data-price]').textContent=price;
+      document.querySelector('[data-price-line]').hidden=false;
+    }
+  });
+})();
+</script>
+</body>
+</html>

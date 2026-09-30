@@ -132,7 +132,7 @@
         var bits=[d.time,d.place,d.format,d.price].filter(Boolean)
           .map(function(x){return '<span>'+esc(x)+'</span>'}).join('');
         var img=usableLink(d.image);
-        var more=eventPage(d)||('/event?e='+eventSlug(d));
+        var more=ownPage(d)||('/event?e='+eventSlug(d));
         return '<div class="ev'+(img?' has-img':'')+'">'+
           '<div class="when"><div class="d">'+esc(day)+'</div><div class="m">'+esc(mon)+' '+esc(yr)+'</div></div>'+
           '<div class="what"><b><a href="'+esc(more)+'">'+esc(d.title)+'</a></b>'+

@@ -57,25 +57,12 @@
     var descMeta=document.querySelector('meta[name="description"]');
     if(descMeta) descMeta.setAttribute('content',desc);
 
-    var free=!r.price||/^free$/i.test(String(r.price).trim());
-    var target=free
-      ? (usableLink(r.file) || usableLink(r.link))
-      : (usableLink(r.link) || usableLink(r.file));
-    var label=free?'Download':'Buy and download';
-    var attrs, href;
-    if(target){
-      href=target;
-      attrs=/^https?:/i.test(target) ? ' target="_blank" rel="noopener"' : ' download';
-    } else {
-      href='mailto:info@drddevikakamat.com?subject='+encodeURIComponent(r.title);
-      label='Ask for this';
-      attrs='';
-    }
+    var btn=guideButton(r);
 
     var facts=[];
     if(r.format) facts.push(['Format',r.format]);
     if(r.length) facts.push(['Length',r.length]);
-    facts.push(['Price',free?'Free':r.price]);
+    facts.push(['Price',btn.free?'Free':r.price]);
 
     main.innerHTML=
       '<span class="mono">Guide</span>'+
@@ -84,7 +71,7 @@
       '<div class="facts">'+facts.map(function(p){
         return '<div><div class="k">'+esc(p[0])+'</div><div class="v">'+esc(p[1])+'</div></div>';
       }).join('')+'</div>'+
-      '<p style="margin-top:32px"><a class="pill solid" href="'+esc(href)+'"'+attrs+'><span>'+label+'</span></a></p>';
+      '<p style="margin-top:32px"><a class="pill solid" href="'+esc(btn.href)+'"'+btn.attrs+'><span>'+btn.label+'</span></a></p>';
   }
 
   load('/api/guides','content/guides.json').then(function(rows){
@@ -92,6 +79,8 @@
       return slugify(r.title)===slug;
     })[0];
     if(!hit){ notFound(); return; }
+    var own=ownPage(hit);
+    if(own){ location.replace(own); return; }
     render(hit);
   }).catch(notFound);
 })();
