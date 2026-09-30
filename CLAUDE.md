@@ -202,6 +202,12 @@ Getting a specific event's, guide's or offering's own preview image and descript
 a share card would need the page to be rendered server-side per slug, which is a bigger
 change; ask before building that if it turns out to matter.
 
+**Short links**: `vercel.json`'s `redirects` gives a chapter a shareable address,
+currently `/meditation-club` → `/offering?o=the-meditation-club`. It is a redirect, not a
+rewrite, on purpose: `offering.html` reads its slug from the query string in the browser,
+which a rewrite would hide. Because the slug comes from the title, **renaming "The
+Meditation Club" in `CH` breaks this link** until the redirect's destination is updated.
+
 **Some events need more than the Events sheet's columns can hold**: a full brief, a
 guide's bio, testimonials. Those get a hand-built one-off page instead, styled to match
 (see `.devi` in `assets/styles.css`), with `devi-within.html` as the example. It is not
