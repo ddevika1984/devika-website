@@ -6,7 +6,9 @@
    "Execute as: Me", "Who has access: Anyone". Copy the /exec URL it gives
    you into Vercel as BOOKINGS_SHEET_URL.
 
-   The sheet needs one tab named "Bookings" with this header row in row 1:
+   Before deploying, run setup() once (function dropdown -> setup -> Run)
+   and accept Google's permission prompt. It creates the "Bookings" tab
+   if there isn't one and writes this header row into row 1 itself:
 
    payment_id | reference_id | product_name | customer_name |
    customer_email | customer_phone | amount | paid_at | paid_through |
@@ -41,10 +43,26 @@ var COLUMNS = [
   'calendly_start_time', 'calendly_end_time', 'followup_sent', 'last_updated'
 ];
 
+/* Creates the Bookings tab if it is missing and adds any header in COLUMNS
+   that row 1 does not have yet, so nobody has to type seventeen headers by
+   hand, and a header deleted by accident comes back instead of silently
+   dropping that field from every row written after it. */
 function sheet_() {
-  var s = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
-  if (!s) throw new Error('no sheet named ' + SHEET_NAME);
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var s = ss.getSheetByName(SHEET_NAME) || ss.insertSheet(SHEET_NAME);
+  var last = s.getLastColumn();
+  var have = last ? s.getRange(1, 1, 1, last).getValues()[0].map(function (h) { return String(h).trim(); }) : [];
+  var missing = COLUMNS.filter(function (c) { return have.indexOf(c) === -1; });
+  if (missing.length) s.getRange(1, last + 1, 1, missing.length).setValues([missing]);
   return s;
+}
+
+/* Run this once from the Apps Script editor (pick "setup" in the function
+   dropdown, then Run). It builds the tab and header row straight away, so
+   there is something to see, and it is what triggers Google's permission
+   prompt, which has to be accepted before the Web App can write anything. */
+function setup() {
+  sheet_();
 }
 
 function headerMap_(sheet) {
