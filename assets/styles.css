@@ -548,6 +548,11 @@ body.doc{background:#100D0C;color:var(--cream)}
 .devi .shot{min-height:auto;aspect-ratio:16/9;border-radius:4px;margin-top:34px}
 .devi .shot::after{transform:scaleY(0)}
 .devi .shot img{transform:scale(1)}
+/* Food reads as grey and unappetising through the duotone, so a .natural
+   photo keeps its own colours: no desaturating filter, no tint layers. */
+.shot.natural img{filter:none}
+.shot.natural::before,.shot.natural .warm{display:none}
+.devi .shot.natural{aspect-ratio:4/3}
 .devi .infobar{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
   color:rgba(240,236,220,.72);margin-top:30px;line-height:2;text-align:center}
 .devi .infobar b{color:var(--cream);font-weight:500}
