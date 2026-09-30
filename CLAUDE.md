@@ -346,7 +346,8 @@ above). Each Payment Page's Redirect URL needs setting in Razorpay accordingly
   nothing auto-renews - live at `https://rzp.io/rzp/TxHHo7r`, wired into the picker's
   `monthly` entry in `assets/data.js`. Redirect URL:
   `https://<site>/api/book?p=meditation-monthly`.
-- **"Annual" is the commit plan**: a real Razorpay **Subscription** (auto-charged, cancel
+- **"Annual" (labelled "Auto-renew" on the site, since it has no 12-month term) is the
+  commit plan**: a real Razorpay **Subscription** (auto-charged, cancel
   anytime), live at `https://rzp.io/rzp/ZKpaUoT`, wired into the picker's `annual` entry.
   It charges the same ₹1,198 every ~30 days on its own. Redirect URL:
   `https://<site>/api/book?p=meditation-annual`.

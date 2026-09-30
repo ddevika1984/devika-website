@@ -69,7 +69,9 @@ const PRODUCTS = {
      covers one month, nothing auto-renews - to keep going, they pay
      again by hand next month.
 
-     "Annual" is the commit plan: a real Razorpay *Subscription*
+     "Annual" (shown on the site as "Auto-renew"; the key stays
+     meditation-annual because Razorpay Redirect URLs point at it) is the
+     commit plan: a real Razorpay *Subscription*
      (auto-charged, cancel anytime), already live at the picker's
      `annual` href. It charges the same ₹1,198 every ~30 days on its
      own, which means **its amount collides with meditation-monthly on
@@ -95,7 +97,7 @@ const PRODUCTS = {
   },
   'meditation-annual': {
     amount: 1198,
-    name: 'Meditation Club (annual, subscription)',
+    name: 'Meditation Club (auto-renew subscription)',
     calendlyUrl: '',
     sessionsTotal: 0,
     membership: { durationDays: 30 },

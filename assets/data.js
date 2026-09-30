@@ -78,7 +78,7 @@ var CH = [
   for_:"For building a practice you will actually keep.",
   det:"Twenty to thirty minutes, a group that sits together regularly. No experience needed and no pressure to say anything. Come when you can, miss it when you cannot.",
   f:[["Meets","Mon, Tue, Thu at 9.15pm"],["Format","Group"]],
-  note:"Pick Monthly to try it and pay once, or Annual to subscribe and let it auto-renew.",
+  note:"Pick Monthly to try it and pay once, or Auto-renew to subscribe and keep your place each month.",
   /* Both hrefs are live, real Razorpay pages now - do not touch without
      being asked (golden rule 1). Both Payment Pages need their Redirect
      URL set (https://<site>/api/book?p=meditation-monthly and
@@ -91,7 +91,7 @@ var CH = [
      which does not - both cost the same ₹1,198, so the price line alone
      does not make that distinction. */
   picker:{
-    groups:[{key:"plan",opts:[["monthly","Monthly"],["annual","Annual"]]}],
+    groups:[{key:"plan",opts:[["monthly","Monthly"],["annual","Auto-renew"]]}],
     prices:{
       monthly:{
         price:"₹1,198",
