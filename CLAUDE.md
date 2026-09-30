@@ -388,7 +388,7 @@ code change alone can reach:
 ## Search engines
 
 - **Title and description** in `index.html`'s `<head>` carry her location (Mumbai) and
-  core terms. The fuller list of topics she wants to be found for lives in the JSON-LD
+  core terms, plus "online worldwide". Her real online-client locations (India, Dubai, UK, US, Germany, Australia) are in the JSON-LD `areaServed` and descriptions; only list places she actually has clients, or Google treats it as spam. The fuller list of topics she wants to be found for lives in the JSON-LD
   `knowsAbout`, not stuffed into the title.
 - **JSON-LD**: `#ld-org` in `index.html` describes her (Person, with credentials) and the
   practice (ProfessionalService, Mumbai). `assets/site.js` appends an `OfferCatalog` built
