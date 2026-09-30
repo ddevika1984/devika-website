@@ -55,7 +55,7 @@ var CH = [
   img:"images/integrativenutrition.webp",
   for_:"For energy, digestion and weight that will not shift.",
   det:"A month of eating built around the routine you already have, the budget you already have and the kitchen you already have. Three nutrition sessions and one session on wellness, stress management and mindset across the month, reviewed weekly and adjusted as we go.",
-  det2:"The plan is customised to your requirements and goals, including the number of nutrition and wellness sessions, so the price may differ depending on how it is personalised.",
+  note:"After the discovery call or first session, the plan may be customised to your requirements and goals, including the number of nutrition and wellness sessions, so the price may differ depending on how it is personalised.",
   f:[["Length","4 sessions over 1 month"],["Format","One to one"],["Cost","₹12,700"]],
   cta:{label:"Book this",href:"https://rzp.io/rzp/hJMniutv"}},
 
