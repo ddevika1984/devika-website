@@ -100,7 +100,7 @@ var CH = [
       },
       annual:{
         price:"₹1,198/month",
-        sub:"Subscription. Auto-charged every month until you cancel.",
+        sub:"Subscription. ₹1,198 is charged on the day you join, then on the same date every month until you cancel.",
         href:"https://rzp.io/rzp/ZKpaUoT"
       }
     }
