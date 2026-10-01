@@ -209,10 +209,12 @@ change; ask before building that if it turns out to matter.
 the first, set via the nutrition entry's `page` field. It uses the `.devi` styles plus
 `.plans` cards for its two lengths. **Its ₹12,700 is written into the HTML** as well as
 `assets/data.js` and `api/lib/products.js` (`nutrition-4`), so a price change touches all
-three. The 12-week option has no Razorpay page yet: its buttons (`data-twelve`) are an
-email enquiry. When Devika sends a link and a price, swap those hrefs, show the price,
-add a distinct-priced product to `products.js`, and consider a 1 month / 12 weeks picker
-on the homepage chapter.
+three. The 3-month (12-week) option books through `https://rzp.io/rzp/IN90days` since
+1 Oct 2026, but **its price is not yet known**: the page shows "12 weeks" where a price
+would go, and `products.js` has no entry for it, so its payments land in the Bookings
+sheet as "unrecognised" with their amount. When Devika gives the price: show it on the
+page, add a distinct-priced `nutrition-12` product, and consider a 1 month / 3 months
+picker on the homepage chapter.
 
 **Short links**: `vercel.json`'s `redirects` gives a chapter a shareable address,
 currently `/meditation-club` → `/offering?o=the-meditation-club`. It is a redirect, not a
