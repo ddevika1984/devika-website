@@ -56,9 +56,15 @@ const PRODUCTS = {
   },
   'nutrition-4': {
     amount: 12700,
-    name: 'Integrative nutrition',
+    name: 'Integrative nutrition (1 month)',
     calendlyUrl: 'https://calendly.com/drddevikakamat--holisticwellness/integrative-nutrition',
     sessionsTotal: 4
+  },
+  'nutrition-12': {
+    amount: 35000,
+    name: 'Integrative nutrition (3 months)',
+    calendlyUrl: 'https://calendly.com/drddevikakamat--holisticwellness/integrative-nutrition',
+    sessionsTotal: 12
   },
   /* Membership, not a booking - no Calendly event, so no booking email.
      `membership.durationDays` is how long one payment covers, used by the

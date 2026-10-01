@@ -54,13 +54,20 @@ var CH = [
   t:"Integrative nutrition",
   img:"images/integrativenutrition.webp",
   for_:"For energy, digestion and weight that will not shift.",
-  det:"A month of eating built around the routine you already have, the budget you already have and the kitchen you already have. Three nutrition sessions and one session on wellness, stress management and mindset across the month, reviewed weekly and adjusted as we go.",
+  det:"Eating built around the routine you already have, the budget you already have and the kitchen you already have. Each month is three nutrition sessions and one session on wellness, stress management and mindset, reviewed weekly and adjusted as we go.",
   note:"After the discovery call or first session, the plan may be customised to your requirements and goals, including the number of nutrition and wellness sessions, so the price may differ depending on how it is personalised.",
-  f:[["Length","4 sessions over 1 month"],["Format","One to one"],["Cost","₹12,700"]],
-  /* ₹12,700 is also written into integrative-nutrition.html (and is the
-     nutrition-4 amount in api/lib/products.js): change all three together. */
-  page:"/integrative-nutrition",
-  cta:{label:"Book this",href:"https://rzp.io/rzp/hJMniutv"}},
+  f:[["Length","1 month or 3 months"],["Format","One to one"],["Cost","From ₹12,700"]],
+  /* ₹12,700 and ₹35,000 are also written into integrative-nutrition.html
+     (and are the nutrition-4 / nutrition-12 amounts in api/lib/products.js):
+     change all three together. */
+  picker:{
+    groups:[{key:"length",opts:[["month","1 month"],["three","3 months"]]}],
+    prices:{
+      month:{price:"₹12,700", sub:"4 weekly sessions: 3 nutrition plans and 1 wellness and mindset session.", href:"https://rzp.io/rzp/hJMniutv"},
+      three:{price:"₹35,000", sub:"12 weekly sessions: 9 nutrition plans and 3 wellness and mindset sessions.", href:"https://rzp.io/rzp/IN90days"}
+    }
+  },
+  page:"/integrative-nutrition"},
 
  {id:"counseling",key:"throat",sans:"Vishuddha",en:"Throat",c:"#9C9078",bg:"#453F35",fg:"#F0ECDC",
   t:"Holistic counseling, rewiring and energy alignment",

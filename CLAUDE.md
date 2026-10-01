@@ -61,7 +61,8 @@ Each entry:
 - `f` — the fact rows, as `[label, value]` pairs
 - `cta` — `{label, href}`. If `href` is empty the button falls back to an email link.
 - `img` — path to the photo
-- `picker` — only on the counselling chapter, see below
+- `picker` — on the counselling, nutrition and Meditation Club chapters, see below. Each
+  `prices` entry can carry an optional `sub`, a line shown under the price
 - `guides` — only on the guides chapter, makes it render from `content/guides.json`
 - `page` — optional path to a hand-built page for this offering (e.g.
   `/integrative-nutrition`). The chapter gets a "Read more" button beside its booking
@@ -207,14 +208,16 @@ change; ask before building that if it turns out to matter.
 
 **Hand-built offering pages**: `integrative-nutrition.html` (`/integrative-nutrition`) is
 the first, set via the nutrition entry's `page` field. It uses the `.devi` styles plus
-`.plans` cards for its two lengths. **Its ₹12,700 is written into the HTML** as well as
-`assets/data.js` and `api/lib/products.js` (`nutrition-4`), so a price change touches all
-three. The 3-month (12-week) option books through `https://rzp.io/rzp/IN90days` since
-1 Oct 2026, but **its price is not yet known**: the page shows "12 weeks" where a price
-would go, and `products.js` has no entry for it, so its payments land in the Bookings
-sheet as "unrecognised" with their amount. When Devika gives the price: show it on the
-page, add a distinct-priced `nutrition-12` product, and consider a 1 month / 3 months
-picker on the homepage chapter.
+`.plans` cards for its two lengths. **Both prices are written into the HTML** as well as
+`assets/data.js` (the chapter's 1 month / 3 months picker) and `api/lib/products.js`, so a
+price change touches all three:
+
+| | Price | Razorpay | Product key |
+|---|---|---|---|
+| 1 month (4 sessions) | ₹12,700 | `hJMniutv` | `nutrition-4` |
+| 3 months (12 sessions) | ₹35,000 | `IN90days` | `nutrition-12` |
+
+Each Payment Page's Redirect URL should be `https://<site>/api/book?p=` plus its product key.
 
 **Short links**: `vercel.json`'s `redirects` gives a chapter a shareable address,
 currently `/meditation-club` → `/offering?o=the-meditation-club`. It is a redirect, not a

@@ -84,9 +84,9 @@ function wireChapter(sec,s){
       var hit=s.picker.prices[state()];
       out.textContent=hit.price;
       buy.href=hit.href;
-      /* sub is optional - only the Meditation Club's picker uses it, to
-         spell out which option auto-renews when two options share a
-         price and the number alone can't say so. */
+      /* sub is optional: a line under the price saying what that option
+         includes (Integrative nutrition) or which option auto-renews when
+         two share a price (the Meditation Club). */
       sub.textContent=hit.sub||'';
       sub.style.display=hit.sub?'':'none';
     }
