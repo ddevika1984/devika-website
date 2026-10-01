@@ -219,11 +219,12 @@ price change touches all three:
 
 Each Payment Page's Redirect URL should be `https://<site>/api/book?p=` plus its product key.
 
-**Short links**: `vercel.json`'s `redirects` gives a chapter a shareable address,
-currently `/meditation-club` → `/offering?o=the-meditation-club`. It is a redirect, not a
-rewrite, on purpose: `offering.html` reads its slug from the query string in the browser,
-which a rewrite would hide. Because the slug comes from the title, **renaming "The
-Meditation Club" in `CH` breaks this link** until the redirect's destination is updated.
+**`meditation-club.html`** (`/meditation-club`) is the second, set the same way via the
+Meditation Club entry's `page`. It used to be a `vercel.json` redirect to
+`/offering?o=the-meditation-club`; that redirect is gone, and must not come back, since
+`offering.html` now redirects to `/meditation-club` and the two would loop. Its ₹1,198 and
+both Razorpay links (Monthly `TxHHo7r`, Auto-renew `RNKAxkAi`) are hand-written in the HTML
+as well as the picker in `assets/data.js`, so a change touches both.
 
 **Some events need more than the Events sheet's columns can hold**: a full brief, a
 guide's bio, testimonials. Those get a hand-built one-off page instead, styled to match

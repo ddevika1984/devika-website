@@ -594,6 +594,15 @@ body.doc{background:#100D0C;color:var(--cream)}
 .devi .rvgrid{margin-top:22px}
 .devi .close{text-align:center;border-bottom:0}
 .devi .close .go{margin-top:8px}
+/* A long list of short items (e.g. the Meditation Club's special events)
+   set in two columns so it does not run down the page. */
+.devi ul.checklist.cols{grid-template-columns:1fr 1fr;column-gap:24px}
+/* Numbered steps, e.g. how to join. */
+.devi ol.steps{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:14px;counter-reset:st}
+.devi ol.steps li{counter-increment:st;display:flex;gap:14px;align-items:baseline;font-size:15px;
+  line-height:1.55;color:rgba(240,236,220,.88)}
+.devi ol.steps li::before{content:counter(st,decimal-leading-zero);flex:0 0 22px;font-family:var(--mono);
+  font-size:10.5px;letter-spacing:.12em;color:var(--accent)}
 @media (max-width:640px){
   .devi .triad{grid-template-columns:1fr;gap:20px}
 }

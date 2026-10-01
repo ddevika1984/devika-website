@@ -87,9 +87,13 @@ var CH = [
   t:"The Meditation Club",
   img:"images/meditationclub.webp",
   for_:"For building a practice you will actually keep.",
-  det:"Twenty to thirty minutes, a group that sits together regularly. No experience needed and no pressure to say anything. Come when you can, miss it when you cannot.",
+  det:"Twenty minutes, live, with a group that sits together three evenings a week. No experience needed and no pressure to say anything. Come when you can, miss it when you cannot.",
   f:[["Meets","Mon, Tue, Thu at 9.15pm"],["Format","Group"]],
   note:"Pick Monthly to try it and pay once, or Auto-renew to subscribe and keep your place each month.",
+  /* Its own page, meditation-club.html, also at the short link
+     /meditation-club. Its ₹1,198 and both links below are written into
+     that page by hand too: change both files together. */
+  page:"/meditation-club",
   /* Both hrefs are live Razorpay links - do not touch without being asked
      (golden rule 1). Their Redirect URLs should be
      https://<site>/api/book?p=meditation-monthly and ?p=meditation-annual,

@@ -2,9 +2,6 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
   "trailingSlash": false,
-  "redirects": [
-    { "source": "/meditation-club", "destination": "/offering?o=the-meditation-club", "permanent": false }
-  ],
   "headers": [
     {
       "source": "/assets/(.*)",
