@@ -35,7 +35,7 @@
       itemListElement:CH.map(function(s){
         return {'@type':'Offer', itemOffered:{
           '@type':'Service', name:s.t, description:s.det,
-          url:site+'/offering?o='+chapterSlug(s),
+          url:site+(s.page||'/offering?o='+chapterSlug(s)),
           provider:{'@id':site+'/#practice'}
         }};
       })

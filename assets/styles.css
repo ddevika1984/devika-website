@@ -553,6 +553,19 @@ body.doc{background:#100D0C;color:var(--cream)}
 .shot.natural img{filter:none}
 .shot.natural::before,.shot.natural .warm{display:none}
 .devi .shot.natural{aspect-ratio:4/3}
+/* A portrait of a person, shown whole rather than cropped to a banner,
+   which is what cut Devika's face off the first time this photo was used. */
+.devi .shot.portrait{aspect-ratio:4/5;max-width:440px;margin-left:auto;margin-right:auto}
+/* Side-by-side programme options, e.g. 1 month and 12 weeks. */
+.devi .plans{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:22px}
+.devi .plan{display:flex;flex-direction:column;padding:22px;border-radius:4px;
+  border:1px solid rgba(240,236,220,.16);background:rgba(240,236,220,.03)}
+.devi .plan b{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;
+  font-weight:400;color:var(--accent)}
+.devi .plan .amt{font-size:26px;font-weight:200;letter-spacing:-.02em;color:var(--cream);margin-top:8px}
+.devi .plan p{flex:1;font-size:14.5px}
+.devi .plan .pill{align-self:flex-start;margin-top:18px}
+@media (max-width:640px){.devi .plans{grid-template-columns:1fr}}
 .devi .infobar{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
   color:rgba(240,236,220,.72);margin-top:30px;line-height:2;text-align:center}
 .devi .infobar b{color:var(--cream);font-weight:500}

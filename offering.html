@@ -57,6 +57,9 @@
 
   if(!hit){
     notFound();
+  } else if(hit.page){
+    /* An offering with its own hand-built page lives there instead. */
+    location.replace(hit.page);
   } else {
     document.title=hit.t+' — Dr. Devika Kamat';
     var descMeta=document.querySelector('meta[name="description"]');

@@ -57,6 +57,9 @@ var CH = [
   det:"A month of eating built around the routine you already have, the budget you already have and the kitchen you already have. Three nutrition sessions and one session on wellness, stress management and mindset across the month, reviewed weekly and adjusted as we go.",
   note:"After the discovery call or first session, the plan may be customised to your requirements and goals, including the number of nutrition and wellness sessions, so the price may differ depending on how it is personalised.",
   f:[["Length","4 sessions over 1 month"],["Format","One to one"],["Cost","₹12,700"]],
+  /* ₹12,700 is also written into integrative-nutrition.html (and is the
+     nutrition-4 amount in api/lib/products.js): change all three together. */
+  page:"/integrative-nutrition",
   cta:{label:"Book this",href:"https://rzp.io/rzp/hJMniutv"}},
 
  {id:"counseling",key:"throat",sans:"Vishuddha",en:"Throat",c:"#9C9078",bg:"#453F35",fg:"#F0ECDC",

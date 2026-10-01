@@ -34,13 +34,18 @@ function chapterHTML(s,i){
 
   var media = '<div class="shot"><img src="'+s.img+'" alt="'+esc(s.t)+'" loading="lazy" decoding="async"><span class="warm"></span></div>';
 
+  /* `page`: an offering with its own hand-built page gets a Read more
+     button beside its booking button. */
+  var more = s.page ? '<a class="pill" href="'+esc(s.page)+'"><span>Read more</span></a>' : '';
   var go='';
   if(s.picker){
-    go='<div class="go"><a class="pill solid" data-pbuy href="#"><span>Book this</span></a></div>';
+    go='<div class="go"><a class="pill solid" data-pbuy href="#"><span>Book this</span></a>'+more+'</div>';
   } else if(s.cta){
     go = s.cta.href
-      ? '<div class="go"><a class="pill solid" href="'+esc(s.cta.href)+'" target="_blank" rel="noopener"><span>'+esc(s.cta.label)+'</span></a></div>'
-      : '<div class="go"><a class="pill solid is-soon" href="mailto:'+esc(CONFIG.email)+'?subject='+encodeURIComponent(s.t)+'"><span>'+esc(s.cta.label)+'</span></a></div>';
+      ? '<div class="go"><a class="pill solid" href="'+esc(s.cta.href)+'" target="_blank" rel="noopener"><span>'+esc(s.cta.label)+'</span></a>'+more+'</div>'
+      : '<div class="go"><a class="pill solid is-soon" href="mailto:'+esc(CONFIG.email)+'?subject='+encodeURIComponent(s.t)+'"><span>'+esc(s.cta.label)+'</span></a>'+more+'</div>';
+  } else if(more){
+    go='<div class="go">'+more+'</div>';
   }
 
   return '<section class="chap'+(i%2?' flip':'')+'" id="'+s.id+'" data-chap="'+i+'" '+

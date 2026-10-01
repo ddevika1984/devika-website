@@ -63,6 +63,9 @@ Each entry:
 - `img` — path to the photo
 - `picker` — only on the counselling chapter, see below
 - `guides` — only on the guides chapter, makes it render from `content/guides.json`
+- `page` — optional path to a hand-built page for this offering (e.g.
+  `/integrative-nutrition`). The chapter gets a "Read more" button beside its booking
+  button, `offering.html` redirects there, and the JSON-LD and sitemap use it.
 
 ## The counselling picker
 
@@ -201,6 +204,15 @@ see the generic title and description in the page's `<head>`, not that specific 
 Getting a specific event's, guide's or offering's own preview image and description into
 a share card would need the page to be rendered server-side per slug, which is a bigger
 change; ask before building that if it turns out to matter.
+
+**Hand-built offering pages**: `integrative-nutrition.html` (`/integrative-nutrition`) is
+the first, set via the nutrition entry's `page` field. It uses the `.devi` styles plus
+`.plans` cards for its two lengths. **Its ₹12,700 is written into the HTML** as well as
+`assets/data.js` and `api/lib/products.js` (`nutrition-4`), so a price change touches all
+three. The 12-week option has no Razorpay page yet: its buttons (`data-twelve`) are an
+email enquiry. When Devika sends a link and a price, swap those hrefs, show the price,
+add a distinct-priced product to `products.js`, and consider a 1 month / 12 weeks picker
+on the homepage chapter.
 
 **Short links**: `vercel.json`'s `redirects` gives a chapter a shareable address,
 currently `/meditation-club` → `/offering?o=the-meditation-club`. It is a redirect, not a
