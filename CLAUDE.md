@@ -219,6 +219,12 @@ price change touches all three:
 
 Each Payment Page's Redirect URL should be `https://<site>/api/book?p=` plus its product key.
 
+**As of 2 Oct 2026 the 3-month option is a WhatsApp enquiry, not a payment**: Razorpay's
+per-payment limit on the account is below ₹35,000, so `IN90days` shows "amount exceeds
+maximum payment amount allowed". Its picker entry carries `label:"Enquire about 3 months"`
+and a `wa.me` href, and the page's two 3-month buttons match. Once Razorpay raises the
+limit, point all three back at `IN90days` and drop the `label`.
+
 **`meditation-club.html`** (`/meditation-club`) is the second, set the same way via the
 Meditation Club entry's `page`. It used to be a `vercel.json` redirect to
 `/offering?o=the-meditation-club`; that redirect is gone, and must not come back, since

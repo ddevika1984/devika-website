@@ -64,7 +64,12 @@ var CH = [
     groups:[{key:"length",opts:[["month","1 month"],["three","3 months"]]}],
     prices:{
       month:{price:"₹12,700", sub:"4 weekly sessions: 3 nutrition plans and 1 wellness and mindset session.", href:"https://rzp.io/rzp/hJMniutv"},
-      three:{price:"₹35,000", sub:"12 weekly sessions: 9 nutrition plans and 3 wellness and mindset sessions.", href:"https://rzp.io/rzp/IN90days"}
+      /* Enquiry on WhatsApp for now: Razorpay's per-payment limit on this
+         account is below ₹35,000, so the IN90days page refuses the payment.
+         Once Razorpay raises it, put back
+         href:"https://rzp.io/rzp/IN90days" and drop `label` (here and in
+         integrative-nutrition.html). */
+      three:{price:"₹35,000", sub:"12 weekly sessions: 9 nutrition plans and 3 wellness and mindset sessions.", label:"Enquire about 3 months", href:"https://wa.me/919324452512?text=Hi%20Dr.%20Devika%2C%20I%27d%20like%20to%20know%20more%20about%20the%203-month%20Integrative%20Nutrition%20programme."}
     }
   },
   page:"/integrative-nutrition"},

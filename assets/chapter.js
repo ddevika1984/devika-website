@@ -84,6 +84,9 @@ function wireChapter(sec,s){
       var hit=s.picker.prices[state()];
       out.textContent=hit.price;
       buy.href=hit.href;
+      /* label is optional: an option that is enquire-only for now says so
+         on the button instead of "Book this". */
+      buy.querySelector('span').textContent=hit.label||'Book this';
       /* sub is optional: a line under the price saying what that option
          includes (Integrative nutrition) or which option auto-renews when
          two share a price (the Meditation Club). */
