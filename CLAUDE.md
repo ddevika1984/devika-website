@@ -482,8 +482,9 @@ produces the two correct prices and links, and the Gallery and Reviews sections 
 ## Known gaps
 
 - The guides are placeholder rows.
-- Terms, privacy, refund and delivery policy pages do not exist yet. Razorpay requires
-  them.
+- The terms, privacy, refunds and delivery pages were completed on 2 Oct 2026 with
+  Devika's answers. Razorpay requires them, so keep them current when an offering, price
+  or way of delivering changes.
 - Devi Within's payment links (offline `rzp.io/rzp/Deviwithin`, online
   `rzp.io/rzp/aaPtUAqy`) are hard-coded in `devi-within.html` as the buttons' defaults,
   but a value in its Events sheet row's Offline Link / Online Link overrides them, and
