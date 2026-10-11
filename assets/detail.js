@@ -79,10 +79,12 @@ function eventButtons(r){
     return 'mailto:'+email+'?subject='+encodeURIComponent('Reserve a seat: '+r.title+(what?', '+what:''));
   }
   var off=usableLink(r.offline), on=usableLink(r.online);
+  /* Only the formats that have a link get a button, so an event that has
+     gone online-only just needs its Offline Link cell cleared. */
   if(off||on) return [
-    {label:'Book offline', href:off||ask('Offline')},
-    {label:'Book online',  href:on||ask('Online')}
-  ];
+    off && {label:'Book offline', href:off},
+    on  && {label:'Book online',  href:on}
+  ].filter(Boolean);
   return [{label:'Reserve a place', href:r.link||ask('')}];
 }
 

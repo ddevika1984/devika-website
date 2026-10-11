@@ -244,12 +244,14 @@ there instead of to `event.html`, and `event.html` redirects there too, so an ol
 
 **Offline Link / Online Link** are two optional Events sheet columns for an event sold at
 two prices by format. Fill in either and the row's single "Reserve a place" button (fed
-by `Link`) becomes two, "Book offline" and "Book online"; the one still blank asks by
-email until it is filled in (`eventButtons()` in `assets/detail.js`). A hand-built page
+by `Link`) is replaced by "Book offline" and/or "Book online", one button per column that
+holds a link (`eventButtons()` in `assets/detail.js`). Clearing Offline Link makes an
+event online-only. A hand-built page
 reads the same two columns from its own row, so the payment links live in one place:
 `devi-within.html` fetches `/api/events`, finds the row whose Page is `devi-within`, and
-points its two buttons there. The prices printed on that page (₹2,400 / ₹2,000) are
-hand-written in its HTML and have to agree with the Razorpay pages, per golden rule 1.
+points its two buttons there. Since 11 Oct 2026 Devi Within is online only: the page has just the
+online button and price (₹2,000, hand-written in its HTML, which has to agree with the
+Razorpay page per golden rule 1).
 
 **Guides work the same way.** The Guides sheet has its own optional **Page** column; a
 guide row with one links there from the homepage list (the whole row is clickable) and

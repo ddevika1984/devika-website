@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Devi Within: A Navratri Women's Circle | Dr. Devika Kamat</title>
-<meta name="description" content="Become Shakti: a Navratri circle to awaken the Devi within, with Dr. Devika Kamat. Sunday 11 October, 6 to 7 PM, at Brindavan Terraces, Chembur, and online.">
+<meta name="description" content="Become Shakti: a Navratri circle to awaken the Devi within, with Dr. Devika Kamat. Sunday 11 October, 6 to 7 PM, online.">
 <link rel="icon" href="images/mark.png">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Dr. Devika Kamat">
@@ -37,16 +37,14 @@
     </div>
 
     <div class="infobar">
-      A Navratri Women's Circle &middot; Offline &amp; Online<br>
+      A Navratri Women's Circle &middot; Online<br>
       <b>Sunday, 11 October</b> &middot; <b>6 to 7 PM</b><br>
-      Venue: <b>Brindavan Terraces, Chembur</b> &middot; or join online<br>
-      Energy exchange &middot; <span style="white-space:nowrap">Offline <b>&#8377;2,400</b></span> &middot; <span style="white-space:nowrap">Online <b>&#8377;2,000</b></span>
+      Energy exchange &middot; <b>&#8377;2,000</b>
     </div>
 
     <p class="note">Come dressed in a colour that makes you feel like Devi.</p>
 
     <div class="go">
-      <a class="pill solid" data-book="offline" href="https://rzp.io/rzp/Deviwithin" target="_blank" rel="noopener"><span>Book offline &middot; &#8377;2,400</span></a>
       <a class="pill solid" data-book="online" href="https://rzp.io/rzp/aaPtUAqy" target="_blank" rel="noopener"><span>Book online &middot; &#8377;2,000</span></a>
     </div>
   </div>
@@ -134,7 +132,6 @@
     <p class="lead">This is a sacred circle, not a class.</p>
     <p>Seats are few, and held for the women meant to be in them. Claim yours.</p>
     <div class="go">
-      <a class="pill solid" data-book="offline" href="https://rzp.io/rzp/Deviwithin" target="_blank" rel="noopener"><span>Book offline &middot; &#8377;2,400</span></a>
       <a class="pill solid" data-book="online" href="https://rzp.io/rzp/aaPtUAqy" target="_blank" rel="noopener"><span>Book online &middot; &#8377;2,000</span></a>
     </div>
   </section>
@@ -153,10 +150,11 @@
 
 <script src="assets/detail.js"></script>
 <script>
-/* The payment links live in the Events sheet, on the row whose Page
-   column says devi-within, in its Offline Link / Online Link columns.
-   Until one is filled in, that button keeps the href in the markup:
-   the real offline and online Razorpay pages. */
+/* The payment link lives in the Events sheet, on the row whose Page
+   column says devi-within, in its Online Link column. Until that is
+   filled in, the button keeps the href in the markup: the real online
+   Razorpay page. (Online only since 11 Oct 2026; there is no offline
+   button any more, so an Offline Link value is ignored here.) */
 (function(){
   load('/api/events','content/events.json').then(function(rows){
     var row=(rows||[]).filter(function(r){
