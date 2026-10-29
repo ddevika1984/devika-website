@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>11/11: Manifesting Through Your Angels | Dr. Devika Kamat</title>
+<meta name="description" content="An online 11/11 session with Dr. Devika Kamat: tapping, visualisation and manifesting with your angels. Wednesday 11 November, 7 PM IST.">
+<link rel="canonical" href="https://www.drdevikawellness.space/11-11">
+<link rel="icon" href="images/mark.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Dr. Devika Kamat">
+<meta property="og:title" content="11/11: Manifesting Through Your Angels">
+<meta property="og:description" content="Tapping, visualisation and manifesting with your angels. Online, Wednesday 11 November, 7 PM IST.">
+<meta property="og:image" content="https://www.drdevikawellness.space/images/gallery/evening-meditation-3.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body style="--accent:#B7A3CF">
+
+<div class="docbar">
+  <div class="wrap">
+    <a class="mk" href="/"><img src="images/mark.png" alt=""><b>Dr. Devika Kamat</b></a>
+    <a class="pill back" href="/#events" style="color:var(--cream)"><span>All events</span></a>
+  </div>
+</div>
+
+<div class="devi">
+
+  <div class="hero">
+    <div class="eyeb"><span class="dot"></span><span class="mono">11/11 energy &middot; Online</span></div>
+    <h1>11/11:<br>Manifesting Through Your Angels</h1>
+    <p class="sub">When the portal opens, set your intentions with your angels beside you.</p>
+
+    <div class="shot portrait">
+      <img src="images/gallery/evening-meditation-3.webp" alt="Dr. Devika Kamat in meditation" decoding="async">
+      <span class="warm"></span>
+    </div>
+
+    <div class="infobar">
+      An online session<br>
+      <b>Wednesday, 11 November</b> &middot; <b>7 PM IST</b>
+      <span data-price-line hidden><br>Energy exchange &middot; <b data-price></b></span>
+    </div>
+
+    <div class="go">
+      <a class="pill solid" data-book href="mailto:info@drddevikakamat.com?subject=Reserve%20a%20seat%3A%2011%2F11%20Manifesting%20Through%20Your%20Angels"><span>Reserve your place</span></a>
+    </div>
+  </div>
+
+  <section>
+    <h2>Why 11/11</h2>
+    <p class="lead">Come and join me for a session of tapping, visualisation and manifesting with
+    your angels.</p>
+    <p>For many, 11/11 is a day when the doorway to our spiritual guides opens a little wider. Seeing
+    11:11 is often taken as a sign that your angels are close, and that what you hold in your heart
+    is ready to take form.</p>
+    <p>This is a time to connect with your spiritual guides, to understand why 11:11 matters, and to
+    open the portal to powerful manifestations.</p>
+  </section>
+
+  <section>
+    <h2>What we'll do</h2>
+    <div class="triad">
+      <div><b>Tapping</b><p>Clear the doubts and old beliefs that stand between you and what you are asking for.</p></div>
+      <div><b>Visualisation</b><p>A guided journey to connect with your angels and spiritual guides.</p></div>
+      <div><b>Manifesting</b><p>Set your intentions while the 11/11 portal is open.</p></div>
+    </div>
+  </section>
+
+  <section class="close">
+    <p class="lead">Wednesday, 11 November, 7 PM IST. Online.</p>
+    <p>Join from wherever you are, and come with an open heart.</p>
+    <div class="go">
+      <a class="pill solid" data-book href="mailto:info@drddevikakamat.com?subject=Reserve%20a%20seat%3A%2011%2F11%20Manifesting%20Through%20Your%20Angels"><span>Reserve your place</span></a>
+    </div>
+  </section>
+
+</div>
+
+<footer class="docfoot">
+  <div class="wrap">
+    <a href="/terms">Terms</a>
+    <a href="/privacy">Privacy</a>
+    <a href="/refunds">Refunds</a>
+    <a href="/delivery">Delivery</a>
+    <span class="sep">Dr. Devika Kamat</span>
+  </div>
+</footer>
+
+<script src="assets/detail.js"></script>
+<script>
+/* The price and the payment link come from the Events sheet, from the
+   row whose Page column says 11-11 (its Online Link, or else its Link,
+   and its Price), so they are kept in one place with the homepage's
+   Events list. Until that row has a link, the buttons ask by email and
+   no price is shown. */
+(function(){
+  function money(p){
+    p=String(p||'').trim();
+    return /^\d+(\.\d+)?$/.test(p) ? '₹'+Number(p).toLocaleString('en-IN') : p;
+  }
+  load('/api/events','content/events.json').then(function(rows){
+    var row=(rows||[]).filter(function(r){
+      return /(^|\/)11-11\/?$/i.test(ownPage(r));
+    })[0];
+    if(!row) return;
+    var href=usableLink(row.online)||usableLink(row.link);
+    var price=money(row.price);
+    document.querySelectorAll('[data-book]').forEach(function(a){
+      if(href){ a.href=href; a.target='_blank'; a.rel='noopener'; }
+      if(href&&price) a.querySelector('span').textContent='Reserve your place · '+price;
+    });
+    if(price){
+      document.querySelector('[data-price]').textContent=price;
+      document.querySelector('[data-price-line]').hidden=false;
+    }
+  });
+})();
+</script>
+</body>
+</html>

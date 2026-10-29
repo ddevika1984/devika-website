@@ -253,6 +253,11 @@ points its two buttons there. Since 11 Oct 2026 Devi Within is online only: the 
 online button and price (₹2,000, hand-written in its HTML, which has to agree with the
 Razorpay page per golden rule 1).
 
+**`11-11.html`** (`/11-11`) is the 11/11 "Manifesting Through Your Angels" online
+session on 11 Nov 2026, 7 PM IST. Like the Navratri guide page it has **no price or
+payment link written in**: it reads them from the Events sheet row whose Page is `11-11`
+(Online Link, or else Link, and Price). Until that row has a link, its buttons ask by email.
+
 **Guides work the same way.** The Guides sheet has its own optional **Page** column; a
 guide row with one links there from the homepage list (the whole row is clickable) and
 from `guide.html`, instead of to the generic guide page. `navratri-guide.html`
