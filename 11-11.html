@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>11/11: Manifesting Through Your Angels | Dr. Devika Kamat</title>
-<meta name="description" content="An online 11/11 session with Dr. Devika Kamat: tapping, visualisation and manifesting with your angels. Wednesday 11 November, 7 PM IST.">
+<meta name="description" content="An online 11/11 session with Dr. Devika Kamat: tapping, visualisation and manifesting with your angels. Wednesday 11 November, 7 PM IST. Energy exchange ₹1,111.">
 <link rel="canonical" href="https://www.drdevikawellness.space/11-11">
 <link rel="icon" href="images/mark.png">
 <meta property="og:type" content="website">
@@ -41,11 +41,11 @@
     <div class="infobar">
       An online session<br>
       <b>Wednesday, 11 November</b> &middot; <b>7 PM IST</b>
-      <span data-price-line hidden><br>Energy exchange &middot; <b data-price></b></span>
+      <span data-price-line><br>Energy exchange &middot; <b data-price>&#8377;1,111</b></span>
     </div>
 
     <div class="go">
-      <a class="pill solid" data-book href="https://rzp.io/rzp/11:11Manifesting" target="_blank" rel="noopener"><span>Reserve your place</span></a>
+      <a class="pill solid" data-book href="https://rzp.io/rzp/11:11Manifesting" target="_blank" rel="noopener"><span>Reserve your place &middot; &#8377;1,111</span></a>
     </div>
   </div>
 
@@ -73,7 +73,7 @@
     <p class="lead">Wednesday, 11 November, 7 PM IST. Online.</p>
     <p>Join from wherever you are, and come with an open heart.</p>
     <div class="go">
-      <a class="pill solid" data-book href="https://rzp.io/rzp/11:11Manifesting" target="_blank" rel="noopener"><span>Reserve your place</span></a>
+      <a class="pill solid" data-book href="https://rzp.io/rzp/11:11Manifesting" target="_blank" rel="noopener"><span>Reserve your place &middot; &#8377;1,111</span></a>
     </div>
   </section>
 
@@ -93,8 +93,8 @@
 <script>
 /* The buttons' default href is the Razorpay page Devika gave on
    29 Oct 2026. A link in the Events sheet row whose Page column says
-   11-11 (its Online Link, or else its Link) overrides it, and that row's
-   Price is shown; until the row has a Price, no price is shown. */
+   11-11 (its Online Link, or else its Link) overrides it. The price,
+   ₹1,111, is written in the page; a Price in that row overrides it. */
 (function(){
   function money(p){
     p=String(p||'').trim();
@@ -109,7 +109,7 @@
     var price=money(row.price);
     document.querySelectorAll('[data-book]').forEach(function(a){
       if(href){ a.href=href; a.target='_blank'; a.rel='noopener'; }
-      if(href&&price) a.querySelector('span').textContent='Reserve your place · '+price;
+      if(price) a.querySelector('span').textContent='Reserve your place · '+price;
     });
     if(price){
       document.querySelector('[data-price]').textContent=price;

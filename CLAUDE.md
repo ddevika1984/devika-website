@@ -256,8 +256,8 @@ Razorpay page per golden rule 1).
 **`11-11.html`** (`/11-11`) is the 11/11 "Manifesting Through Your Angels" online
 session on 11 Nov 2026, 7 PM IST. Its buttons default to `https://rzp.io/rzp/11:11Manifesting`
 (a payment link, golden rule 1); the Events sheet row whose Page is `11-11` overrides it
-with its Online Link, or else Link, and supplies the Price, which is not written in the
-page.
+with its Online Link, or else Link. Its price, ₹1,111, is written in the page and must
+match the Razorpay page; a Price in that sheet row overrides it.
 
 **Guides work the same way.** The Guides sheet has its own optional **Page** column; a
 guide row with one links there from the homepage list (the whole row is clickable) and
