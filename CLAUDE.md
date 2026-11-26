@@ -259,6 +259,11 @@ session on 11 Nov 2026, 7 PM IST. Its buttons default to `https://rzp.io/rzp/11:
 with its Online Link, or else Link. Its price, ₹1,111, is written in the page and must
 match the Razorpay page; a Price in that sheet row overrides it.
 
+**`12-12.html`** (`/12-12`) is the 12/12 vision board and theta visualisation workshop,
+in person on Sat 12 Dec 2026, 6 to 7.30 PM, at Brindavan Terraces, Chembur. Its price,
+₹3,000, is written in the page. It has no payment link yet: its buttons ask by email until
+the Events sheet row whose Page is `12-12` has an Offline Link (or Link).
+
 **Guides work the same way.** The Guides sheet has its own optional **Page** column; a
 guide row with one links there from the homepage list (the whole row is clickable) and
 from `guide.html`, instead of to the generic guide page. `navratri-guide.html`

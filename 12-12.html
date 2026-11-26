@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>12/12: Vision Board and Theta Visualisation Workshop | Dr. Devika Kamat</title>
+<meta name="description" content="Harness the energy of 12/12 with Dr. Devika Kamat: a vision boarding and theta visualisation workshop. Saturday 12 December, 6 to 7.30 PM, Brindavan Terraces, Chembur. Energy exchange ₹3,000.">
+<link rel="canonical" href="https://www.drdevikawellness.space/12-12">
+<link rel="icon" href="images/mark.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Dr. Devika Kamat">
+<meta property="og:title" content="12/12: Vision Board and Theta Visualisation Workshop">
+<meta property="og:description" content="Harness the energy of 12/12. Saturday 12 December, 6 to 7.30 PM, Brindavan Terraces, Chembur.">
+<meta property="og:image" content="https://www.drdevikawellness.space/images/gallery/wellness-circle-5.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body style="--accent:#D2B27A">
+
+<div class="docbar">
+  <div class="wrap">
+    <a class="mk" href="/"><img src="images/mark.png" alt=""><b>Dr. Devika Kamat</b></a>
+    <a class="pill back" href="/#events" style="color:var(--cream)"><span>All events</span></a>
+  </div>
+</div>
+
+<div class="devi">
+
+  <div class="hero">
+    <div class="eyeb"><span class="dot"></span><span class="mono">12/12 energy &middot; In person</span></div>
+    <h1>12/12:<br>Vision Board and Theta Visualisation Workshop</h1>
+    <p class="sub">Harness the energy of 12/12 and step into the year you want.</p>
+
+    <div class="shot">
+      <img src="images/gallery/wellness-circle-5.webp" alt="A workshop with Dr. Devika Kamat" decoding="async">
+      <span class="warm"></span>
+    </div>
+
+    <div class="infobar">
+      A workshop &middot; In person<br>
+      <b>Saturday, 12 December</b> &middot; <b>6 to 7.30 PM</b><br>
+      Venue: <b>Brindavan Terraces, Chembur</b>
+      <span data-price-line><br>Energy exchange &middot; <b data-price>&#8377;3,000</b></span>
+    </div>
+
+    <div class="go">
+      <a class="pill solid" data-book href="mailto:info@drddevikakamat.com?subject=Reserve%20a%20seat%3A%2012%2F12%20Vision%20Board%20Workshop"><span>Reserve your place &middot; &#8377;3,000</span></a>
+    </div>
+  </div>
+
+  <section>
+    <h2>Why 12/12</h2>
+    <p class="lead">The last double date of the year, as one year closes and the next is about to
+    begin.</p>
+    <p>12/12 is a natural moment to pause, look at what this year has brought, and decide clearly
+    what you are calling in next. In this workshop we use that energy to put your intentions into
+    pictures and words, and to feel them as real before they arrive.</p>
+  </section>
+
+  <section>
+    <h2>What we'll do</h2>
+    <div class="triad">
+      <div><b>Reflect</b><p>Look back on the year and get clear on what you truly want next.</p></div>
+      <div><b>Theta visualisation</b><p>A guided theta visualisation to see and feel your intentions as already yours.</p></div>
+      <div><b>Vision board</b><p>Bring it all together on a board you take home and see every day.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What to bring</h2>
+    <p>All the materials are provided. You are welcome to bring your own pictures, quotes,
+    cuttings or magazines if you'd like your board to carry them.</p>
+  </section>
+
+  <section class="close">
+    <p class="lead">Saturday, 12 December, 6 to 7.30 PM.</p>
+    <p>Brindavan Terraces, Chembur.</p>
+    <div class="go">
+      <a class="pill solid" data-book href="mailto:info@drddevikakamat.com?subject=Reserve%20a%20seat%3A%2012%2F12%20Vision%20Board%20Workshop"><span>Reserve your place &middot; &#8377;3,000</span></a>
+    </div>
+  </section>
+
+</div>
+
+<footer class="docfoot">
+  <div class="wrap">
+    <a href="/terms">Terms</a>
+    <a href="/privacy">Privacy</a>
+    <a href="/refunds">Refunds</a>
+    <a href="/delivery">Delivery</a>
+    <span class="sep">Dr. Devika Kamat</span>
+  </div>
+</footer>
+
+<script src="assets/detail.js"></script>
+<script>
+/* No payment link yet, so the buttons ask by email. A link in the Events
+   sheet row whose Page column says 12-12 (its Offline Link, or else its
+   Link) replaces that. The price, ₹3,000, is written in the page; a Price
+   in that row overrides it. */
+(function(){
+  function money(p){
+    p=String(p||'').trim();
+    return /^\d+(\.\d+)?$/.test(p) ? '₹'+Number(p).toLocaleString('en-IN') : p;
+  }
+  load('/api/events','content/events.json').then(function(rows){
+    var row=(rows||[]).filter(function(r){
+      return /(^|\/)12-12\/?$/i.test(ownPage(r));
+    })[0];
+    if(!row) return;
+    var href=usableLink(row.offline)||usableLink(row.link);
+    var price=money(row.price);
+    document.querySelectorAll('[data-book]').forEach(function(a){
+      if(href){ a.href=href; a.target='_blank'; a.rel='noopener'; }
+      if(price) a.querySelector('span').textContent='Reserve your place · '+price;
+    });
+    if(price) document.querySelector('[data-price]').textContent=price;
+  });
+})();
+</script>
+</body>
+</html>
