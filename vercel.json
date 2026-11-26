@@ -3,7 +3,7 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "redirects": [
-    { "source": "/vision-boarding-2027", "destination": "/12-12", "permanent": false }
+    { "source": "/12-12", "destination": "/vision-boarding-2027", "permanent": false }
   ],
   "headers": [
     {
