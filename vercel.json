@@ -2,6 +2,9 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    { "source": "/vision-boarding-2027", "destination": "/12-12", "permanent": false }
+  ],
   "headers": [
     {
       "source": "/assets/(.*)",
