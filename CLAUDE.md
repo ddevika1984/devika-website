@@ -260,7 +260,7 @@ with its Online Link, or else Link. Its price, ₹1,111, is written in the page 
 match the Razorpay page; a Price in that sheet row overrides it.
 
 **`vision-boarding-2027.html`** (`/vision-boarding-2027`) is the "12/12: Vision Board and
-Theta Visualisation Workshop", in person on Sat 12 Dec 2026, 6 to 7.30 PM, at Brindavan
+Theta Visualisation Workshop", in person on Sat 12 Dec 2026, 11 AM to 12.30 PM, at Brindavan
 Terraces, Chembur. It started life as `12-12.html`; `vercel.json` redirects `/12-12` to it,
 since that link may already have been shared. Its price, ₹3,000, is written in the page. Its
 buttons default to `https://pages.razorpay.com/Visionboarding` (a payment link, golden rule
